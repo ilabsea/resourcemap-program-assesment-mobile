@@ -364,6 +364,7 @@ SiteController = {
         SiteController.totalOffline = total;
         SiteController.counterOffline = 0;
         SiteController.selectedOfflineSites = SiteHelper.selectedSite();
+        SiteController.totalSelectedOfflineSites = SiteHelper.selectedSite().length;
         ViewBinding.setBusy(true);
         SiteController.processingOfflineSiteToServer();
       });
@@ -379,6 +380,7 @@ SiteController = {
         SiteController.totalOffline = total;
         SiteController.counterOffline = 0;
         SiteController.selectedOfflineSites = SiteHelper.selectedSite();
+        SiteController.totalSelectedOfflineSites = SiteHelper.selectedSite().length;
         ViewBinding.setBusy(true);
         SiteController.processingOfflineSiteToServer();
       });
@@ -415,7 +417,7 @@ SiteController = {
         }
       };
 
-      var messsage = "Progressing " + SiteController.counterOffline + " / " + SiteController.totalOffline;
+      var messsage = "Progressing " + SiteController.counterOffline + " / " + SiteController.totalSelectedOfflineSites;
       ViewBinding.setMessage(messsage)
 
       SiteModel.create(data["site"],
