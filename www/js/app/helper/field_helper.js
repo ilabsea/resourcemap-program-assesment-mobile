@@ -45,6 +45,8 @@ FieldHelper = {
       multiple: (field.kind === "select_many" ? "multiple" : ""),
       isPhoto: (field.kind === "photo" ? true : false),
       isHierarchy: (field.kind === "hierarchy" ? true : false),
+      isEnableDependancyHierarchy: field.is_enable_dependancy_hierarchy,
+      isDependancyHierarchy: (field.kind === 'hierarchy' && field.is_enable_dependancy_hierarchy) ? true : false,
       isCustomWidget: (field.kind === "custom_widget" ? true : false),
       is_enable_field_logic: field.is_enable_field_logic,
       is_enable_custom_validation: field.is_enable_custom_validation,
@@ -62,6 +64,16 @@ FieldHelper = {
       invalid: '',
       invalidMessage: ''
     };
+
+    if(fieldUI.isEnableDependancyHierarchy){
+      fieldUI.parentHierarchyFieldId = field.config["parent_hierarchy_field_id"];
+      if(fieldUI.parentHierarchyFieldId == '' || fieldUI.parentHierarchyFieldId == undefined){
+        fieldUI.config.dependentHierarchyList = field.config.hierarchy.map(function(item){
+          return {id: item["id"], name: item["name"], selected: ''};
+        });
+      }
+    }
+
     if(field.custom_widgeted )
       fieldUI.widgetType = 'custom_widget_tokenizer';
     else if (widgetMapper[field.kind])

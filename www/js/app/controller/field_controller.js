@@ -189,7 +189,9 @@ FieldController = {
     var layer = this.findLayerById($layerNode.attr('data-id'));
 
     $.each(layer.fields, function(i, field) {
-      if(field.kind !== 'hierarchy' && field.kind !== 'photo'){
+      if( (field.kind !== 'hierarchy' && field.kind !== 'photo') ||
+          (field.isDependancyHierarchy)
+      ){
         var value = FieldController.getFieldValueFromUI(field.idfield)
         FieldHelper.setFieldValue(field, value, this.isOnline);
       }
@@ -207,7 +209,7 @@ FieldController = {
         var layer = this.findLayerById($layerNode.attr('data-id'))
         $.each(layer.fields, function(_, field){
           var $fieldUI = $("#" + field.idfield)
-          if(field.kind == "photo" || field.kind == 'select_one' || field.kind == 'select_many')
+          if(field.kind == "photo" || field.kind == 'select_one' || field.kind == 'select_many' || field.isDependancyHierarchy)
             field.invalid ?  $fieldUI.parent().addClass("error") : $fieldUI.parent().removeClass("error")
           else
             field.invalid ?  $fieldUI.addClass("error") : $fieldUI.removeClass("error")
@@ -218,6 +220,23 @@ FieldController = {
       this.renderLayerNode($layerNode);
     this.calculateSkipLogic();
     this.calculateCalculationField();
+    this.calculateDependentHierarchyField();
+  },
+
+  calculateDependentHierarchyField: function(){
+    var layers = FieldController.layers;
+    for(var i=0; i< layers.length; i++){
+      var fields = layers[i].fields;
+      for(var j=0; j< fields.length; j++){
+        field = fields[j];
+        if(field.isDependancyHierarchy){
+          if(field.parentHierarchyFieldId == ''){
+            $('#'+field.idfield).val(field.__value).selectmenu('refresh', true);
+          }
+          DependentHierarchy.updateDependentHierarchyList(field.idfield, field.__value);
+        }
+      }
+    }
   },
 
   calculateCalculationField: function(){
@@ -276,7 +295,7 @@ FieldController = {
     $layerNodeContent.html(content);
 
     $.each(layer.fields, function(_, field){
-      if(field.kind == 'hierarchy')
+      if(field.isHierarchy && !field.isEnableDependancyHierarchy)
         Hierarchy.create(field.config, field.__value, field.idfield);
 
       if (field.custom_widgeted)
@@ -297,16 +316,12 @@ FieldController = {
       var site = FieldController.site
       MyMembershipController.layerMembership(site, layer.id_wrapper, function(can_entry){
         if (!can_entry) {
-          $(".tree").off('click'); //field hierarchy
-          var select = $('.validateSelectFields').parent('.ui-select');
-          select.click(function () {
-            return false;
-          });
+          FieldHelperView.disableInputField();
         }
       });
       $layerNodeContent.enhanceWithin();
 
-      if(field.kind == "photo" || field.kind == 'select_one' || field.kind == 'select_many'){
+      if(field.kind == "photo" || field.kind == 'select_one' || field.kind == 'select_many' || field.isDependancyHierarchy){
         var $fieldUI = $("#" + field.idfield);
         field.invalid ?  $fieldUI.parent().addClass("error") : $fieldUI.parent().removeClass("error")
       }
