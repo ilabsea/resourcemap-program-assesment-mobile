@@ -190,7 +190,7 @@ FieldHelper = {
             })
           }
 
-          else if(option.id == value || option.code == value){
+          else if(option.id == value){
             field.__value = option.id;
             field.config.options[k]["selected"] = "selected";
           }else{
