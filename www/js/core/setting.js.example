@@ -1,5 +1,12 @@
 RmSetting = {
-   URL: "http://192.168.1.149:3000/",
-   END_POINT: "http://192.168.1.149:3000/api",
-   DEBUG: true
+  BASE_URL: "http://192.168.1.220:8080",
+  DEBUG: true,
+  url: function(){
+    endpoint = localStorage.getItem("endPoint");
+    return endpoint || this.BASE_URL;
+  },
+  endPoint: function(){
+    return this.url()+"/api";
+  }
+
 }

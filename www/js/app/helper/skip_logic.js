@@ -42,6 +42,13 @@ SkipLogic = {
       case "select_one":
         dependantFieldValue = $('#'+fieldLogicObj.idfield).find(":selected").attr('data-code');
         break;
+      case "select_many":
+        dependantFieldValue = []
+        $('#'+fieldLogicObj.idfield+' option:selected').each(function(){
+          val = $(this).attr('data-code');
+          dependantFieldValue.push(val);
+        });
+        break;
     }
 
     if(dependantFieldValue == undefined)

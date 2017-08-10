@@ -181,16 +181,23 @@ FieldHelper = {
       case "select_one":
       case "yes_no":
         field.__value = value;
+
         $.each(field.config.options, function(k, option){
+          selected = false;
           if (field.__value instanceof Array) {
             $.each(field.__value, function(_, valueOption){
-              if (option.id == valueOption || option.code == valueOption){
+              if (option.id == valueOption){
+                selected = true;
                 field.config.options[k]["selected"] = "selected";
               }
-            })
+            });
+
+            if(selected == false){
+              field.config.options[k]["selected"] = "";
+            }
           }
 
-          else if(option.id == value || option.code == value){
+          else if(option.id == value){
             field.__value = option.id;
             field.config.options[k]["selected"] = "selected";
           }else{
