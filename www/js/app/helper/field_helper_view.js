@@ -24,11 +24,7 @@ var FieldHelperView = {
   displayReadOnlyField: function () {
     var site = MyMembershipObj.getSite();
     MyMembershipController.otherSiteMembership(site, function(can_edit){
-      $(".tree").off('click'); //field hierarchy
-      var select = $('.validateSelectFields').parent('.ui-select'); //field select
-      select.click(function () {
-        return false;
-      });
+      FieldHelperView.disableInputField();
     });
   },
 
@@ -46,5 +42,19 @@ var FieldHelperView = {
     var content = App.Template.process('layer_menu', layers_collection);
     $element.html(content);
     $element.trigger("create");
+  },
+
+  disableInputField: function(){
+    $(".tree").off('click'); //field hierarchy
+
+    var select = $('.validateSelectFields').parent('.ui-select'); //field select
+    select.click(function () {
+      return false;
+    });
+
+    var dependentHierarchyField = $('.dependentHierarchy').parent('.ui-select'); //field dependentHierarchyField
+    dependentHierarchyField.click(function () {
+      return false;
+    });
   }
 };

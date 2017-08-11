@@ -77,4 +77,12 @@ $(document).on("mobileinit", function() {
         showValidateMessage("#validation-save-site", i18n.t('validation.emailPsdConfirm'));
     }
   });
+
+  $(document).delegate('.dependentHierarchy', 'change', function () {
+    var val = $("#" + this.id).val();
+    DependentHierarchy.resetDecendentHierarchyList(this.id);
+    DependentHierarchy.updateDependentHierarchyList(this.id, val);
+    validateToRemoveStyle(this);
+  });
+
 });

@@ -44,11 +44,31 @@
   {{#if isHierarchy}}
     <div id="wrapper_{{idfield}}" tabindex="0">
       <label>{{name}}</label>
-      <div  id="{{idfield}}"
-            class="tree {{invalid}}"
-            require='{{required}}'
-            {{editable}}>
-      </div>
+      {{#if isEnableDependancyHierarchy}}
+        <select id="{{idfield}}"
+                name="{{idfield}}"
+                data-theme="a"
+                data-native-menu="false"
+                {{required}}
+                data-role="{{slider}}"
+                data-mini="{{ctrue}}"
+                {{required}}
+                data-is_enable_field_logic="{{is_enable_field_logic}}"
+                class="dependentHierarchy needsclick {{invalid}}"
+                {{editable}}>
+          <option value=''>Option</option>
+          <option value=''>(no value)</option>
+          {{#config.dependentHierarchyList}}
+          <option value="{{id}}" {{selected}} data-field_id="{{field_id}}" >{{name}}</option>
+          {{/config.dependentHierarchyList}}
+        </select>
+      {{else}}
+        <div  id="{{idfield}}"
+              class="tree {{invalid}}"
+              require='{{required}}'
+              {{editable}}>
+        </div>
+      {{/if}}
     </div>
   {{else}}
   {{#if isPhoto}}
