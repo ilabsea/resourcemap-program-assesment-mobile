@@ -36,18 +36,18 @@ var Location = {
   },
 
   getCurrentLocation: function () {
-    cordova.plugins.locationServices.geolocation.getCurrentPosition(function (pos) {
-      var lat = pos.coords.latitude;
-      var lng = pos.coords.longitude;
-      $("#site_lat").val(lat);
-      $("#site_lng").val(lng);
-      $("#mark_lat").val(lat);
-      $("#mark_lng").val(lng);
-    }, function (error) {
-      alert("Location cannot be found.");
-    }, {
-      maximumAge: 6000
-    });
+    // cordova.plugins.locationServices.geolocation.getCurrentPosition(function (pos) {
+    //   var lat = pos.coords.latitude;
+    //   var lng = pos.coords.longitude;
+    //   $("#site_lat").val(lat);
+    //   $("#site_lng").val(lng);
+    //   $("#mark_lat").val(lat);
+    //   $("#mark_lng").val(lng);
+    // }, function (error) {
+    //   alert("Location cannot be found.");
+    // }, {
+    //   maximumAge: 6000
+    // });
   },
 
   prepareLocation: function () {

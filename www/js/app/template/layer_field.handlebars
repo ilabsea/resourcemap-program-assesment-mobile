@@ -36,7 +36,7 @@
   {{#if isCustomWidget}}
     <div id="wrapper_{{idfield}}" tabindex="0">
       <label>{{name}}</label>
-      <div id="{{idfield}}" class="widget" require='{{required}}' tabindex="0">
+      <div id="{{idfield}}" class="widget {{required}}" require='{{required}}' tabindex="0">
         {{{config.widget_content}}}
       </div>
     </div>
@@ -74,7 +74,7 @@
   {{#if isPhoto}}
     <div id="wrapper_{{idfield}}" tabindex="0">
       <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-        <div class="{{invalid}} {{matchAlert}} photo" data-id='{{idfield}}'
+        <div class="{{invalid}} {{matchAlert}} photo {{required}}" data-id='{{idfield}}'
              id='property_{{idfield}}_container' {{editable}} >
           <img class="image {{invalid}} {{matchAlert}}" src='{{__value}}' id='{{idfield}}' require='{{required}}' />
         </div>
@@ -105,7 +105,11 @@
               id="{{idfield}}"
               value ="{{__value}}"
               name="{{name}}"
+<<<<<<< HEAD
               class="{{invalid}} {{matchAlert}} calculation-source"
+=======
+              class="{{invalid}} calculation-source {{required}}"
+>>>>>>> add validation on fields when lose focus
               {{required}}
               {{readonly}}
               {{editable}} />
@@ -118,7 +122,11 @@
                 id="{{idfield}}"
                 value ="{{__value}}"
                 name="{{name}}"
+<<<<<<< HEAD
                 class="date {{invalid}} {{matchAlert}}"
+=======
+                class="date {{invalid}} {{required}}"
+>>>>>>> add validation on fields when lose focus
                 {{required}}
                 {{editable}} />
       {{else}}
@@ -133,7 +141,11 @@
                 data-allows_decimals= {{config.allows_decimals}}
                 data-digits_precision="{{config.digits_precision}}"
                 data-previous-value ="{{__value}}"
+<<<<<<< HEAD
                 class="skipLogicNumber {{invalid}} {{matchAlert}}"
+=======
+                class="skipLogicNumber {{invalid}} {{required}}"
+>>>>>>> add validation on fields when lose focus
                 {{required}}
                 {{readonly}}
                 {{editable}} />
@@ -142,7 +154,11 @@
                 id="{{idfield}}"
                 value ="{{__value}}"
                 name="{{name}}"
+<<<<<<< HEAD
                 class="{{invalid}} {{matchAlert}}"
+=======
+                class="{{invalid}} {{required}}"
+>>>>>>> add validation on fields when lose focus
                 {{required}}
                 {{readonly}}
                 {{editable}} />

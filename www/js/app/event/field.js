@@ -16,6 +16,10 @@ $(document).on("mobileinit", function() {
     Calculation.calculate($(this));
   });
 
+  $(document).delegate('.required', 'blur', function () {
+    FieldController.validateThisField(this);
+  });
+
   $(document).delegate('.skipLogicNumber', 'change', function () {
     var val = $("#" + this.id).val();
     SkipLogic.processSkipLogic(this.id, val);

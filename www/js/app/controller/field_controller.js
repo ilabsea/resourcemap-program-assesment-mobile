@@ -169,6 +169,46 @@ FieldController = {
     return true;
   },
 
+  validateThisField: function(element){
+    if(!element.value)
+      $(element).addClass("error");
+    else
+      $(element).removeClass("error");
+
+    var field = FieldController.findFieldById(element.id);
+    if(field.kind == 'numeric' && field.config && element.value){
+      if(field.config.range) {
+        if(element.value >= field.config.range.minimum && element.value <= field.config.range.maximum ){
+          $(element).removeClass("error");
+        }
+        else {
+          $(element).addClass("error");
+        }
+      }
+
+      if(field.config['field_validations']){
+        customValidationResult = true;
+        $.each(field.config['field_validations'], function(_, v){
+          compareField = FieldController.findFieldById(v["field_id"][0]);
+          customValidationResult = Operators[v["condition_type"]](parseFloat(element.value), parseFloat(compareField.__value));
+          if(customValidationResult == false){
+            $(element).addClass("error");
+          }
+        });
+      }
+    }
+
+    if(field.kind == 'email' && element.value) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if(!re.test(element.value)){
+        $(element).addClass("error");
+      }
+      else {
+        $(element).removeClass("error");
+      }
+    }
+  },
+
   validateLayers: function(){
     this.closeLayer();
     var valid = true
