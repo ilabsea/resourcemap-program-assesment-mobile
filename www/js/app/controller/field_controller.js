@@ -18,32 +18,6 @@ FieldController = {
     }
   },
 
-  simulateLayerValue: function(layerId){
-    var layer = FieldController.findLayerById(layerId);
-    for(var i=0; i<layer.fields.length; i++){
-      var value = "";
-      if(layer.fields[i]["kind"] == 'text'){
-        value ="We are testing on 22 JUly 2016 " + i*10 + 10;
-      }else if(layer.fields[i]["kind"] == 'email'){
-        value = "testperformance@instedd.org";
-      }else if(layer.fields[i]["kind"] == 'date'){
-        value = prepareForClient("22/07/2016");
-      }else if(layer.fields[i]["kind"] == 'numeric'){
-        value = i*10 + 10;
-      }else{
-        value = "";
-      }
-      FieldHelper.setFieldValue(layer.fields[i], value, this.isOnline);
-    }
-  },
-
-  simulateLayersValue: function(){
-    for(var j=0; j < FieldController.layers.length; j++){
-      var layer = FieldController.layers[j];
-      FieldController.simulateLayerValue(layer.id_wrapper);
-    }
-  },
-
   reset: function(){
     App.log("resetting field");
     this.activeLayer = null
@@ -170,12 +144,13 @@ FieldController = {
   },
 
   validateThisField: function(element){
-    if(!element.value)
-      $(element).addClass("error");
-    else
-      $(element).removeClass("error");
-
     var field = FieldController.findFieldById(element.id);
+    if(field.is_mandatory)
+      if(!element.value)
+        $(element).addClass("error");
+      else
+        $(element).removeClass("error");
+
     if(field.kind == 'numeric' && field.config && element.value){
       if(field.config.range) {
         if(element.value >= field.config.range.minimum && element.value <= field.config.range.maximum ){
@@ -189,10 +164,15 @@ FieldController = {
       if(field.config['field_validations']){
         customValidationResult = true;
         $.each(field.config['field_validations'], function(_, v){
-          compareField = FieldController.findFieldById(v["field_id"][0]);
-          customValidationResult = Operators[v["condition_type"]](parseFloat(element.value), parseFloat(compareField.__value));
+          compareValue = parseFloat($("#" + v["field_id"][0]).val());
+          if(isNaN(compareValue)){
+            compareValue = 0;
+          }
+          customValidationResult = Operators[v["condition_type"]](parseFloat(element.value), compareValue);
           if(customValidationResult == false){
             $(element).addClass("error");
+          }else{
+            $(element).removeClass("error");
           }
         });
       }
@@ -370,6 +350,11 @@ FieldController = {
       if(field.slider){
         field.matchAlert ?  $('#wrapper_' + field.idfield).find('.ui-slider').addClass("info") : $('#wrapper_' + field.idfield).find('.ui-slider').removeClass("info");
       }
+      if(field.custom_widgeted && field.kind == 'numeric'){
+        var $fieldUI = $("#" + field.idfield);
+        $fieldUI.addClass('customValidation');
+      }
+
     })
   },
 
