@@ -176,6 +176,20 @@ FieldController = {
           }
         });
       }
+      if(field.config['compare_custom_validations']){
+        $.each(field.config['compare_custom_validations'], function(_, f){
+          fieldValue = parseFloat($("#" + f["field_id"]).val());
+          if(isNaN(fieldValue)){
+            fieldValue = 0;
+          }
+          res = Operators[f["operator"]](fieldValue, parseFloat(element.value));
+          if(res == false){
+            $("#" + f["field_id"]).addClass("error");
+          }else{
+            $("#" + f["field_id"]).removeClass("error");
+          }
+        });
+      }
     }
 
     if(field.kind == 'email' && element.value) {
@@ -353,8 +367,13 @@ FieldController = {
       if(field.custom_widgeted && field.kind == 'numeric'){
         var $fieldUI = $("#" + field.idfield);
         $fieldUI.addClass('customValidation');
+        if(field.config['field_validations']){
+          $.each(field.config['field_validations'], function(_, v){
+            compareField = FieldController.findFieldById(v["field_id"][0]);
+            FieldHelper.buildCompareFieldConfigOfCustomValidation(field, v['condition_type'], compareField);
+          });
+        }
       }
-
     })
   },
 

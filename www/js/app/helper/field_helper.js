@@ -325,6 +325,17 @@ FieldHelper = {
       }
     }
     return null;
+  },
+
+  buildCompareFieldConfigOfCustomValidation: function(field, operator, compareField){
+    compare = {
+      field_id: field.idfield,
+      operator: operator
+    };
+    if ( compareField.config.compare_custom_validations )
+      compareField.config.compare_custom_validations.push(compare)
+    else
+      compareField.config.compare_custom_validations = [compare]
   }
 
 };
