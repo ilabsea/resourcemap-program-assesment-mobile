@@ -17,7 +17,6 @@ $(document).on("mobileinit", function() {
   });
 
   $(document).delegate('.required, .customValidation', 'blur', function () {
-    console.log('this or not')
     FieldController.validateThisField(this);
   });
 

@@ -203,6 +203,15 @@ FieldController = {
     }
   },
 
+  validatePhotoField: function (fieldId) {
+    var field = FieldController.findFieldById(fieldId);
+    if(field.is_mandatory)
+      if(!($("#" + fieldId).attr('src')))
+        $("#" + fieldId).parents().addClass("error");
+      else
+        $("#" + fieldId).parents().removeClass("error");
+  },
+
   validateLayers: function(){
     this.closeLayer();
     var valid = true
