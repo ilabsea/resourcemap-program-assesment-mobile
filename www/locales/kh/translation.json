@@ -56,7 +56,8 @@
     },
     "collection_page": {
         "view_offline_site": "បង្ហាញតំបន់មិនមានក្នុងម៉ាស៊ីនមេ",
-        "collection": "ទិន្នន័យ"
+        "collection": "ទិន្នន័យ",
+        "notifications_message": "សារជូនដំណឹង"
     },
     "map_page": {
         "map": "ផែនទី"

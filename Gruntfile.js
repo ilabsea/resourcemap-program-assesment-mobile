@@ -117,7 +117,9 @@ module.exports = function(grunt) {
       "www/js/app/template/field_location.handlebars",
       "www/js/app/template/field_no_field_pop_up.handlebars",
       "www/js/app/template/layer_menu.handlebars",
-      "www/js/app/template/site_error_upload.handlebars"
+      "www/js/app/template/site_error_upload.handlebars",
+      "www/js/app/template/notification_list.handlebars",
+      "www/js/app/template/notifications.handlebars"
   ]
 
   var watchFiles = sourceCssFiles.concat(sourceJsFiles).concat(templateFiles)

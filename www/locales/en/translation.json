@@ -56,7 +56,8 @@
     },
     "collection_page": {
         "view_offline_site": "View offline site",
-        "collection": "My Collections"
+        "collection": "My Collections",
+        "notifications_message": "Notifications message"
     },
     "map_page": {
         "map": "Map"

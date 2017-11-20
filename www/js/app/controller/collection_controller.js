@@ -5,6 +5,12 @@ CollectionController = {
     $updateNode.html(content);
     $updateNode.listview("refresh");
   },
+  displayNotification: function (notification){
+    var content = App.Template.process("notifications", notification);
+    var $updateNode = $("#notifications");
+    $updateNode.html(content);
+    $updateNode.listview("refresh");
+  },
   displayName: function (collectionName) {
     var content = App.Template.process("collection_name", collectionName);
     $('.title').html(content);
@@ -49,6 +55,7 @@ CollectionController = {
 
       }
       CollectionController.displayList({collectionList: collectionDatas});
+      CollectionController.displayNotification({notifications: {total: 5}});
       SiteHelper.toggleBtnViewAllOfflineSite(totalSiteOfflines);
 
     });

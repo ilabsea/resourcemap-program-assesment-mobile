@@ -97,6 +97,9 @@
     <h2 data-i18n="collection_page.collection">My Collections</h2>
    </div>
    <div data-role="content">
+    <ul data-role='listview' class="clearPreviousDisplay" id="notifications"
+        data-theme="c">
+    </ul>
     <ul data-role='listview' class="clearPreviousDisplay" id="collection-list"
         data-inset="true" data-theme="c">
     </ul>
@@ -299,6 +302,21 @@
         <input type="url" name="url" id="txt-url" value="" required data-i18n="validation.invalidUrl">
         <button type="submit" id="btn-change-server-url">Save</button>
       </form>
+    </div>
+  </div>
+
+  <div data-role="page" id="page-notification" data-theme="b">
+    <div data-role="header">
+      <a href="#page-login" data-theme="a"  data-role="button"
+         data-inline="true" data-icon="carat-l" class="ui-btn-left"
+         data-i18n="global.back">Back
+      </a>
+      <h2 data-i18n="collection_page.notifications_message"></h2>
+    </div>
+    <div data-role="content">
+      <ul data-role='listview' class="clearPreviousDisplay" id="notification-list"
+          data-inset="true" data-theme="c">
+      </ul>
     </div>
   </div>
 
