@@ -23,7 +23,7 @@ SkipLogic = {
         field = layer.fields[f];
         if (field.config && field.config['field_logics'] ) {
           for(var i=0; i<field.config['field_logics'].length; i++){
-            if(field.config['field_logics'][i].field_id.toString() == element_id.toString()){
+            if(field.config['field_logics'][i].field_id && field.config['field_logics'][i].field_id.toString() == element_id.toString()){
               result.push(field) ;
             }
           }

@@ -15,7 +15,13 @@ Calculation = {
 
     var jsCode = Calculation.generateSyntax(field);
     App.log("Calculation code: ", jsCode );
-    var value = eval(jsCode);
+    var value;
+    try{
+      value = eval(jsCode);
+    }catch(e){
+      console.log(e.message);
+    }
+
 
     if (field.config.allows_decimals == "true" && !isNaN(value)) {
       var digit_precision = field.config.digits_precision;
@@ -64,7 +70,7 @@ Calculation = {
               fieldValue = 0;
             break;
           case "select_one":
-            fieldValue = $fieldUI.find('option:selected').text();
+            fieldValue = "'"+$fieldUI.find('option:selected').attr('data-code')+"'";
             break;
           case "yes_no":
             fieldValue = $fieldUI.val() == 0 ? false : true

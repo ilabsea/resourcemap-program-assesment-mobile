@@ -81,13 +81,14 @@ App = {
     $.mobile.pageContainer.pagecontainer('change', nextPage, options);
   },
   isOnline: function () {
-    var online = false;
-    if (navigator.connection) {
-      online = (navigator.connection.type !== Connection.NONE);
-      return online;
-    }
-    online = navigator.onLine;
-    return online;
+    return true
+    // var online = false;
+    // if (navigator.connection) {
+    //   online = (navigator.connection.type !== Connection.NONE);
+    //   return online;
+    // }
+    // online = navigator.onLine;
+    // return online;
   },
   allBooleanTrue: function (arr) {
     for (var i in arr)
