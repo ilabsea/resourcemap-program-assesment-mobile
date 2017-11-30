@@ -14,6 +14,7 @@ App = {
   urlLogout: function(){ return RmSetting.endPoint() + "/users/sign_out.json?auth_token=" },
   urlField: function(){ return RmSetting.endPoint() + "/v1/collections/" },
   urlSite: function(){ return RmSetting.endPoint() + "/v1/collections/" },
+  urlSiteThreshold: function(){ return RmSetting.endPoint() + "/v1/sites/alerted_to_reporters" },
   log: function (text, data) {
     if (App.DEBUG)
       console.log(text, data);
@@ -81,14 +82,13 @@ App = {
     $.mobile.pageContainer.pagecontainer('change', nextPage, options);
   },
   isOnline: function () {
-    return true
-    // var online = false;
-    // if (navigator.connection) {
-    //   online = (navigator.connection.type !== Connection.NONE);
-    //   return online;
-    // }
-    // online = navigator.onLine;
-    // return online;
+    var online = false;
+    if (navigator.connection) {
+      online = (navigator.connection.type !== Connection.NONE);
+      return online;
+    }
+    online = navigator.onLine;
+    return online;
   },
   allBooleanTrue: function (arr) {
     for (var i in arr)
@@ -174,12 +174,22 @@ App = {
       write: "BOOL"
     });
 
+    SiteNotification = persistence.define('site_notifications', {
+      collection_id: "INT",
+      site_id: "INT",
+      site_name: "TEXT",
+      properties: "JSON",
+      alert_id: "INT",
+      created_at: "TEXT",
+      viewed: "BOOL",
+      seen: "BOOL" // view detail of the site alert
+    });
+
     CacheData = persistence.define('cache_datas', {
       key: "TEXT",
       value: "TEXT",
       user: "TEXT"
     });
-
   }
 };
 

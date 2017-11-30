@@ -13,6 +13,7 @@ module.exports = function(grunt) {
        "www/js/app/event/hierarchy.js",
        "www/js/app/event/field.js",
        "www/js/app/event/server.js",
+       "www/js/app/event/notification.js",
 
        "www/js/libs/jquery.mobile-1.4.5.js",
        "www/js/libs/tree.jquery.js",
@@ -48,6 +49,7 @@ module.exports = function(grunt) {
        "www/js/app/controller/site_controller.js",
        "www/js/app/controller/session_controller.js",
        "www/js/app/controller/my_membership_controller.js",
+       "www/js/app/controller/notification_controller.js",
 
        "www/js/app/model/user_session.js",
        "www/js/app/model/collection_model.js",
@@ -72,6 +74,8 @@ module.exports = function(grunt) {
        "www/js/app/model/membership_offline.js",
        "www/js/app/model/site_membership_model.js",
        "www/js/app/model/site_membership_offline.js",
+       "www/js/app/model/notification_offline.js",
+       "www/js/app/model/threshold_model.js",
 
        "www/js/app/helper/field_helper.js",
        "www/js/app/helper/spinner.js",
@@ -119,7 +123,8 @@ module.exports = function(grunt) {
       "www/js/app/template/layer_menu.handlebars",
       "www/js/app/template/site_error_upload.handlebars",
       "www/js/app/template/notification_list.handlebars",
-      "www/js/app/template/notifications.handlebars"
+      "www/js/app/template/notifications.handlebars",
+      "www/js/app/template/notification_list_partial.handlebars"
   ]
 
   var watchFiles = sourceCssFiles.concat(sourceJsFiles).concat(templateFiles)

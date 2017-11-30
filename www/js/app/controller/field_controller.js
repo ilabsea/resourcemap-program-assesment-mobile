@@ -389,6 +389,37 @@ FieldController = {
       FieldController.renderUpdateOffline();
   },
 
+  renderUpdateFormOfSiteNotification: function(){
+    var self = this;
+    self.layers = [];
+    var cId = CollectionController.id;
+    MyMembershipController.fetchMembershipByCollectionId(cId);
+
+    FieldModel.fetch(cId, function (layers) {
+      var layerIndex = 0;
+      $.each(layers, function (_, layer) {
+        FieldHelper.buildLayerFields(layer, function(newLayer){
+          self.layers.push(newLayer);
+          if(layerIndex == (layers.length - 1)){
+            FieldController.displayLayerMenu({field_collections: self.layers.slice(0)});
+            FieldController.renderLayerSet();
+            ViewBinding.setBusy(false);
+          }
+          layerIndex = layerIndex + 1;
+        }, true);
+      });
+    }, function(){
+      alert('problem downloading fields');
+    });
+
+    LayerMembershipModel.fetchMembership(cId, function (memberships){
+      uId = UserSession.getUser().id;
+      LayerMembershipOffline.deleteByCollectionId(cId, function(){
+        LayerMembershipOffline.add(uId, memberships);
+      });
+    });
+  },
+
   //use for both online and offline site
   renderUpdateForm: function(site, isOnline){
     this.reset();
@@ -398,21 +429,31 @@ FieldController = {
 
     var cId = CollectionController.id;
     self.layers = []
+    if(SiteController.currentPage == '#page-notification'){
+      if(App.isOnline()){
+        ViewBinding.setBusy(true);
 
-    FieldOffline.fetchByCollectionId(cId, function (layerOfflines) {
-      var layerIndex = 0;
-      $.each(layerOfflines, function (_, layerOffline) {
-        FieldHelper.buildLayerFields(layerOffline, function(newLayer){
-          self.layers.push(newLayer);
-          if(layerIndex == (layerOfflines.length - 1)){
-            FieldController.displayLayerMenu({field_collections: self.layers.slice(0)});
-            FieldController.renderLayerSet();
-          }
-          layerIndex = layerIndex + 1;
-        }, isOnline);
+        FieldController.renderUpdateFormOfSiteNotification();
+
+      }else {
+        alert(i18n.t("global.no_internet_connection"));
+      }
+    }else{
+      FieldOffline.fetchByCollectionId(cId, function (layerOfflines) {
+        var layerIndex = 0;
+        $.each(layerOfflines, function (_, layerOffline) {
+          FieldHelper.buildLayerFields(layerOffline, function(newLayer){
+            self.layers.push(newLayer);
+            if(layerIndex == (layerOfflines.length - 1)){
+              FieldController.displayLayerMenu({field_collections: self.layers.slice(0)});
+              FieldController.renderLayerSet();
+            }
+            layerIndex = layerIndex + 1;
+          }, isOnline);
+        });
+
       });
-
-    });
+    }
   },
 
   getFieldValueFromUI: function(fieldId) {

@@ -5,6 +5,8 @@ $(document).on("mobileinit", function() {
     setTimeout(function(){
       App.validateDbConnection(function() {
         CollectionController.renderList();
+        NotificationController.storeSiteNotifications();
+        NotificationController.reset();
       });
     }, 500);
   });

@@ -1,0 +1,20 @@
+{{#each sites}}
+  <li data-id='{{site_id}}' data-name='{{site_name}}' data-collection-id='{{collection_id}}'>
+    {{#if seen}}
+      <a href='#page-save-site' style='background-color: #eee;'>
+    {{else}}
+      <a href='#page-save-site' style='background-color: #bbbbbb66;'>
+    {{/if}}
+      {{site_name}} contains alert of fields
+      {{#each threshold.conditions}}
+       {{field_name}}
+      {{/each}}
+      </a>
+  </li>
+{{/each}}
+
+{{#if hasMoreSites}}
+<li class="load-more" data-collection-id='{{collection_id}}' data-id="load-more-{{collection_id}}" id="load-more-{{collection_id}}">
+ <a href="javascript:void(0)">Load More ...</a>
+</li>
+{{/if}}

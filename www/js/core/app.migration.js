@@ -46,6 +46,19 @@ persistence.defineMigration(3, {
   }
 });
 
+// persistence.defineMigration(4, {
+//   up: function() {
+//     this.createTable('notifications', function(t){
+//       t.integer('site_id');
+//       t.boolean('viewed');
+//       t.boolean('seen');
+//     });
+//   },
+//   down: function() {
+//     this.dropTable('site_memberships');
+//   }
+// });
+
 function migrate(){
     persistence.migrations.init( function(){
         persistence.migrate( function(){

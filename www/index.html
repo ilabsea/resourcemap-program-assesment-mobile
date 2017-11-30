@@ -47,8 +47,6 @@
    </div>
   </div>
 
-
-
   <!-- Create new account-->
   <div data-role="page" id="page-signup" data-theme="b">
    <div data-role="content">
@@ -98,7 +96,7 @@
    </div>
    <div data-role="content">
     <ul data-role='listview' class="clearPreviousDisplay" id="notifications"
-        data-theme="c">
+        data-inset="true" data-theme="c">
     </ul>
     <ul data-role='listview' class="clearPreviousDisplay" id="collection-list"
         data-inset="true" data-theme="c">
@@ -144,7 +142,7 @@
    </div>
   </div>
 
-  <!--site-site-list-->
+  <!--page-site-list-->
   <div data-role="page" id="page-site-list" data-theme="b">
    <div data-role="header">
     <a href="#page-collection-list" data-role="button" data-theme="a"
@@ -199,8 +197,6 @@
    </div>
   </div>
 
-
-
   <!-- view map -->
   <div data-role="page" id="page-map" data-theme="b" >
    <div data-role="header">
@@ -223,7 +219,7 @@
    </div>
   </div>
 
-  <!-- update site within a collection in local database-->
+  <!-- update site within a collection in local database -->
   <div data-role="page" id="page-save-site" data-theme="b">
    <div data-role="header">
     <div>
@@ -233,6 +229,11 @@
       </div>
     <div>
       <a href="#page-site-list-all" id="btn_back_site_list_all"
+            data-role="button" data-theme="a" data-inline="true" data-icon="carat-l"
+            class="ui-btn-left" data-i18n="global.back">Back</a>
+    </div>
+    <div>
+      <a href="#page-notification" id="btn_back_site_notification_list"
             data-role="button" data-theme="a" data-inline="true" data-icon="carat-l"
             class="ui-btn-left" data-i18n="global.back">Back</a>
     </div>
@@ -286,7 +287,7 @@
    </div>
   </div>
 
-
+  <!-- page change server endpoint -->
   <div data-role="page" id="page-change-server" data-theme="b">
     <div data-role="header">
       <a href="#page-login" data-theme="a"  data-role="button"
@@ -305,6 +306,7 @@
     </div>
   </div>
 
+  <!-- page notification site list -->
   <div data-role="page" id="page-notification" data-theme="b">
     <div data-role="header">
       <a href="#page-login" data-theme="a"  data-role="button"
@@ -314,9 +316,8 @@
       <h2 data-i18n="collection_page.notifications_message"></h2>
     </div>
     <div data-role="content">
-      <ul data-role='listview' class="clearPreviousDisplay" id="notification-list"
-          data-inset="true" data-theme="c">
-      </ul>
+      <div class="clearPreviousDisplay" id="notification-list">
+      </div>
     </div>
   </div>
 
@@ -337,7 +338,7 @@
     </div>
   </div>
 
-  <!--Camera Dialog-->
+  <!-- Camera Dialog -->
   <div data-role="dialog" id="cameraDialog"
        data-theme="b" data-url="cameraDialog" tabindex="0"
        class="ui-page ui-page-theme-b ui-dialog ui-page-active"
@@ -372,17 +373,20 @@
    </div>
   </div>
 
+  <!-- Error submitting site -->
   <div data-role="dialog" id="page-error-submit-site"
        data-theme="b" data-url="page-error-submit-site" tabindex="0"
        class="ui-page ui-page-theme-b ui-dialog ui-page-active"
        style="display:none; position:fixed; min-height: 435px; top:50%; margin-top: -207px;"></div>
 
+  <!-- No fields pop up -->
   <div data-role="dialog" id="page-pop-up-no-fields"
        data-theme="b" data-url="page-pop-up-no-fields" tabindex="0"
        class="ui-page ui-page-theme-b ui-dialog ui-page-active"
        style="display:none; position:fixed; min-height: 435px; top:50%; margin-top: -207px;"></div>
 
   <script src="cordova.js"></script>
+
   <script src="js/dist/app.min.js"></script>
   <script src="js/dist/template.min.js" type="text/javascript"></script>
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyAV-3YSrM5OUlRFAerZ2e8PR2Nhf6vaOyk"></script>
