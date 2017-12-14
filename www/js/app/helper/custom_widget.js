@@ -42,6 +42,13 @@ CustomWidget = {
                 $node.append($option);
             })
             $wrapper.append($node);
+          }else if(field.kind == 'calculation'){
+            if(field.is_display_field == false){
+              $wrapper.addClass('invisble-div');
+            }
+            var $node = $("<input type='text' readonly='readonly' class='calculation-source'>");
+            $node.attr('id',id);
+            $wrapper.append($node);
           }
         }
     }
