@@ -6,9 +6,9 @@
       {{#each sites}}
         <li data-id='{{site_id}}' data-name='{{site_name}}' data-collection-id='{{collection_id}}'>
           {{#if seen}}
-            <a href='#page-save-site' style='background-color: #eee;'>
+            <a href='#page-save-site' style='background-color: #f3f3f3;'>
           {{else}}
-            <a href='#page-save-site' style='background-color: #bbbbbb66;'>
+            <a href='#page-save-site' style='background-color: rgba(187, 187, 187, 0.75);'>
           {{/if}}
             {{site_name}} contains alert of fields
             {{#each threshold.conditions}}
