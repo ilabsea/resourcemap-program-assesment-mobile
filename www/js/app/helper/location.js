@@ -51,6 +51,6 @@ var Location = {
   },
 
   prepareLocation: function () {
-    Location.getCurrentLocation();
+    // Location.getCurrentLocation();
   }
 };
