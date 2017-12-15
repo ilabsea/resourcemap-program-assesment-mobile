@@ -48,6 +48,10 @@ persistence.defineMigration(3, {
 
 persistence.defineMigration(4, {
   up: function() {
+    this.addColumn('users', 'iduser', 'INT');
+  },
+  down: function() {
+    this.dropTable('site_memberships');
     this.createTable('site_notifications', function(t){
       t.integer('collection_id');
       t.integer('site_id');
@@ -61,9 +65,6 @@ persistence.defineMigration(4, {
       t.boolean('viewed');
       t.boolean('seen'); // view detail of the site alert
     });
-  },
-  down: function() {
-    this.dropTable('site_memberships');
   }
 });
 

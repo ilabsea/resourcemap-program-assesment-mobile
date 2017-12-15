@@ -120,6 +120,7 @@ App = {
     });
 
     User = persistence.define('users', {
+      iduser: "INT",
       email: "TEXT",
       password: "TEXT",
       auth_token: "TEXT"

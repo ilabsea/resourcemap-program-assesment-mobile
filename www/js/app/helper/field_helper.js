@@ -31,6 +31,7 @@ FieldHelper = {
         callback(newLayer);
       });
     });
+
   },
 
   setMatchAlert: function(field, newLayer, conditions){

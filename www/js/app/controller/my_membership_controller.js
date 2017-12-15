@@ -18,8 +18,10 @@ var MyMembershipController = {
             }else {
               if(layer_id != undefined){
                 LayerMembershipOffline.fetchByUserLayerId(uId, layer_id, function(layer_membership){
-                  can_entry = layer_membership.write;
-                  callback(can_entry);
+                  if(layer_membership){
+                    can_entry = layer_membership.write;
+                    callback(can_entry);
+                  }
                 });
               }else {
                 callback(false)
@@ -38,7 +40,7 @@ var MyMembershipController = {
   },
 
   layerMembership: function (site, layer_id, callback){
-    uId = UserSession.getUser().id;
+    var uId = UserSession.getUser().id;
     if(typeof site.user_id == 'undefined'){
       MyMembershipController.isCollectionOwner(function(is_owner){
         if(is_owner){
@@ -55,6 +57,18 @@ var MyMembershipController = {
         callback(can_entry);
       }, layer_id);
     }
+
+  },
+
+  otherMembership: function(cId, callback){
+    MembershipOffline.fetchByCollectionId(cId, function(member){
+      var uId = UserSession.getUser().id;
+      if (member.admin == true || member.can_edit_other == true){
+        callback(true);
+      }else{
+        callback(false);
+      }
+    });
 
   },
 
