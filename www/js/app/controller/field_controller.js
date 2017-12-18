@@ -703,7 +703,7 @@ FieldController = {
   },
 
   _showDefaultSiteProperty: function(cId, site){
-    if(site.user_id == UserSession.getUser().iduser){
+    if(typeof site.id === 'undefined' || site.user_id == UserSession.getUser().iduser){
       FieldController._enableDefaultSiteProperty();
     }else{
       MyMembershipController.otherMembership(cId, function(can_entry){
