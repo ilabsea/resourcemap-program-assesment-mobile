@@ -17,7 +17,9 @@ $(document).on("mobileinit", function() {
   });
 
   $(document).delegate('.required, .customValidation', 'blur', function () {
-    FieldController.validateThisField(this);
+    if($(this).id != 'email' || !$(this).id != 'password'){
+      FieldController.validateThisField(this);
+    }
   });
 
   $(document).delegate('.skipLogicNumber', 'change', function () {
