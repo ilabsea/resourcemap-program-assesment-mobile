@@ -81,6 +81,9 @@
         "emailPsdConfirm": "Please enter all required fields.",
         "invalidUrl": "Please enter a valid URL"
     },
+    "notification": {
+      "no_sites_found": "No sites found."
+    },
     "dialog": {
         "option": "Photo Options",
         "take": "Take Photo",

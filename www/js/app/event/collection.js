@@ -12,7 +12,7 @@ $(document).on("mobileinit", function() {
   });
 
 
-  $(document).delegate('#page-collection-list li', 'click', function(event) {
+  $(document).delegate('#page-collection-list ul#collection-list li', 'click', function(event) {
     //db should be ready before page rendering
       var li = this;
       var id = li.getAttribute("data-id");

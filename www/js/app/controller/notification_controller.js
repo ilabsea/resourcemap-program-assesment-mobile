@@ -37,7 +37,10 @@ NotificationController = {
     // {collections: [{'Test' : {sites: [{id: 1, name: 'abc', threshold: threshold}], hasMoreSites: false, collection_id: 1}}]}
     var cIds = NotificationController.collectionIds;
     var i = 0;
-    var collectionsData = {collections: []};
+    var collectionsData = {collections: [] , length: cIds.length};
+    if(cIds.length == 0){
+      NotificationController.displayLists(collectionsData);
+    }
     cIds.forEach(function(cId, index, array){
       NotificationOffline.page[cId] = 0;
       NotificationController.prepareSitesByCollectionId(cId, function(data){
@@ -130,10 +133,12 @@ NotificationController = {
   },
 
   storeSiteNotifications: function () {
-    ThresholdModel.fetchSiteThreshold(function(sites){
-      NotificationController.setCollectionIds(sites);
-      NotificationController.synSitesNotification(sites);
-    });
+    if(App.isOnline()) {
+      ThresholdModel.fetchSiteThreshold(function(sites){
+        NotificationController.setCollectionIds(sites);
+        NotificationController.synSitesNotification(sites);
+      });
+    }
   },
 
   synSitesNotification: function (newSites) {
