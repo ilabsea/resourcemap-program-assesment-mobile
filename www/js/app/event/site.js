@@ -51,8 +51,10 @@ $(document).on("mobileinit", function() {
   });
 
   $(document).delegate('#page-save-site', 'pagebeforehide', function(){
-    NotificationOffline.updateSeenBySID(SiteController.id);
-    NotificationController.allSites = [];
+    if(SiteController.currentPage == '#page-notification'){
+      NotificationOffline.updateSeenBySID(SiteController.id);
+      NotificationController.allSites = [];
+    }
   });
 
   $(document).delegate('#page-save-site', 'pageshow', function () {

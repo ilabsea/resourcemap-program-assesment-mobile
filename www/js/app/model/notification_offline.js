@@ -1,5 +1,5 @@
 NotificationOffline = {
-  limit: 2,
+  limit: 5,
   // page = {collection_id: 0}
   page: {},
   add: function(sites , oldSites) {
