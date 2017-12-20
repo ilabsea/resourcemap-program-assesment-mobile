@@ -24,11 +24,33 @@ FieldHelper = {
             break;
           }
         }
+        FieldHelper.setMatchAlert(fieldForUI, newLayer);
         newLayer.fields.push(fieldForUI);
       });
       callback(newLayer);
 
     });
+  },
+
+  setMatchAlert: function(field, newLayer){
+    var matchAlert='';
+
+    if(NotificationController.currentConditions){
+      for(var i = 0 ; i < NotificationController.currentConditions.length; i++){
+        condition = NotificationController.currentConditions[i];
+
+        if(condition.field == field.idfield){
+          op = condition['op'];
+          var matchCond = false;
+          matchCond = Operators[op](field.__value, condition.value);
+          if(matchCond){
+            field.matchAlert = 'info';
+            newLayer.matchAlert = 'info';
+            break;
+          }
+        }
+      }
+    }
   },
 
   fieldForUI: function(field, layer_field_permission, newLayer){
@@ -119,22 +141,6 @@ FieldHelper = {
     return fieldUI;
   },
 
-  setHighlightOnLayerFieldAlert: function(fId, newLayer){
-    var matchAlert='';
-
-    if(NotificationController.currentConditions){
-      for(var i = 0 ; i < NotificationController.currentConditions.length; i++){
-        condition = NotificationController.currentConditions[i];
-        if(condition.field == fId){
-          matchAlert = 'info';
-          newLayer.matchAlert = 'info';
-        }
-      }
-    }
-
-    return matchAlert;
-  },
-
   buildFieldCustomWidget: function (config, readonly){
     widgetContent = config["widget_content"];
     regExp = /(&nbsp;)|\{([^}]*)\}/mg ;
@@ -150,7 +156,6 @@ FieldHelper = {
         }
        return replaceBy;
     });
-    console.log('widgetContent : ', widgetContent);
 
     config.widget_content = widgetContent;
     return config;

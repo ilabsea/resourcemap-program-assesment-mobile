@@ -43,5 +43,20 @@ var Operators = {
     }
     else
       return false;
+  },
+  'con': function (input, configVal) {
+    return input.includes(configVal);
+  },
+  'eqi': function (input, configVal) {
+    return input == configVal;
+  },
+  'eq': function (input, configVal) {
+    return input == configVal;
+  },
+  'lt': function(input, configVal){
+    return input < configVal;
+  },
+  'gt': function(input, configVal){
+    return input > configVal;
   }
 };
