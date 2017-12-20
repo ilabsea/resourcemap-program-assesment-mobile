@@ -151,6 +151,7 @@ FieldController = {
       else
         $(element).removeClass("error");
 
+
     if(field.kind == 'numeric' && field.config && element.value){
       if(field.config.range) {
         if(element.value >= field.config.range.minimum && element.value <= field.config.range.maximum ){

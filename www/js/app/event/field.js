@@ -20,7 +20,7 @@ $(document).on("mobileinit", function() {
     FieldController.validateFormatEmail(this);
   });
 
-  $(document).delegate('.required, .customValidation', 'blur', function () {
+  $(document).delegate('.required, .customValidation , .validateRange', 'blur', function () {
     if( this.id != 'email' && this.id != 'password' ){
       FieldController.validateThisField(this);
     }

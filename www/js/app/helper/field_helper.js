@@ -70,6 +70,7 @@ FieldHelper = {
       isEnableDependancyHierarchy: field.is_enable_dependancy_hierarchy,
       isDependancyHierarchy: (field.kind === 'hierarchy' && field.is_enable_dependancy_hierarchy) ? true : false,
       isCustomWidget: (field.kind === "custom_widget" ? true : false),
+      validateRange: field.config.range ? "validateRange": '',
       is_enable_field_logic: field.is_enable_field_logic,
       is_enable_custom_validation: field.is_enable_custom_validation,
       custom_widgeted: field.custom_widgeted,
