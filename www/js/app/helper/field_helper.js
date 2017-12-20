@@ -26,7 +26,6 @@ FieldHelper = {
         }
         newLayer.fields.push(fieldForUI);
       });
-      console.log('newLayer : ', newLayer);
       callback(newLayer);
 
     });
@@ -151,6 +150,7 @@ FieldHelper = {
         }
        return replaceBy;
     });
+    console.log('widgetContent : ', widgetContent);
 
     config.widget_content = widgetContent;
     return config;

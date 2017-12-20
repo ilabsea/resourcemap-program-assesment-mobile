@@ -323,9 +323,13 @@ FieldController = {
 
       if(field.kind == "photo" || field.kind == 'select_one' || field.kind == 'select_many' || field.isDependancyHierarchy){
         var $fieldUI = $("#" + field.idfield);
-        field.invalid ?  $fieldUI.parent().addClass("error") : $fieldUI.parent().removeClass("error")
+        field.invalid ?  $fieldUI.parent().addClass("error") : $fieldUI.parent().removeClass("error");
+        field.matchAlert ?  $fieldUI.parent().addClass("info") : $fieldUI.parent().removeClass("info");
       }
 
+      if(field.slider){
+        field.matchAlert ?  $('#wrapper_' + field.idfield).find('.ui-slider').addClass("info") : $('#wrapper_' + field.idfield).find('.ui-slider').removeClass("info");
+      }
     })
   },
 

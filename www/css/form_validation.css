@@ -5,7 +5,7 @@ label.error {
 }
 
 input.error, .ui-select.error, .tree.error, .photo.error ,
-input.info, .ui-select.info, .tree.info, .photo.info{
+input.info, .ui-select.info, .tree.info, .photo.info, .ui-slider.info{
   border: 1px solid red !important;
 }
 
