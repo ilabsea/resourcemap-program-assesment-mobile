@@ -19,7 +19,6 @@ FieldController = {
   },
 
   reset: function(){
-    App.log("resetting field");
     this.activeLayer = null
     this.layers = []
     this.submited = false
@@ -359,6 +358,24 @@ FieldController = {
           $dependentField.attr('data-parent-ids', parentIds.join(","))
         })
       }
+
+      if(field.is_enable_custom_validation && field.kind == 'numeric'){
+        var $fieldUI = $("#" + field.idfield);
+        $fieldUI.addClass('customValidation');
+        if(field.config['field_validations']){
+          $.each(field.config['field_validations'], function(_, v){
+            compareField = FieldController.findFieldById(v["field_id"][0]);
+            FieldHelper.buildCompareFieldConfigOfCustomValidation(field, v['condition_type'], compareField);
+          });
+        }
+      }
+
+      if(field.kind == "photo" || field.kind == 'select_one' || field.kind == 'select_many'){
+        var $fieldUI = $("#" + field.idfield);
+        field.invalid ?  $fieldUI.parent().addClass("error") : $fieldUI.parent().removeClass("error")
+      }
+
+
       DigitAllowance.prepareEventListenerOnKeyPress();
       // Readonly field
       var site = FieldController.site
