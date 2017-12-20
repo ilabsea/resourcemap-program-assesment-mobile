@@ -193,13 +193,17 @@ FieldController = {
     }
 
     if(field.kind == 'email' && element.value) {
-      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      if(!re.test(element.value)){
-        $(element).addClass("error");
-      }
-      else {
-        $(element).removeClass("error");
-      }
+      FieldController.validateFormatEmail(element);
+    }
+  },
+
+  validateFormatEmail: function(element){
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(!re.test(element.value) && element.value){
+      $(element).addClass("error");
+    }
+    else {
+      $(element).removeClass("error");
     }
   },
 

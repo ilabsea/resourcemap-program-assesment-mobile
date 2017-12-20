@@ -16,8 +16,12 @@ $(document).on("mobileinit", function() {
     Calculation.calculate($(this));
   });
 
+  $(document).delegate('.email', 'blur', function () {
+    FieldController.validateFormatEmail(this);
+  });
+
   $(document).delegate('.required, .customValidation', 'blur', function () {
-    if($(this).id != 'email' || !$(this).id != 'password'){
+    if( this.id != 'email' && this.id != 'password' ){
       FieldController.validateThisField(this);
     }
   });
