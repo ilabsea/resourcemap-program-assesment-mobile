@@ -3,7 +3,7 @@
     {{#each .}}
       <ul data-role='listview' id="notification-list-{{collection_id}}"
         data-inset="true" data-divider-theme="b" data-theme="d">
-        <li data-role="list-divider">{{@key}}</li>
+        <li data-role="list-divider">{{@key}} ( {{totalSites}} )</li>
         {{#each sites}}
           <li data-id='{{site_id}}' data-name='{{site_name}}' data-collection-id='{{collection_id}}'>
             {{#if seen}}

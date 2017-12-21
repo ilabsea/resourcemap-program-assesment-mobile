@@ -47,6 +47,7 @@ NotificationController = {
         collectionsData['collections'].push(data);
         i++;
         if (i === array.length) {
+          console.log('collectionsData: ', collectionsData);
           NotificationController.displayLists(collectionsData);
           SiteController.currentPage = '#page-notification';
         }
@@ -57,7 +58,7 @@ NotificationController = {
   prepareSitesByCollectionId: function(cId, callback){
     CollectionOffline.fetchByCollectionId(cId, function(collection){
       var data = {};
-      data[collection.name] = {sites: [], hasMoreSites: false, collection_id: collection.idcollection };
+      data[collection.name] = {sites: [], hasMoreSites: false, totalSites: 0, collection_id: collection.idcollection };
       if(App.isOnline()){
         ThresholdModel.fetchByCollectionId(collection.idcollection, function(thresholds){
           NotificationController.prepareSites(data, collection, thresholds, callback);
@@ -70,13 +71,17 @@ NotificationController = {
 
   prepareSites: function(data, collection, thresholds, callback){
     var offset = NotificationOffline.page[collection.idcollection] * NotificationOffline.limit;
+    NotificationOffline.get(function(allSites){
+      NotificationOffline.updateViewed(allSites);
+    })
+
     NotificationOffline.getByCollectionIdPerLimit(collection.idcollection, offset, function(sites){
-      NotificationOffline.update(sites);
       NotificationController.buildSites(sites, thresholds);
       data[collection.name]["sites"] = NotificationController.sites;
 
       NotificationOffline.countByCollectionId(collection.idcollection, function (count) {
         var l = sites.length + offset;
+        data[collection.name]["totalSites"] = count;
         data[collection.name]["hasMoreSites"] = l < count ? true : false;
         callback(data, collection);
       });

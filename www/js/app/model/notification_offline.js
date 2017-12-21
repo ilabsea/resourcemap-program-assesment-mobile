@@ -27,7 +27,7 @@ NotificationOffline = {
     persistence.flush();
   },
 
-  update: function(sites){
+  updateViewed: function(sites){
     $.each(sites, function(index, site) {
       site.viewed = true;
     });
