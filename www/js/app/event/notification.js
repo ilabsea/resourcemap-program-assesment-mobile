@@ -20,8 +20,14 @@ $(document).on("mobileinit", function() {
       $("#btn_save_site").text(i18n.t('global.update'));
       $("#btn_delete_site").hide();
       $("#ui-site-menu").hide();
-      SiteController.renderUpdateSiteFormOnline();
-      NotificationController.setCurrentConditions(sId) ;
+      if(App.isOnline()){
+        SiteController.renderUpdateSiteFormOnline();
+        NotificationController.setCurrentConditions(sId) ;
+      }else{
+        alert(i18n.t("global.no_internet_connection"));
+        location.href = '/#page-notification';
+      }
+
     }
   });
 

@@ -55,22 +55,30 @@ NotificationController = {
   },
 
   prepareSitesByCollectionId: function(cId, callback){
-    var offset = NotificationOffline.page[cId] * NotificationOffline.limit;
     CollectionOffline.fetchByCollectionId(cId, function(collection){
       var data = {};
       data[collection.name] = {sites: [], hasMoreSites: false, collection_id: collection.idcollection };
-      ThresholdModel.fetchByCollectionId(collection.idcollection, function(thresholds){
-        NotificationOffline.getByCollectionIdPerLimit(collection.idcollection, offset, function(sites){
-          NotificationOffline.update(sites);
-          NotificationController.buildSites(sites, thresholds);
-          data[collection.name]["sites"] = NotificationController.sites;
-
-          NotificationOffline.countByCollectionId(collection.idcollection, function (count) {
-            var l = sites.length + offset;
-            data[collection.name]["hasMoreSites"] = l < count ? true : false;
-            callback(data, collection);
-          });
+      if(App.isOnline()){
+        ThresholdModel.fetchByCollectionId(collection.idcollection, function(thresholds){
+          NotificationController.prepareSites(data, collection, thresholds, callback);
         });
+      }else{
+        NotificationController.prepareSites(data, collection, [], callback);
+      }
+    });
+  },
+
+  prepareSites: function(data, collection, thresholds, callback){
+    var offset = NotificationOffline.page[collection.idcollection] * NotificationOffline.limit;
+    NotificationOffline.getByCollectionIdPerLimit(collection.idcollection, offset, function(sites){
+      NotificationOffline.update(sites);
+      NotificationController.buildSites(sites, thresholds);
+      data[collection.name]["sites"] = NotificationController.sites;
+
+      NotificationOffline.countByCollectionId(collection.idcollection, function (count) {
+        var l = sites.length + offset;
+        data[collection.name]["hasMoreSites"] = l < count ? true : false;
+        callback(data, collection);
       });
     });
   },
@@ -93,22 +101,22 @@ NotificationController = {
         viewed: site.viewed,
         seen: site.seen
       }
-
-      for(var i = 0 ;i <thresholds.length ; i++){
-        var threshold = thresholds[i];
-        if(threshold.id == site.alert_id){
-          data.threshold = threshold;
-          for(var j=0; j < threshold.conditions.length; j++){
-            var condition = threshold.conditions[j];
-            FieldModel.fetchById(site.collection_id, parseInt(condition.field), function (f) {
-              condition.field_name = f.name;
-            });
+      if(thresholds.length > 0){
+        for(var i = 0 ;i <thresholds.length ; i++){
+          var threshold = thresholds[i];
+          if(threshold.id == site.alert_id){
+            data.threshold = threshold;
+            for(var j=0; j < threshold.conditions.length; j++){
+              var condition = threshold.conditions[j];
+              FieldModel.fetchById(site.collection_id, parseInt(condition.field), function (f) {
+                condition.field_name = f.name;
+              });
+            }
           }
-          NotificationController.sites.push(data);
-          NotificationController.allSites.push(data);
         }
       }
-
+      NotificationController.sites.push(data);
+      NotificationController.allSites.push(data);
     });
   },
 
@@ -132,12 +140,17 @@ NotificationController = {
     NotificationController.collectionIds = collectionIds;
   },
 
-  storeSiteNotifications: function () {
+  renderNotificationMessage: function () {
     if(App.isOnline()) {
       ThresholdModel.fetchSiteThreshold(function(sites){
         NotificationController.setCollectionIds(sites);
         NotificationController.synSitesNotification(sites);
       });
+    }else{
+      NotificationOffline.get(function(sites){
+        NotificationController.setCollectionIds(sites);
+        NotificationController.displayNotification();
+      })
     }
   },
 
@@ -145,7 +158,7 @@ NotificationController = {
     NotificationOffline.getViewed(function(oldSites){
       NotificationOffline.destroyAll(function(){
         NotificationOffline.add(newSites, oldSites);
-        NotificationController.displayNotification()
+        NotificationController.displayNotification();
       })
     })
 

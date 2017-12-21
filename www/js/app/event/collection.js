@@ -4,8 +4,8 @@ $(document).on("mobileinit", function() {
     App.emptyHTML();
     setTimeout(function(){
       App.validateDbConnection(function() {
+        NotificationController.renderNotificationMessage();
         CollectionController.renderList();
-        NotificationController.storeSiteNotifications();
         NotificationController.reset();
       });
     }, 500);

@@ -79,7 +79,6 @@ FieldController = {
 
   renderLayerSet: function() {
     var cloneLayers = this.layers.slice(0);
-    console.log('cloneLayers : ', cloneLayers);
     var layerData = {field_collections: cloneLayers};
     FieldHelperView.display('layer_sets', $('#div_field_collection'), layerData);
   },

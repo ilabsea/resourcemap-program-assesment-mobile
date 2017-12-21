@@ -5,10 +5,15 @@
     {{else}}
       <a href='#page-save-site' style='background-color: rgba(187, 187, 187, 0.75); padding-top: 0.3em; padding-bottom: 0.3em;'>
     {{/if}}
-      <h3 class="ui-li-heading" style="white-space:normal; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">{{site_name}} seems to have
-        {{#each threshold.conditions}}
-         {{field_name}}
-        {{/each}}
+      <h3 class="ui-li-heading" style="white-space:normal; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
+        {{site_name}} seems to have unusual
+        {{#ifBigger threshold.conditions.length 0}}
+          {{#each threshold.conditions}}
+           {{field_name}},
+          {{/each}} please review
+        {{else}}
+          ...
+        {{/ifBigger}}
       </h3>
       </a>
   </li>
