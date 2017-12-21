@@ -1,7 +1,7 @@
 App = {
   DB_SIZE: 5 * 1024 * 1024,
   DB_NAME: 'resourcemap_db',
-  VERSION: "1.3",
+  VERSION: "1.4-alert",
   DEBUG: RmSetting.DEBUG,
   userId: "",
   dbConnected: false,
@@ -90,6 +90,7 @@ App = {
     online = navigator.onLine;
     return online;
   },
+
   allBooleanTrue: function (arr) {
     for (var i in arr)
       if (!arr[i])

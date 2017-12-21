@@ -36,7 +36,8 @@
         "serverSetting": "Server setting",
         "selectAllSites": "Select all sites",
         "unselectAllSites": "Unselect all sites",
-        "url": "Server URL"
+        "url": "Server URL",
+        "version": "Version"
     },
     "login_page": {
         "login": "Login",

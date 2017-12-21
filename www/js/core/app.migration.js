@@ -46,18 +46,23 @@ persistence.defineMigration(3, {
   }
 });
 
-// persistence.defineMigration(4, {
-//   up: function() {
-//     this.createTable('notifications', function(t){
-//       t.integer('site_id');
-//       t.boolean('viewed');
-//       t.boolean('seen');
-//     });
-//   },
-//   down: function() {
-//     this.dropTable('site_memberships');
-//   }
-// });
+persistence.defineMigration(4, {
+  up: function() {
+    this.createTable('site_notifications', function(t){
+      t.integer('collection_id');
+      t.integer('site_id');
+      t.text('site_name');
+      t.json('properties')
+      t.integer('alert_id');
+      t.text('created_at')
+      t.boolean('viewed');
+      t.boolean('seen');
+    });
+  },
+  down: function() {
+    this.dropTable('site_memberships');
+  }
+});
 
 function migrate(){
     persistence.migrations.init( function(){

@@ -36,7 +36,8 @@
         "serverSetting": "បណ្តាញ",
         "selectAllSites": "ជ្រើសតំបន់ទាំងអស់",
         "unselectAllSites": "មិនជ្រើសតំបន់ទាំងអស់",
-        "url": "ខ្សែបណ្តាញមេ"
+        "url": "ខ្សែបណ្តាញមេ",
+        "version": "ជំនាន់"
     },
     "login_page": {
         "login": "ការចូល",
