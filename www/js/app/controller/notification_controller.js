@@ -47,7 +47,6 @@ NotificationController = {
         collectionsData['collections'].push(data);
         i++;
         if (i === array.length) {
-          console.log('collectionsData: ', collectionsData);
           NotificationController.displayLists(collectionsData);
           SiteController.currentPage = '#page-notification';
         }
@@ -71,15 +70,15 @@ NotificationController = {
 
   prepareSites: function(data, collection, thresholds, callback){
     var offset = NotificationOffline.page[collection.idcollection] * NotificationOffline.limit;
-    NotificationOffline.get(function(allSites){
+    NotificationOffline.getByUserIdOffline(function(allSites){
       NotificationOffline.updateViewed(allSites);
     })
 
-    NotificationOffline.getByCollectionIdPerLimit(collection.idcollection, offset, function(sites){
+    NotificationOffline.getByCollectionIdPerLimitInCurrentUser(collection.idcollection, offset, function(sites){
       NotificationController.buildSites(sites, thresholds);
       data[collection.name]["sites"] = NotificationController.sites;
 
-      NotificationOffline.countByCollectionId(collection.idcollection, function (count) {
+      NotificationOffline.countByCollectionIdInCurrentUser(collection.idcollection, function (count) {
         var l = sites.length + offset;
         data[collection.name]["totalSites"] = count;
         data[collection.name]["hasMoreSites"] = l < count ? true : false;
@@ -126,7 +125,7 @@ NotificationController = {
   },
 
   displayNotification: function () {
-    NotificationOffline.countUnViewed(function(count){
+    NotificationOffline.countUnViewedByUserIdOffline(function(count){
       var content = App.Template.process("notifications", {'notifications': {'total': count}});
       var $updateNode = $("#notifications");
       $updateNode.html(content);
@@ -152,7 +151,7 @@ NotificationController = {
         NotificationController.synSitesNotification(sites);
       });
     }else{
-      NotificationOffline.get(function(sites){
+      NotificationOffline.getByUserIdOffline(function(sites){
         NotificationController.setCollectionIds(sites);
         NotificationController.displayNotification();
       })
@@ -160,9 +159,9 @@ NotificationController = {
   },
 
   synSitesNotification: function (newSites) {
-    NotificationOffline.getViewed(function(oldSites){
-      NotificationOffline.destroyAll(function(){
-        NotificationOffline.add(newSites, oldSites);
+    NotificationOffline.getViewedByUserIdOffline(function(oldSites){
+      NotificationOffline.destroyAllByUserIdOffline(function(){
+        NotificationOffline.addAndUpdate(newSites, oldSites);
         NotificationController.displayNotification();
       })
     })

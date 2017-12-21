@@ -2,11 +2,12 @@ NotificationOffline = {
   limit: 5,
   // page = {collection_id: 0}
   page: {},
-  add: function(sites , oldSites) {
+  addAndUpdate: function(sites , oldSites) {
     $.each(sites, function(index, site) {
       var siteParams = {
         collection_id: site.collection_id,
         site_id: site.id,
+        user_id_offline: SessionController.currentUser().id,
         site_name: site.name,
         properties: site.properties,
         alert_id: site.alert_id,
@@ -41,31 +42,32 @@ NotificationOffline = {
     });
   },
 
-  get: function(callback){
-    SiteNotification.all().list(null, callback);
+  getByUserIdOffline: function(callback){
+    SiteNotification.all().filter('user_id_offline','=',SessionController.currentUser().id).list(null, callback);
   },
 
-  getByCollectionIdPerLimit: function (cId, offset, callback) {
+  getByCollectionIdPerLimitInCurrentUser: function (cId, offset, callback) {
     SiteNotification.all()
         .filter('collection_id', "=", cId)
+        .filter('user_id_offline', '=', SessionController.currentUser().id)
         .limit(NotificationOffline.limit)
         .skip(offset)
         .list(null, callback);
   },
 
-  getViewed: function(callback){
-    SiteNotification.all().filter('viewed', '=' , true).list(null, callback);
+  getViewedByUserIdOffline: function(callback){
+    SiteNotification.all().filter('user_id_offline', '=', SessionController.currentUser().id).filter('viewed', '=' , true).list(null, callback);
   },
 
-  destroyAll: function (callback) {
-    SiteNotification.all().destroyAll(null, callback);
+  destroyAllByUserIdOffline: function( callback) {
+    SiteNotification.all().filter('user_id_offline', '=', SessionController.currentUser().id).destroyAll(null, callback);
   },
 
-  countUnViewed: function (callback){
-    SiteNotification.all().filter('viewed', '=' , false).count(null, callback);
+  countUnViewedByUserIdOffline: function (callback){
+    SiteNotification.all().filter('user_id_offline', '=', SessionController.currentUser().id).filter('viewed', '=' , false).count(null, callback);
   },
 
-  countByCollectionId: function(cId, callback){
-    SiteNotification.all().filter('collection_id', '=' , cId).count(null, callback);
+  countByCollectionIdInCurrentUser: function(cId, callback){
+    SiteNotification.all().filter('user_id_offline', '=', SessionController.currentUser().id).filter('collection_id', '=' , cId).count(null, callback);
   }
 }

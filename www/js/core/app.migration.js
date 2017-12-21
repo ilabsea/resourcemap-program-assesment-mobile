@@ -64,6 +64,12 @@ persistence.defineMigration(4, {
   }
 });
 
+persistence.defineMigration(5, {
+  up: function() {
+    this.addColumn('site_notifications', 'user_id_offline', 'TEXT');
+  }
+});
+
 function migrate(){
     persistence.migrations.init( function(){
         persistence.migrate( function(){

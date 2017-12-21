@@ -178,6 +178,7 @@ App = {
     SiteNotification = persistence.define('site_notifications', {
       collection_id: "INT",
       site_id: "INT",
+      user_id_offline: "TEXT",
       site_name: "TEXT",
       properties: "JSON",
       alert_id: "INT",
