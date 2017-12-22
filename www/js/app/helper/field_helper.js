@@ -244,6 +244,14 @@ FieldHelper = {
 
       case "location":
         field.__value = value;
+        // set locationOptions list
+        var lat = $('#site_lat').val();
+        var lng = $('#site_lng').val();
+        var locationOptions = Location.getLocations(lat, lng, field.config);
+        if (locationOptions)
+          field.config.locationOptions = locationOptions;
+        //
+
         for (var k = 0; k < field.config.locationOptions.length; k++) {
           field.config.locationOptions[k]["selected"] = "";
           if (field.config.locationOptions[k].code == field.__value) {
