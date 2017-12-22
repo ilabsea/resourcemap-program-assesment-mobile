@@ -28,7 +28,7 @@ CustomWidget = {
             if(field.editable == 'readonly')
               $node.attr('readonly', true)
 
-            $noValueOption = $("<option data-placeholder='true'>Option</option><option value=''>(no value)</option>");
+            $noValueOption = $("<option data-placeholder='true'>Option</option><option value='' selected>(no value)</option>");
             $node.append($noValueOption);
 
             $.each(field.config.options, function(index, option) {
@@ -37,7 +37,7 @@ CustomWidget = {
                                          .attr('data-field_id', field.idfield)
                                          .text(option['label']);
                 if(option.selected == 'selected')
-                   $option.attr('selected', 'selected');
+                  $option.attr('selected', 'selected');
 
                 $node.append($option);
             })
