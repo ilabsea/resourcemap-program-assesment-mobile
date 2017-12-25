@@ -70,6 +70,20 @@ persistence.defineMigration(5, {
   }
 });
 
+persistence.defineMigration(6, {
+  up: function() {
+    this.createTable('thresholds', function(t){
+      t.integer('collection_id');
+      t.integer('alert_id');
+      t.json('conditions');
+      t.text('user_id_offline')
+    });
+  },
+  down: function() {
+    this.dropTable('thresholds');
+  }
+});
+
 function migrate(){
     persistence.migrations.init( function(){
         persistence.migrate( function(){

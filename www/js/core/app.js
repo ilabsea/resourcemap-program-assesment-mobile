@@ -187,6 +187,13 @@ App = {
       seen: "BOOL" // view detail of the site alert
     });
 
+    Threshold = persistence.define('thresholds', {
+      collection_id: "INT",
+      alert_id: "INT",
+      conditions: "JSON",
+      user_id_offline: 'TEXT'
+    });
+
     CacheData = persistence.define('cache_datas', {
       key: "TEXT",
       value: "TEXT",

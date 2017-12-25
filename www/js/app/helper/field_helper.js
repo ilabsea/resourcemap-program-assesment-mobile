@@ -35,9 +35,9 @@ FieldHelper = {
   setMatchAlert: function(field, newLayer){
     var matchAlert='';
 
-    if(NotificationController.currentConditions){
-      for(var i = 0 ; i < NotificationController.currentConditions.length; i++){
-        condition = NotificationController.currentConditions[i];
+    if(SiteNotificationController.currentConditions){
+      for(var i = 0 ; i < SiteNotificationController.currentConditions.length; i++){
+        condition = SiteNotificationController.currentConditions[i];
 
         if(condition.field == field.idfield){
           op = condition['op'];

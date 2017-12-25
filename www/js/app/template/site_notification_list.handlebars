@@ -1,4 +1,4 @@
-{{#ifBigger length 0}}
+{{#ifBigger collections.length 0}}
   {{#each collections}}
     {{#each .}}
       <ul data-role='listview' id="notification-list-{{collection_id}}"
@@ -7,11 +7,13 @@
         {{#each sites}}
           <li data-id='{{site_id}}' data-name='{{site_name}}' data-collection-id='{{collection_id}}'>
             {{#if seen}}
-              <a href='#page-save-site' style='background-color: #f3f3f3; padding-top: 0.3em; padding-bottom: 0.3em;' >
+              <a href='#page-save-site'
+                style='background-color: #f3f3f3; padding-top: 0.3em; padding-bottom: 0.3em;' >
             {{else}}
               <a href='#page-save-site' style='background-color: rgba(187, 187, 187, 0.75); padding-top: 0.3em; padding-bottom: 0.3em;'>
             {{/if}}
-              <h3 class="ui-li-heading" style="white-space:normal; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
+              <h3 class="ui-li-heading"
+                style="white-space:normal; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
                 {{site_name}} seems to have unusual
                 {{#ifBigger threshold.conditions.length 0}}
                   {{#each threshold.conditions}}
@@ -26,7 +28,9 @@
         {{/each}}
 
         {{#if hasMoreSites}}
-        <li class="load-more" data-collection-id='{{collection_id}}' data-id="load-more-{{collection_id}}" id="load-more-{{collection_id}}">
+        <li class="load-more"
+            data-collection-id='{{collection_id}}'
+            data-id="load-more-{{collection_id}}" id="load-more-{{collection_id}}">
          <a href="javascript:void(0)">Load More ...</a>
         </li>
         {{/if}}

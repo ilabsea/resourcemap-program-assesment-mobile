@@ -2,7 +2,7 @@ $(document).on("mobileinit", function() {
 
   $(document).delegate('#page-notification', 'pagebeforeshow', function() {
     App.emptyHTML();
-    NotificationController.renderListAndUpdateViewed();
+    SiteNotificationController.renderListAndUpdateViewed();
   });
 
   $(document).delegate('#page-notification #notification-list li', 'click', function() {
@@ -10,8 +10,8 @@ $(document).on("mobileinit", function() {
     var sId = li.getAttribute('data-id');
     var cId = li.getAttribute('data-collection-id');
     if (sId == "load-more-" + cId) {
-      NotificationOffline.page[cId]++;
-      NotificationController.renderByCollectionId(cId);
+      SiteNotificationOffline.page[cId]++;
+      SiteNotificationController.renderByCollectionId(cId);
       $(li).remove()
     }
     else {
@@ -22,7 +22,7 @@ $(document).on("mobileinit", function() {
       $("#ui-site-menu").hide();
       if(App.isOnline()){
         SiteController.renderUpdateSiteFormOnline();
-        NotificationController.setCurrentConditions(sId) ;
+        SiteNotificationController.setCurrentConditions(sId) ;
       }else{
         alert(i18n.t("global.no_internet_connection"));
         location.href = '/#page-notification';

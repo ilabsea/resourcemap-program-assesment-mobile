@@ -4,9 +4,9 @@ $(document).on("mobileinit", function() {
     App.emptyHTML();
     setTimeout(function(){
       App.validateDbConnection(function() {
-        NotificationController.renderNotificationMessage();
+        SiteNotificationController.renderNotificationMessage();
         CollectionController.renderList();
-        NotificationController.reset();
+        SiteNotificationController.reset();
       });
     }, 500);
   });
