@@ -127,7 +127,6 @@ SiteNotificationController = {
 
   displayNotification: function () {
     SiteNotificationOffline.countUnViewedByUserIdOffline(function(count){
-      console.log('count : ', count);
       var content = App.Template.process("site_notifications", {'notifications': {'total': count}});
       var $updateNode = $("#notifications");
       $updateNode.html(content);

@@ -9,6 +9,13 @@ $(document).on("mobileinit", function() {
         SiteNotificationController.reset();
       });
     }, 500);
+
+    setInterval(function(){
+      if ( $.mobile.activePage.attr('id') == 'page-collection-list' && App.isOnline()){
+        location.reload();
+      }
+    }, App.interval)
+
   });
 
 
