@@ -9,7 +9,7 @@ CustomWidget = {
             $wrapper.text(value);
         else{
           if(field.kind == 'numeric'){
-            var $node = $('<input type="number" class="'+field.invalid+'"/>').attr('id', id)
+            var $node = $('<input type="number" class="'+ field.invalid+' ' + field.matchAlert + '"/>').attr('id', id)
                                                     .attr('name', id)
                                                     .attr('data-allows_decimals', field.config.allows_decimals)
                                                     .val(value)
@@ -41,6 +41,8 @@ CustomWidget = {
 
                 $node.append($option);
             })
+
+            field.matchAlert ?  $node.parent().addClass("info") : $node.parent().removeClass("info");
             $wrapper.append($node);
           }else if(field.kind == 'calculation'){
             if(field.is_display_field == false){

@@ -4,14 +4,14 @@ label.error {
   font-weight: normal;
 }
 
-input.error, .ui-select.error, .tree.error, .photo.error {
+input.error, .ui-select.error, .tree.error, .photo.error ,
+input.info, .ui-select.info, .tree.info, .photo.info, .ui-slider.info{
   border: 1px solid red !important;
 }
 
-.ui-select.error {
+.ui-select.error, .ui-select.info {
   border-radius: 16px;
 }
-
 .ui-select.valid {
   border: 1px solid #f3f3f3 !important;
   border-radius: 16px;

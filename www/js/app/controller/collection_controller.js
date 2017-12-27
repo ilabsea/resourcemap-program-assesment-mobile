@@ -5,10 +5,12 @@ CollectionController = {
     $updateNode.html(content);
     $updateNode.listview("refresh");
   },
+
   displayName: function (collectionName) {
     var content = App.Template.process("collection_name", collectionName);
     $('.title').html(content);
   },
+
   renderList: function () {
     App.isOnline() ? CollectionController.getByUserIdOnline() : CollectionController.getByUserIdOffline();
   },
@@ -18,6 +20,7 @@ CollectionController = {
       CollectionController.renderCollectionListByUser(collections)
     });
   },
+
   getByUserIdOnline: function () {
     CollectionModel.fetch(function (collections) {
       CollectionController.renderCollectionListByUser(collections);
@@ -48,9 +51,9 @@ CollectionController = {
           totalSiteOfflines = totalSiteOfflines + parseInt(countSiteOffline) ;
 
       }
+
       CollectionController.displayList({collectionList: collectionDatas});
       SiteHelper.toggleBtnViewAllOfflineSite(totalSiteOfflines);
-
     });
   },
 
@@ -58,13 +61,13 @@ CollectionController = {
     return collection.idcollection || collection.id
   },
 
-
   synCollectionByUser: function (newCollections) {
     CollectionOffline.destroyAllByUser(function(){
       CollectionOffline.add(newCollections);
     })
 
   },
+
   prepareCollection: function (collection, userId, count) {
     var item = {
       name: collection.name,

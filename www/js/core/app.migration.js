@@ -46,6 +46,44 @@ persistence.defineMigration(3, {
   }
 });
 
+persistence.defineMigration(4, {
+  up: function() {
+    this.createTable('site_notifications', function(t){
+      t.integer('collection_id');
+      t.integer('site_id');
+      t.text('site_name');
+      t.json('properties')
+      t.integer('alert_id');
+      t.text('created_at')
+      t.boolean('viewed');
+      t.boolean('seen');
+    });
+  },
+  down: function() {
+    this.dropTable('site_memberships');
+  }
+});
+
+persistence.defineMigration(5, {
+  up: function() {
+    this.addColumn('site_notifications', 'user_id_offline', 'TEXT');
+  }
+});
+
+persistence.defineMigration(6, {
+  up: function() {
+    this.createTable('thresholds', function(t){
+      t.integer('collection_id');
+      t.integer('alert_id');
+      t.json('conditions');
+      t.text('user_id_offline')
+    });
+  },
+  down: function() {
+    this.dropTable('thresholds');
+  }
+});
+
 function migrate(){
     persistence.migrations.init( function(){
         persistence.migrate( function(){

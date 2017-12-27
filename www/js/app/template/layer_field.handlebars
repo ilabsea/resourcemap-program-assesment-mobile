@@ -13,7 +13,7 @@
               data-mini="{{ctrue}}"
               {{required}}
               data-is_enable_field_logic="{{is_enable_field_logic}}"
-              class="validateSelectFields needsclick {{invalid}}"
+              class="validateSelectFields needsclick {{invalid}} {{matchAlert}}"
               {{editable}} >
         {{#if multiple}}
           <option>Options</option>
@@ -64,7 +64,7 @@
         </select>
       {{else}}
         <div  id="{{idfield}}"
-              class="tree {{invalid}}"
+            class="tree {{invalid}} {{matchAlert}}"
               require='{{required}}'
               {{editable}}>
         </div>
@@ -74,9 +74,9 @@
   {{#if isPhoto}}
     <div id="wrapper_{{idfield}}" tabindex="0">
       <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-        <div class="{{invalid}} photo" data-id='{{idfield}}'
+        <div class="{{invalid}} {{matchAlert}} photo" data-id='{{idfield}}'
              id='property_{{idfield}}_container' {{editable}} >
-          <img class="image {{invalid}}" src='{{__value}}' id='{{idfield}}' require='{{required}}' />
+          <img class="image {{invalid}} {{matchAlert}}" src='{{__value}}' id='{{idfield}}' require='{{required}}' />
         </div>
     </div>
   {{else}}
@@ -88,7 +88,7 @@
               name="{{idfield}}"
               data-native-menu="false"
               {{required}}
-              class="validateSelectFields needsclick {{invalid}}"
+              class="validateSelectFields needsclick {{invalid}} {{matchAlert}}"
               {{editable}} >
               <option value="">Option</option>
               <option value="" selected>(no value)</option>
@@ -105,7 +105,7 @@
               id="{{idfield}}"
               value ="{{__value}}"
               name="{{name}}"
-              class="{{invalid}} calculation-source"
+              class="{{invalid}} {{matchAlert}} calculation-source"
               {{required}}
               {{readonly}}
               {{editable}} />
@@ -118,7 +118,7 @@
                 id="{{idfield}}"
                 value ="{{__value}}"
                 name="{{name}}"
-                class="date {{invalid}}"
+                class="date {{invalid}} {{matchAlert}}"
                 {{required}}
                 {{editable}} />
       {{else}}
@@ -133,7 +133,7 @@
                 data-allows_decimals= {{config.allows_decimals}}
                 data-digits_precision="{{config.digits_precision}}"
                 data-previous-value ="{{__value}}"
-                class="skipLogicNumber {{invalid}}"
+                class="skipLogicNumber {{invalid}} {{matchAlert}}"
                 {{required}}
                 {{readonly}}
                 {{editable}} />
@@ -142,7 +142,7 @@
                 id="{{idfield}}"
                 value ="{{__value}}"
                 name="{{name}}"
-                class="{{invalid}}"
+                class="{{invalid}} {{matchAlert}}"
                 {{required}}
                 {{readonly}}
                 {{editable}} />

@@ -36,7 +36,8 @@
         "serverSetting": "បណ្តាញ",
         "selectAllSites": "ជ្រើសតំបន់ទាំងអស់",
         "unselectAllSites": "មិនជ្រើសតំបន់ទាំងអស់",
-        "url": "ខ្សែបណ្តាញមេ"
+        "url": "ខ្សែបណ្តាញមេ",
+        "version": "ជំនាន់"
     },
     "login_page": {
         "login": "ការចូល",
@@ -56,7 +57,8 @@
     },
     "collection_page": {
         "view_offline_site": "បង្ហាញតំបន់មិនមានក្នុងម៉ាស៊ីនមេ",
-        "collection": "ទិន្នន័យ"
+        "collection": "ទិន្នន័យ",
+        "notifications_message": "សារជូនដំណឹង"
     },
     "map_page": {
         "map": "ផែនទី"
@@ -77,6 +79,9 @@
         "emailPsd": "សូមបញ្ចូលអីុម៉ែលនិងពាក្យសម្ងាត់របស់អ្នក។",
         "emailPsdConfirm": "សូមបញ្ចូលទិន្នន័យដែលចាំបាច់។",
         "invalidUrl": "សូមបញ្ចូលខ្សែបណ្តាញអោយបានត្រឹមត្រូវ"
+    },
+    "notification": {
+      "no_sites_found": "គ្មានតំបន់បង្ហាញ។"
     },
     "dialog": {
         "option": "ជម្រើសរូបថត",

@@ -1,22 +1,22 @@
-
 FieldHelper = {
   buildLayerFields: function (layer, callback, isOnline) {
-    var layerData = layer._data;
-    var isOnline = isOnline;
+    var isNotify = SiteController.currentPage == '#page-notification' ? true : false;
+    var layerData = isNotify ? layer : layer._data;
 
     var newLayer = {
       cId: CollectionController.id,
       userId: UserSession.getUser().id,
-      name_wrapper: layerData.name_wrapper,
-      id_wrapper: layerData.id_wrapper,
+      name_wrapper: isNotify ? layerData.name : layerData.name_wrapper,
+      id_wrapper: isNotify ? layerData.id : layerData.id_wrapper,
       valid: true,
+      matchAlert: '',
       fields: []
     }
 
     MyMembershipController.layerMembership(FieldController.site, newLayer.id_wrapper, function(can_entry){
 
       $.each(layer.fields, function (_, field) {
-        var fieldForUI = FieldHelper.fieldForUI(field, can_entry, layer.id_wrapper)
+        var fieldForUI = FieldHelper.fieldForUI(field, can_entry, newLayer)
 
         for(fieldId in FieldController.site.properties) {
           if(fieldId == fieldForUI.idfield){
@@ -24,6 +24,7 @@ FieldHelper = {
             break;
           }
         }
+        FieldHelper.setMatchAlert(fieldForUI, newLayer);
         newLayer.fields.push(fieldForUI);
       });
       callback(newLayer);
@@ -31,13 +32,34 @@ FieldHelper = {
     });
   },
 
-  fieldForUI: function(field, layer_field_permission, layer_id){
+  setMatchAlert: function(field, newLayer){
+    var matchAlert='';
+
+    if(SiteNotificationController.currentConditions){
+      for(var i = 0 ; i < SiteNotificationController.currentConditions.length; i++){
+        condition = SiteNotificationController.currentConditions[i];
+
+        if(condition.field == field.idfield){
+          op = condition['op'];
+          var matchCond = false;
+          matchCond = Operators[op](field.__value, condition.value);
+          if(matchCond){
+            field.matchAlert = 'info';
+            newLayer.matchAlert = 'info';
+            break;
+          }
+        }
+      }
+    }
+  },
+
+  fieldForUI: function(field, layer_field_permission, newLayer){
     var widgetMapper = { "numeric": "number", "yes_no": "select_one", "phone": "tel",
                          "location": "select_one", "calculation": "text" };
 
     var fieldUI = {
       idfield: field.id,
-      layer_id: layer_id,
+      layer_id: newLayer.layer_id,
       name: field.name,
       kind: field.kind,
       code: field.code,
@@ -62,7 +84,8 @@ FieldHelper = {
       __value: '',
       __filename: '',
       invalid: '',
-      invalidMessage: ''
+      invalidMessage: '',
+      matchAlert: ''
     };
 
     if(fieldUI.isEnableDependancyHierarchy){

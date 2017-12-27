@@ -1,4 +1,5 @@
 CollectionModel = {
+  
   fetch: function (successCallback) {
     $.ajax({
       type: "get",
@@ -7,6 +8,7 @@ CollectionModel = {
       success: successCallback
     });
   },
+
   fetchMyMembership: function (cId, success) {
     var url = App.endPoint() + "/collections/" + cId + "/my_membership.json?auth_token="
         + App.Session.getAuthToken();

@@ -1,7 +1,7 @@
 App = {
   DB_SIZE: 5 * 1024 * 1024,
   DB_NAME: 'resourcemap_db',
-  VERSION: "1.3",
+  VERSION: "1.4-alert",
   DEBUG: RmSetting.DEBUG,
   userId: "",
   dbConnected: false,
@@ -14,6 +14,7 @@ App = {
   urlLogout: function(){ return RmSetting.endPoint() + "/users/sign_out.json?auth_token=" },
   urlField: function(){ return RmSetting.endPoint() + "/v1/collections/" },
   urlSite: function(){ return RmSetting.endPoint() + "/v1/collections/" },
+  urlSiteThreshold: function(){ return RmSetting.endPoint() + "/v1/sites/alerted_to_reporters" },
   log: function (text, data) {
     if (App.DEBUG)
       console.log(text, data);
@@ -81,15 +82,15 @@ App = {
     $.mobile.pageContainer.pagecontainer('change', nextPage, options);
   },
   isOnline: function () {
-    return true
-    // var online = false;
-    // if (navigator.connection) {
-    //   online = (navigator.connection.type !== Connection.NONE);
-    //   return online;
-    // }
-    // online = navigator.onLine;
-    // return online;
+    var online = false;
+    if (navigator.connection) {
+      online = (navigator.connection.type !== Connection.NONE);
+      return online;
+    }
+    online = navigator.onLine;
+    return online;
   },
+
   allBooleanTrue: function (arr) {
     for (var i in arr)
       if (!arr[i])
@@ -174,12 +175,30 @@ App = {
       write: "BOOL"
     });
 
+    SiteNotification = persistence.define('site_notifications', {
+      collection_id: "INT",
+      site_id: "INT",
+      user_id_offline: "TEXT",
+      site_name: "TEXT",
+      properties: "JSON",
+      alert_id: "INT",
+      created_at: "TEXT",
+      viewed: "BOOL",
+      seen: "BOOL" // view detail of the site alert
+    });
+
+    Threshold = persistence.define('thresholds', {
+      collection_id: "INT",
+      alert_id: "INT",
+      conditions: "JSON",
+      user_id_offline: 'TEXT'
+    });
+
     CacheData = persistence.define('cache_datas', {
       key: "TEXT",
       value: "TEXT",
       user: "TEXT"
     });
-
   }
 };
 

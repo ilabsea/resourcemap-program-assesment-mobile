@@ -14,6 +14,7 @@ SiteModel = {
       error: errorCallback
     });
   },
+
   fetch: function (collectionID, offset, successCallback) {
     var url = App.urlSite() + collectionID
         + "/sites.json?offset=" + offset + "&limit="
@@ -48,6 +49,7 @@ SiteModel = {
         }
       }
     });
+
   },
   update: function (cId, sId, data, successCallback, errorCallback) {
     $.ajax({
