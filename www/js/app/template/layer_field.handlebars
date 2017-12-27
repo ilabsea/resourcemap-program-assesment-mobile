@@ -3,7 +3,7 @@
   {{else}}
   {{#if config.options}}
     <div id="wrapper_{{idfield}}" tabindex="0">
-      <label>{{name}}</label>
+      <label>{{name}} {{#if is_mandatory}} <span class="requiredAsteric">*</span> {{/if}} </label>
       <select id="{{idfield}}"
               name="{{idfield}}"
               data-theme="a"
@@ -35,8 +35,8 @@
   {{else}}
   {{#if isCustomWidget}}
     <div id="wrapper_{{idfield}}" tabindex="0">
-      <label>{{name}}</label>
-      <div id="{{idfield}}" class="widget" require='{{required}}' tabindex="0">
+      <label>{{name}}{{#if is_mandatory}} <span class="requiredAsteric">*</span> {{/if}}</label>
+      <div id="{{idfield}}" class="widget {{required}}" require='{{required}}' tabindex="0">
         {{{config.widget_content}}}
       </div>
     </div>
@@ -63,6 +63,7 @@
           {{/config.dependentHierarchyList}}
         </select>
       {{else}}
+        <label>{{name}}{{#if is_mandatory}} <span class="requiredAsteric">*</span> {{/if}}</label>
         <div  id="{{idfield}}"
             class="tree {{invalid}} {{matchAlert}}"
               require='{{required}}'
@@ -73,8 +74,8 @@
   {{else}}
   {{#if isPhoto}}
     <div id="wrapper_{{idfield}}" tabindex="0">
-      <span style='display:inline; margin-top:10px'>{{{name}}}</span>
-        <div class="{{invalid}} {{matchAlert}} photo" data-id='{{idfield}}'
+      <span style='display:inline; margin-top:10px'>{{{name}}}{{#if is_mandatory}} <span class="requiredAsteric">*</span> {{/if}}</span>
+        <div class="{{invalid}} {{matchAlert}} photo {{required}}" data-id='{{idfield}}'
              id='property_{{idfield}}_container' {{editable}} >
           <img class="image {{invalid}} {{matchAlert}}" src='{{__value}}' id='{{idfield}}' require='{{required}}' />
         </div>
@@ -82,7 +83,7 @@
   {{else}}
   {{#if config.locations}}
     <div id="wrapper_{{idfield}}" tabindex="0">
-      <label>{{name}}</label>
+      <label>{{name}}{{#if is_mandatory}} <span class="requiredAsteric">*</span> {{/if}}</label>
       <select id="{{idfield}}"
               data-theme="a"
               name="{{idfield}}"
@@ -100,25 +101,25 @@
   {{else}}
   {{#ifCond kind "calculation"}}
     <div id="wrapper_{{idfield}}" tabindex="0" class="{{invisible}}">
-      <label for='name'>{{{name}}}</label>
+      <label for='name'>{{{name}}}{{#if is_mandatory }} <span class="requiredAsteric">*</span> {{/if}}</label>
       <input  type="{{widgetType}}"
               id="{{idfield}}"
               value ="{{__value}}"
               name="{{name}}"
-              class="{{invalid}} {{matchAlert}} calculation-source"
+              class="{{invalid}} {{matchAlert}} calculation-source {{required}}"
               {{required}}
               {{readonly}}
               {{editable}} />
     </div>
   {{else}}
     <div id="wrapper_{{idfield}}" tabindex="0" class="{{invisible}}">
-      <label for='name'>{{{name}}}</label>
+      <label for='name'>{{{name}}}{{#if is_mandatory}} <span class="requiredAsteric">*</span> {{/if}}</label>
       {{#ifCond widgetType "date"}}
         <input  type="{{widgetType}}"
                 id="{{idfield}}"
                 value ="{{__value}}"
                 name="{{name}}"
-                class="date {{invalid}} {{matchAlert}}"
+                class="date {{invalid}} {{matchAlert}} {{required}}"
                 {{required}}
                 {{editable}} />
       {{else}}
@@ -133,7 +134,7 @@
                 data-allows_decimals= {{config.allows_decimals}}
                 data-digits_precision="{{config.digits_precision}}"
                 data-previous-value ="{{__value}}"
-                class="skipLogicNumber {{invalid}} {{matchAlert}}"
+                class="skipLogicNumber {{invalid}} {{required}} {{matchAlert}} {{validateRange}}"
                 {{required}}
                 {{readonly}}
                 {{editable}} />
@@ -142,7 +143,7 @@
                 id="{{idfield}}"
                 value ="{{__value}}"
                 name="{{name}}"
-                class="{{invalid}} {{matchAlert}}"
+                class="{{invalid}} {{matchAlert}} {{required}} {{widgetType}}"
                 {{required}}
                 {{readonly}}
                 {{editable}} />

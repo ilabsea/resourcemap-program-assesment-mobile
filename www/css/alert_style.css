@@ -34,6 +34,10 @@
     padding: 15px;
 }
 
+.requiredAsteric{
+    color: red;
+}
+
 #internet{
     display:none;
     color:red;

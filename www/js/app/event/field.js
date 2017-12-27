@@ -16,6 +16,16 @@ $(document).on("mobileinit", function() {
     Calculation.calculate($(this));
   });
 
+  $(document).delegate('.email', 'blur', function () {
+    FieldController.validateFormatEmail(this);
+  });
+
+  $(document).delegate('.required, .customValidation , .validateRange', 'blur', function () {
+    if( this.id != 'email' && this.id != 'password' ){
+      FieldController.validateThisField(this);
+    }
+  });
+
   $(document).delegate('.skipLogicNumber', 'change', function () {
     var val = $("#" + this.id).val();
     SkipLogic.processSkipLogic(this.id, val);

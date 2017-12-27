@@ -18,34 +18,7 @@ FieldController = {
     }
   },
 
-  simulateLayerValue: function(layerId){
-    var layer = FieldController.findLayerById(layerId);
-    for(var i=0; i<layer.fields.length; i++){
-      var value = "";
-      if(layer.fields[i]["kind"] == 'text'){
-        value ="We are testing on 22 JUly 2016 " + i*10 + 10;
-      }else if(layer.fields[i]["kind"] == 'email'){
-        value = "testperformance@instedd.org";
-      }else if(layer.fields[i]["kind"] == 'date'){
-        value = prepareForClient("22/07/2016");
-      }else if(layer.fields[i]["kind"] == 'numeric'){
-        value = i*10 + 10;
-      }else{
-        value = "";
-      }
-      FieldHelper.setFieldValue(layer.fields[i], value, this.isOnline);
-    }
-  },
-
-  simulateLayersValue: function(){
-    for(var j=0; j < FieldController.layers.length; j++){
-      var layer = FieldController.layers[j];
-      FieldController.simulateLayerValue(layer.id_wrapper);
-    }
-  },
-
   reset: function(){
-    App.log("resetting field");
     this.activeLayer = null
     this.layers = []
     this.submited = false
@@ -169,6 +142,80 @@ FieldController = {
     return true;
   },
 
+  validateThisField: function(element){
+    var field = FieldController.findFieldById(element.id);
+    if(field.is_mandatory)
+      if(!element.value)
+        $(element).addClass("error");
+      else
+        $(element).removeClass("error");
+
+
+    if(field.kind == 'numeric' && field.config && element.value){
+      if(field.config.range) {
+        if(element.value >= field.config.range.minimum && element.value <= field.config.range.maximum ){
+          $(element).removeClass("error");
+        }
+        else {
+          $(element).addClass("error");
+        }
+      }
+
+      if(field.config['field_validations']){
+        customValidationResult = true;
+        $.each(field.config['field_validations'], function(_, v){
+          compareValue = parseFloat($("#" + v["field_id"][0]).val());
+          if(isNaN(compareValue)){
+            compareValue = 0;
+          }
+          customValidationResult = Operators[v["condition_type"]](parseFloat(element.value), compareValue);
+          if(customValidationResult == false){
+            $(element).addClass("error");
+          }else{
+            $(element).removeClass("error");
+          }
+        });
+      }
+      if(field.config['compare_custom_validations']){
+        $.each(field.config['compare_custom_validations'], function(_, f){
+          fieldValue = parseFloat($("#" + f["field_id"]).val());
+          if(isNaN(fieldValue)){
+            fieldValue = 0;
+          }
+          res = Operators[f["operator"]](fieldValue, parseFloat(element.value));
+          if(res == false){
+            $("#" + f["field_id"]).addClass("error");
+          }else{
+            $("#" + f["field_id"]).removeClass("error");
+          }
+        });
+      }
+    }
+
+    if(field.kind == 'email' && element.value) {
+      FieldController.validateFormatEmail(element);
+    }
+  },
+
+  validateFormatEmail: function(element){
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(!re.test(element.value) && element.value){
+      $(element).addClass("error");
+    }
+    else {
+      $(element).removeClass("error");
+    }
+  },
+
+  validatePhotoField: function (fieldId) {
+    var field = FieldController.findFieldById(fieldId);
+    if(field.is_mandatory)
+      if(!($("#" + fieldId).attr('src')))
+        $("#" + fieldId).parents().addClass("error");
+      else
+        $("#" + fieldId).parents().removeClass("error");
+  },
+
   validateLayers: function(){
     this.closeLayer();
     var valid = true
@@ -209,7 +256,7 @@ FieldController = {
         var layer = this.findLayerById($layerNode.attr('data-id'))
         $.each(layer.fields, function(_, field){
           var $fieldUI = $("#" + field.idfield)
-          if(field.kind == "photo" || field.kind == 'select_one' || field.kind == 'select_many' || field.isDependancyHierarchy)
+          if(field.kind == "photo" || field.kind == 'select_one' || field.kind == 'select_many' || field.isDependancyHierarchy || field.kind == 'location')
             field.invalid ?  $fieldUI.parent().addClass("error") : $fieldUI.parent().removeClass("error")
           else
             field.invalid ?  $fieldUI.addClass("error") : $fieldUI.removeClass("error")
@@ -311,6 +358,24 @@ FieldController = {
           $dependentField.attr('data-parent-ids', parentIds.join(","))
         })
       }
+
+      if(field.is_enable_custom_validation && field.kind == 'numeric'){
+        var $fieldUI = $("#" + field.idfield);
+        $fieldUI.addClass('customValidation');
+        if(field.config['field_validations']){
+          $.each(field.config['field_validations'], function(_, v){
+            compareField = FieldController.findFieldById(v["field_id"][0]);
+            FieldHelper.buildCompareFieldConfigOfCustomValidation(field, v['condition_type'], compareField);
+          });
+        }
+      }
+
+      if(field.kind == "photo" || field.kind == 'select_one' || field.kind == 'select_many' || field.kind == 'location'){
+        var $fieldUI = $("#" + field.idfield);
+        field.invalid ?  $fieldUI.parent().addClass("error") : $fieldUI.parent().removeClass("error")
+      }
+
+
       DigitAllowance.prepareEventListenerOnKeyPress();
       // Readonly field
       var site = FieldController.site
@@ -329,6 +394,16 @@ FieldController = {
 
       if(field.slider){
         field.matchAlert ?  $('#wrapper_' + field.idfield).find('.ui-slider').addClass("info") : $('#wrapper_' + field.idfield).find('.ui-slider').removeClass("info");
+      }
+      if(field.custom_widgeted && field.kind == 'numeric'){
+        var $fieldUI = $("#" + field.idfield);
+        $fieldUI.addClass('customValidation');
+        if(field.config['field_validations']){
+          $.each(field.config['field_validations'], function(_, v){
+            compareField = FieldController.findFieldById(v["field_id"][0]);
+            FieldHelper.buildCompareFieldConfigOfCustomValidation(field, v['condition_type'], compareField);
+          });
+        }
       }
     })
   },

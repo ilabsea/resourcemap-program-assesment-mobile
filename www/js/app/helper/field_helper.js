@@ -70,6 +70,7 @@ FieldHelper = {
       isEnableDependancyHierarchy: field.is_enable_dependancy_hierarchy,
       isDependancyHierarchy: (field.kind === 'hierarchy' && field.is_enable_dependancy_hierarchy) ? true : false,
       isCustomWidget: (field.kind === "custom_widget" ? true : false),
+      validateRange: field.config.range ? "validateRange": '',
       is_enable_field_logic: field.is_enable_field_logic,
       is_enable_custom_validation: field.is_enable_custom_validation,
       custom_widgeted: field.custom_widgeted,
@@ -243,6 +244,14 @@ FieldHelper = {
 
       case "location":
         field.__value = value;
+        // set locationOptions list
+        var lat = $('#site_lat').val();
+        var lng = $('#site_lng').val();
+        var locationOptions = Location.getLocations(lat, lng, field.config);
+        if (locationOptions)
+          field.config.locationOptions = locationOptions;
+        //
+
         for (var k = 0; k < field.config.locationOptions.length; k++) {
           field.config.locationOptions[k]["selected"] = "";
           if (field.config.locationOptions[k].code == field.__value) {
@@ -325,6 +334,17 @@ FieldHelper = {
       }
     }
     return null;
+  },
+
+  buildCompareFieldConfigOfCustomValidation: function(field, operator, compareField){
+    compare = {
+      field_id: field.idfield,
+      operator: operator
+    };
+    if ( compareField.config.compare_custom_validations )
+      compareField.config.compare_custom_validations.push(compare)
+    else
+      compareField.config.compare_custom_validations = [compare]
   }
 
 };

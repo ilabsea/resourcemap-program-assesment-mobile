@@ -12,9 +12,9 @@ function validateImage(idElement) {
   var $element = $("#" + idElement);
   if ($element.attr('require') === "required") {
     if ($element.attr('src') === '') {
-      $("#property_" + idElement + "_container").css({"border": "1px solid red"});
+      $("#property_" + idElement + "_container").addClass('error');
     } else {
-      $("#property_" + idElement + "_container").css({"border": "1px solid #f3f3f3"});
+      $("#property_" + idElement + "_container").removeClass('error');
     }
   }
 }
