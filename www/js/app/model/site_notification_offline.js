@@ -18,6 +18,7 @@ SiteNotificationOffline = {
       properties: site.properties,
       alert_id: site.alert_id,
       created_at: site.created_at,
+      updated_at: site.updated_at,
       viewed: false,
       seen: false
     };
@@ -28,9 +29,14 @@ SiteNotificationOffline = {
 
   updateBySiteId: function(newSite){
     SiteNotification.all().filter('site_id', '=' , newSite.id).one(null, function(site){
+      if ( (newSite.updated_at != site.updated_at) || (site.alert_id != newSite.alert_id) ) {
+        site.viewed = false;
+        site.seen = false;
+      }
+      site.name = newSite.name;
+      site.alert_id = newSite.alert_id;
       site.properties = newSite.properties;
-      site.viewed = false;
-      site.seen = false;
+      site.updated_at = newSite.updated_at;
       persistence.flush();
     });
   },
@@ -62,6 +68,7 @@ SiteNotificationOffline = {
         .filter('user_id_offline', '=', SessionController.currentUser().id)
         .limit(SiteNotificationOffline.limit)
         .skip(offset)
+        .order('updated_at', false)
         .list(null, callback);
   },
 
