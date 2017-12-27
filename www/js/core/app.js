@@ -1,7 +1,7 @@
 App = {
   DB_SIZE: 5 * 1024 * 1024,
   DB_NAME: 'resourcemap_db',
-  VERSION: "1.4-alert",
+  VERSION: "1.3",
   DEBUG: RmSetting.DEBUG,
   userId: "",
   dbConnected: false,
