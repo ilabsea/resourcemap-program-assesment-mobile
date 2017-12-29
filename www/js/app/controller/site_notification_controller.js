@@ -172,15 +172,7 @@ SiteNotificationController = {
             var isExist = false,  i = 0;
             oldSites.forEach(function(oldSite, index, array){
               if(newSite.id == oldSite.site_id){
-                ThresholdOffline.getByCollectionId(newSite.collection_id, function(thresholds){
-                  thresholds.forEach( function( threshold ){
-                    threshold.conditions.forEach(function( condition) {
-                      if ( oldSite.properties[condition.field] != newSite.properties[condition.field] ) {
-                        SiteNotificationOffline.updateBySiteId(newSite);
-                      }
-                    });
-                  });
-                });
+                SiteNotificationOffline.updateBySiteId(newSite);
                 isExist = true;
               }
               i++;

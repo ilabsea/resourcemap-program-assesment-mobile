@@ -3,6 +3,7 @@ App = {
   DB_NAME: 'resourcemap_db',
   VERSION: "1.4-alert",
   DEBUG: RmSetting.DEBUG,
+  interval: 60000,
   userId: "",
   dbConnected: false,
   defaultPage: "#page-collection-list",
@@ -183,6 +184,7 @@ App = {
       properties: "JSON",
       alert_id: "INT",
       created_at: "TEXT",
+      updated_at: "TEXT",
       viewed: "BOOL",
       seen: "BOOL" // view detail of the site alert
     });
