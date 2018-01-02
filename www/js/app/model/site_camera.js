@@ -32,11 +32,12 @@ SiteCamera = {
     field.__filename = "" + date.getTime() + "_" + SiteCamera.id + "." + SiteCamera.format
 
     image.src = field.__value;
-    validateImage(CameraModel.fieldId);
+    FieldController.validatePhotoField(CameraModel.fieldId)
   },
 
   onFail: function() {
     App.log("Failed to take photo.");
-    validateImage(CameraModel.fieldId)
+    FieldController.validatePhotoField(CameraModel.fieldId)
+
   }
 };

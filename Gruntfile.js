@@ -87,6 +87,7 @@ module.exports = function(grunt) {
        "www/js/app/helper/skip_logic.js",
        "www/js/app/helper/field_helper_view.js",
        "www/js/app/helper/operator.js",
+       "www/js/app/helper/text_operator.js",
        "www/js/app/helper/dialog.js",
        "www/js/app/helper/site_helper.js",
        "www/js/app/helper/location.js",

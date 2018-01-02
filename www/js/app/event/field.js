@@ -36,9 +36,6 @@ $(document).on("mobileinit", function() {
       var val = $("#" + this.id).val()
       SkipLogic.processSkipLogic(this.id, val);
     }
-    else {
-      validateToRemoveStyle(this);
-    }
   });
 
   $(document).delegate('.ui-selectmenu', 'popupafterclose pagehide', function () {
@@ -49,6 +46,7 @@ $(document).on("mobileinit", function() {
     if (element.attr('data-is_enable_field_logic')) {
       SkipLogic.processSkipLogic(ele);
     }
+    validateToRemoveStyle(element);
   });
 
   $(document).delegate('#layer-list-menu-dialog', 'pagehide', function () {
@@ -92,7 +90,6 @@ $(document).on("mobileinit", function() {
     var val = $("#" + this.id).val();
     DependentHierarchy.resetDecendentHierarchyList(this.id);
     DependentHierarchy.updateDependentHierarchyList(this.id, val);
-    validateToRemoveStyle(this);
   });
 
 });

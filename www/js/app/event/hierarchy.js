@@ -8,6 +8,7 @@ $(function() {
 
     if ($tree.attr('require') === "required") {
       if (!node.id){
+        showValidateMessage('#validation-save-site', i18n.t('validation.please_enter_required_field'));
         $tree.css({"border": "1px solid red"});
       }
       else{
