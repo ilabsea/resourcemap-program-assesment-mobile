@@ -144,56 +144,63 @@ FieldController = {
 
   validateThisField: function(element){
     var field = FieldController.findFieldById(element.id);
-    if(field.is_mandatory)
-      if(!element.value)
-        $(element).addClass("error");
-      else
-        $(element).removeClass("error");
-
-
-    if(field.kind == 'numeric' && field.config && element.value){
-      if(field.config.range) {
-        if(element.value >= field.config.range.minimum && element.value <= field.config.range.maximum ){
+    if(field){
+      if(field.is_mandatory){
+        if(!element.value){
+          $(element).addClass("error");
+          showValidateMessage('#validation-save-site', i18n.t('validation.please_enter_required_field'));
+          return;
+        }
+        else{
           $(element).removeClass("error");
         }
-        else {
-          $(element).addClass("error");
+      }
+
+      if(field.kind == 'numeric' && field.config && element.value){
+        if(field.config.range) {
+          if(element.value >= field.config.range.minimum && element.value <= field.config.range.maximum ){
+            $(element).removeClass("error");
+          }
+          else {
+            showValidateMessage('#validation-save-site', i18n.t('validation.value_must_be_in_the_range_of')
+                      + field.config.range.minimum + '-' + field.config.range.maximum + ')');
+            $(element).addClass("error");
+            return;
+          }
+        }
+
+        if(field.config['field_validations']){
+          customValidationResult = true;
+          $.each(field.config['field_validations'], function(_, v){
+            FieldController.validateCustomValidate($("#" + v["field_id"][0]), v, $(element));
+          });
+        }
+        if(field.config['compare_custom_validations']){
+          $.each(field.config['compare_custom_validations'], function(_, f){
+            FieldController.validateCustomValidate($("#" + f["field_id"]), f, $("#" + f["origin_field_id"]))
+          });
         }
       }
 
-      if(field.config['field_validations']){
-        customValidationResult = true;
-        $.each(field.config['field_validations'], function(_, v){
-          compareValue = parseFloat($("#" + v["field_id"][0]).val());
-          if(isNaN(compareValue)){
-            compareValue = 0;
-          }
-          customValidationResult = Operators[v["condition_type"]](parseFloat(element.value), compareValue);
-          if(customValidationResult == false){
-            $(element).addClass("error");
-          }else{
-            $(element).removeClass("error");
-          }
-        });
-      }
-      if(field.config['compare_custom_validations']){
-        $.each(field.config['compare_custom_validations'], function(_, f){
-          fieldValue = parseFloat($("#" + f["field_id"]).val());
-          if(isNaN(fieldValue)){
-            fieldValue = 0;
-          }
-          res = Operators[f["operator"]](fieldValue, parseFloat(element.value));
-          if(res == false){
-            $("#" + f["field_id"]).addClass("error");
-          }else{
-            $("#" + f["field_id"]).removeClass("error");
-          }
-        });
+      if(field.kind == 'email' && element.value) {
+        FieldController.validateFormatEmail(element);
       }
     }
+  },
 
-    if(field.kind == 'email' && element.value) {
-      FieldController.validateFormatEmail(element);
+  validateCustomValidate: function($compareElement, config, $oriElement ){
+    fieldValue = parseFloat($compareElement.val());
+    if(isNaN(fieldValue)){
+      fieldValue = 0;
+    }
+    res = Operators[config["condition_type"]]($oriElement.val(), fieldValue);
+    if(res == false){
+      showValidateMessage('#validation-save-site', i18n.t('validation.value_must_be')
+            + TextOperator[config["condition_type"]]() + $compareElement.attr('name'));
+      $oriElement.addClass("error");
+      return;
+    }else{
+      $oriElement.removeClass("error");
     }
   },
 
@@ -201,6 +208,7 @@ FieldController = {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if(!re.test(element.value) && element.value){
       $(element).addClass("error");
+      showValidateMessage('#validation-save-site', i18n.t('validation.please_enter_valid_email'));
     }
     else {
       $(element).removeClass("error");
@@ -210,8 +218,10 @@ FieldController = {
   validatePhotoField: function (fieldId) {
     var field = FieldController.findFieldById(fieldId);
     if(field.is_mandatory)
-      if(!($("#" + fieldId).attr('src')))
+      if(!($("#" + fieldId).attr('src'))){
+        showValidateMessage('#validation-save-site', i18n.t('validation.please_enter_required_field'));
         $("#" + fieldId).parents().addClass("error");
+      }
       else
         $("#" + fieldId).parents().removeClass("error");
   },
@@ -365,6 +375,7 @@ FieldController = {
         if(field.config['field_validations']){
           $.each(field.config['field_validations'], function(_, v){
             compareField = FieldController.findFieldById(v["field_id"][0]);
+            $("#" + v["field_id"][0]).addClass('customValidation');
             FieldHelper.buildCompareFieldConfigOfCustomValidation(field, v['condition_type'], compareField);
           });
         }
@@ -398,12 +409,6 @@ FieldController = {
       if(field.custom_widgeted && field.kind == 'numeric'){
         var $fieldUI = $("#" + field.idfield);
         $fieldUI.addClass('customValidation');
-        if(field.config['field_validations']){
-          $.each(field.config['field_validations'], function(_, v){
-            compareField = FieldController.findFieldById(v["field_id"][0]);
-            FieldHelper.buildCompareFieldConfigOfCustomValidation(field, v['condition_type'], compareField);
-          });
-        }
       }
     })
   },

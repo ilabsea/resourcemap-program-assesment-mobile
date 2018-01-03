@@ -44,6 +44,9 @@ var Operators = {
     else
       return false;
   },
+  '!=':function(input, configVal){
+    return input != configVal;
+  },
   'con': function (input, configVal) {
     return input.includes(configVal);
   },

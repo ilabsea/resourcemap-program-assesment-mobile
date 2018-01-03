@@ -57,10 +57,8 @@
         "alert_delete": "Are you sure you want to delete the site?"
     },
     "validation": {
-        "email_format": "Please enter a valid email address.",
-        "number_format": "Please enter a valid number.",
-        "empty_validate": "This field is required.",
-        "date_validate": "Please enter a valid date.",
+        "please_enter_required_field": "Please enter the required field.",
+        "please_enter_valid_email": "Please enter valid email.",
         "invalide": "Invalid email or password.",
         "not_found": "Not found in database.",
         "plsSignIn": "Please sign in."

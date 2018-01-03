@@ -3,7 +3,6 @@ CameraModel = {
   openCameraDialog: function (fieldId) {
     CameraModel.fieldId = fieldId;
     CameraModel.handleOpenCamera();
-    FieldController.validatePhotoField(fieldId);
   },
 
   invokeCamera: function (cameraType) {
@@ -18,7 +17,6 @@ CameraModel = {
   },
 
   handleOpenCamera: function () {
-    // localStorage['no_update_reload'] = 1;
     $.mobile.activePage.addClass("ui-disabled");
     $("#cameraDialog").show();
   }

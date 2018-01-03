@@ -70,10 +70,10 @@
         "alert_delete": "Are you sure you want to delete the site?"
     },
     "validation": {
-        "email_format": "Please enter a valid email address.",
-        "number_format": "Please enter a valid number.",
-        "empty_validate": "This field is required.",
-        "date_validate": "Please enter a valid date.",
+        "please_enter_required_field": "Please enter the required field.",
+        "please_enter_valid_email": "Please enter valid email.",
+        "value_must_be_in_the_range_of": "Invalid value, value must be in the range of (",
+        "value_must_be": "Invalid value, value must be",
         "invalide": "Invalid email or password.",
         "not_found": "Not found in database.",
         "plsSignIn": "Please sign in.",
@@ -98,5 +98,13 @@
     },
     "fields": {
         "no_fields": "There is no field for this collection, or fields have not been yet downloaded from server."
+    },
+    "operator":{
+      "equal_to": " equal to ",
+      "less_than": " less than ",
+      "greater_than": " greater than ",
+      "greater_than_or_equal": " greater than or equal ",
+      "less_than_or_equal": " less than or equal ",
+      "not_equal": " not equal "
     }
 }
