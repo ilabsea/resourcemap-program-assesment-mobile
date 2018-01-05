@@ -42,8 +42,14 @@ FieldHelper = {
         if(condition.field == field.idfield){
           op = condition['op'];
           var matchCond = false;
-          matchCond = Operators[op](field.__value, condition.value);
-          if(matchCond){
+          fieldValue = field.__value;
+          conditionValue = condition.value;
+          if(field.kind == 'text'){
+            fieldValue = fieldValue.toLowerCase();
+            configVal = conditionValue.toLowerCase()
+          }
+          matchCond = Operators[op](fieldValue, conditionValue);
+          if ( matchCond ) {
             field.matchAlert = 'info';
             newLayer.matchAlert = 'info';
             break;
