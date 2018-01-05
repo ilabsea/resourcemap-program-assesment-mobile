@@ -59,7 +59,7 @@ FieldHelper = {
 
     var fieldUI = {
       idfield: field.id,
-      layer_id: newLayer.layer_id,
+      layer_id: newLayer.id_wrapper,
       name: field.name,
       kind: field.kind,
       code: field.code,
@@ -250,7 +250,6 @@ FieldHelper = {
         var locationOptions = Location.getLocations(lat, lng, field.config);
         if (locationOptions)
           field.config.locationOptions = locationOptions;
-        //
 
         for (var k = 0; k < field.config.locationOptions.length; k++) {
           field.config.locationOptions[k]["selected"] = "";
@@ -304,7 +303,7 @@ FieldHelper = {
 
   getFieldValue: function(field_id){
     var $fieldUI = $("#" + field_id)
-    if($fieldUI.length){
+    if ( $fieldUI.length ) {
       return $fieldUI.val();
     }
     else{

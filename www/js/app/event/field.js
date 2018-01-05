@@ -76,16 +76,6 @@ $(document).on("mobileinit", function() {
 
   });
 
-  $(document).delegate('#form-site-fields input', 'focus', function () {
-    field = FieldController.findFieldById(this.id);
-    if(field.invalid && field.invalid != ""){
-      if(field.invalidMessage && field.invalidMessage != "")
-        showValidateMessage("#validation-save-site", field.invalidMessage);
-      else
-        showValidateMessage("#validation-save-site", i18n.t('validation.emailPsdConfirm'));
-    }
-  });
-
   $(document).delegate('.dependentHierarchy', 'change', function () {
     var val = $("#" + this.id).val();
     DependentHierarchy.resetDecendentHierarchyList(this.id);
