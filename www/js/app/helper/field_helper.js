@@ -38,6 +38,7 @@ FieldHelper = {
     if(SiteNotificationController.currentConditions){
       for(var i = 0 ; i < SiteNotificationController.currentConditions.length; i++){
         condition = SiteNotificationController.currentConditions[i];
+        isExist = false;
 
         if(condition.field == field.idfield){
           op = condition['op'];
@@ -46,7 +47,17 @@ FieldHelper = {
           conditionValue = condition.value;
           if(field.kind == 'text'){
             fieldValue = fieldValue.toLowerCase();
-            configVal = conditionValue.toLowerCase()
+            conditionValue = conditionValue.toLowerCase()
+          }
+          if(field.kind == 'numeric' && condition.type == 'percentage'){
+            compareFieldValue = 0;
+            for (fieldId in FieldController.site.properties) {
+              if ( fieldId == condition.compare_field ) {
+                compareFieldValue = FieldController.site.properties[fieldId];
+                break;
+              }
+            }
+            conditionValue = (conditionValue * compareFieldValue) / 100;
           }
           matchCond = Operators[op](fieldValue, conditionValue);
           if ( matchCond ) {
