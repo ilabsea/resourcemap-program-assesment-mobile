@@ -434,13 +434,12 @@ SiteController = {
         function(err) {
           if (err.statusText === "Unauthorized") {
             showElement($("#info_sign_in"));
-            ViewBinding.setBusy(false);
             App.redirectTo("#page-login");
           }
           else {
-            ViewBinding.setBusy(false);
             var error = SiteHelper.buildSubmitError(err["responseJSON"], data["site"], true);
             SiteHelper.displayError("site_error_upload", $('#page-error-submit-site'), error);
+            callback();
           }
         });
     }
