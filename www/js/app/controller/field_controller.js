@@ -149,12 +149,13 @@ FieldController = {
       return true
     }
 
-    if(!field.__value){
+    if(!field.__value && field.kind != 'yes_no'){
       field.invalid = 'error';
       return false;
     }
 
     field.invalid = ''
+
     return true;
   },
 
