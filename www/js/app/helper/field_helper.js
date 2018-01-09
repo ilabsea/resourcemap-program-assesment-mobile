@@ -45,7 +45,7 @@ FieldHelper = {
           var matchCond = false;
           fieldValue = field.__value;
           conditionValue = condition.value;
-          if(field.kind == 'text'){
+          if(field.kind == 'text' || field.kind == 'phone' || field.kind == 'email'){
             fieldValue = fieldValue.toLowerCase();
             conditionValue = conditionValue.toLowerCase()
           }
