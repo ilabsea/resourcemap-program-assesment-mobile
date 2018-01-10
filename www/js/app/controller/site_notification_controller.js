@@ -3,6 +3,7 @@ SiteNotificationController = {
   sites: [],
   currentConditions: null,
   collectionIds : [],
+  fieldNames: {}, //{'field_id': 'field_name'}
 
   setCurrentConditions: function(sId){
     SiteNotificationController.allSites.map(function(site){
@@ -17,6 +18,7 @@ SiteNotificationController = {
     SiteNotificationController.collectionIds = [];
     SiteNotificationController.currentConditions = null;
     SiteNotificationController.allSites = [];
+    SiteNotificationController.fieldNames = [];
   },
 
   displayLists: function (sites) {
@@ -113,9 +115,14 @@ SiteNotificationController = {
             data.threshold = threshold;
             for(var j=0; j < threshold.conditions.length; j++){
               var condition = threshold.conditions[j];
-              FieldModel.fetchById(site.collection_id, parseInt(condition.field), function (f) {
-                condition.field_name = f.name;
-              });
+              if(SiteNotificationController.fieldNames[condition.field]){
+                condition.field_name = SiteNotificationController.fieldNames[condition.field];
+              }else{
+                FieldModel.fetchById(site.collection_id, parseInt(condition.field), function (f) {
+                  SiteNotificationController.fieldNames[condition.field] = f.name;
+                  condition.field_name = f.name;
+                });
+              }
             }
           }
         }
