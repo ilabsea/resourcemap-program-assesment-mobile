@@ -215,4 +215,10 @@ $(document).on("mobileinit", function() {
     }
   });
 
+  $(document).on("pagebeforecreate", "#confirm_delete_site", function () {
+    i18n.init({ lng: localStorage['currentLang'] }, function () {
+      this.i18n();
+    });
+  });
+
 })

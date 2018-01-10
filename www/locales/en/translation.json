@@ -83,7 +83,9 @@
         "invalidUrl": "Please enter a valid URL"
     },
     "notification": {
-      "no_sites_found": "No sites found."
+      "no_sites_found": "No sites found.",
+      "seems_to_have_unusual": "seems to have unusual",
+      "please_review": "please review"
     },
     "dialog": {
         "option": "Photo Options",
