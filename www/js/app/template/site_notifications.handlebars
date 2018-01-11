@@ -1,7 +1,9 @@
 <li data-id='{{idNotification}}' data-name='{{name}}'>
  <a href='#page-notification'> {{t "collection_page.notifications_message"}}
    {{#ifBigger notifications.total 0}}
-    <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">{{notifications.total}}</span>
+    <span class="ui-li-count ui-btn-up-c ui-btn-corner-all"
+          style='color: red; border-color: red;'>{{notifications.total}}
+    </span>
   {{/ifBigger}}
  </a>
 </li>
