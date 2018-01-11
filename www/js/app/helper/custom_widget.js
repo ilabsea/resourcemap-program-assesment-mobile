@@ -9,10 +9,12 @@ CustomWidget = {
             $wrapper.text(value);
         else{
           if(field.kind == 'numeric'){
-            var $node = $('<input type="number" class="'+ field.invalid+' ' + field.matchAlert + '"/>').attr('id', id)
-                                                    .attr('name', id)
-                                                    .attr('data-allows_decimals', field.config.allows_decimals)
-                                                    .val(value)
+            var $node = $('<input type="number" class="'
+                        + field.invalid+' ' + field.matchAlert + '"/>')
+                        .attr('id', id)
+                        .attr('name', id)
+                        .attr('data-allows_decimals', field.config.allows_decimals)
+                        .val(value)
             if(field.config.range)
               $node.attr('max', field.config.range.maximum)
                    .attr('min', field.config.range.minimum)
@@ -25,6 +27,7 @@ CustomWidget = {
           else if(field.kind == 'select_one') {
             var $node = $("<select data-theme='a' data-placeholder='true' data-native-menu='false' class='validateSelectFields needsclick'></select>");
             $node.attr('id', id).attr('name', id);
+            $node.attr('required', field.required);
             if(field.editable == 'readonly')
               $node.attr('readonly', true)
 
