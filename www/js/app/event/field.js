@@ -73,7 +73,6 @@ $(document).on("mobileinit", function() {
       var fieldId = $this.attr('data-id');
       CameraModel.openCameraDialog(fieldId);
     }
-
   });
 
   $(document).delegate('.dependentHierarchy', 'change', function () {
@@ -81,5 +80,4 @@ $(document).on("mobileinit", function() {
     DependentHierarchy.resetDecendentHierarchyList(this.id);
     DependentHierarchy.updateDependentHierarchyList(this.id, val);
   });
-
 });

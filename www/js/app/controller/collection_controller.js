@@ -9,6 +9,13 @@ CollectionController = {
   displayName: function (collectionName) {
     var content = App.Template.process("collection_name", collectionName);
     $('.title').html(content);
+    CollectionController.adjustTitle($('#title-site-list')[0]);
+  },
+
+  adjustTitle: function($element){
+    if(Translation.getLang() == 'kh' && $element.offsetWidth < 140){
+      $element.style.marginLeft = "calc(5% + 113px)";
+    }
   },
 
   renderList: function () {

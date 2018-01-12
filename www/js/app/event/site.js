@@ -76,6 +76,7 @@ $(document).on("mobileinit", function() {
       $("#btn_back_site_notification_list").hide();
       $("#btn_back_site_list").show();
     }
+    CollectionController.adjustTitle($('#title-save-list')[0]);
   });
 
   $(document).delegate('#page-site-list #site-list-offline li .btn_view_site', 'click', function (event) {
