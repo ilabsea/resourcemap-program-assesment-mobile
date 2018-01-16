@@ -14,57 +14,55 @@ FieldHelper = {
     }
 
     MyMembershipController.layerMembership(FieldController.site, newLayer.id_wrapper, function(can_entry){
+      SiteNotificationOffline.getBySiteId(FieldController.site.id, function(site){
+        $.each(layer.fields, function (_, field) {
+          var fieldForUI = FieldHelper.fieldForUI(field, can_entry, newLayer)
 
-      $.each(layer.fields, function (_, field) {
-        var fieldForUI = FieldHelper.fieldForUI(field, can_entry, newLayer)
-
-        for(fieldId in FieldController.site.properties) {
-          if(fieldId == fieldForUI.idfield){
-            FieldHelper.setFieldValue(fieldForUI, FieldController.site.properties[fieldId], isOnline);
-            break;
+          for(fieldId in FieldController.site.properties) {
+            if(fieldId == fieldForUI.idfield){
+              FieldHelper.setFieldValue(fieldForUI, FieldController.site.properties[fieldId], isOnline);
+              break;
+            }
           }
-        }
-        FieldHelper.setMatchAlert(fieldForUI, newLayer);
-        newLayer.fields.push(fieldForUI);
+          if(site)
+            FieldHelper.setMatchAlert(fieldForUI, newLayer, site.conditions);
+          newLayer.fields.push(fieldForUI);
+        });
+        callback(newLayer);
       });
-      callback(newLayer);
-
     });
   },
 
-  setMatchAlert: function(field, newLayer){
+  setMatchAlert: function(field, newLayer, conditions){
     var matchAlert='';
+    for(var i = 0 ; i < conditions.length; i++){
+      condition = conditions[i];
+      isExist = false;
 
-    if(SiteNotificationController.currentConditions){
-      for(var i = 0 ; i < SiteNotificationController.currentConditions.length; i++){
-        condition = SiteNotificationController.currentConditions[i];
-        isExist = false;
-
-        if(condition.field == field.idfield){
-          op = condition['op'];
-          var matchCond = false;
-          fieldValue = field.__value;
-          conditionValue = condition.value;
-          if(field.kind == 'text' || field.kind == 'phone' || field.kind == 'email'){
-            fieldValue = fieldValue.toLowerCase();
-            conditionValue = conditionValue.toLowerCase()
-          }
-          if(field.kind == 'numeric' && condition.type == 'percentage'){
-            compareFieldValue = 0;
-            for (fieldId in FieldController.site.properties) {
-              if ( fieldId == condition.compare_field ) {
-                compareFieldValue = FieldController.site.properties[fieldId];
-                break;
-              }
+      if(condition.field == field.idfield){
+        op = condition['op'];
+        var matchCond = false;
+        fieldValue = field.__value;
+        conditionValue = condition.value;
+        if(field.kind == 'text' || field.kind == 'phone' || field.kind == 'email'){
+          fieldValue = fieldValue.toLowerCase();
+          conditionValue = conditionValue.toLowerCase()
+        }
+        if(field.kind == 'numeric' && condition.type == 'percentage'){
+          compareFieldValue = 0;
+          for (fieldId in FieldController.site.properties) {
+            if ( fieldId == condition.compare_field ) {
+              compareFieldValue = FieldController.site.properties[fieldId];
+              break;
             }
-            conditionValue = (conditionValue * compareFieldValue) / 100;
           }
-          matchCond = Operators[op](fieldValue, conditionValue);
-          if ( matchCond ) {
-            field.matchAlert = 'info';
-            newLayer.matchAlert = 'info';
-            break;
-          }
+          conditionValue = (conditionValue * compareFieldValue) / 100;
+        }
+        matchCond = Operators[op](fieldValue, conditionValue);
+        if ( matchCond ) {
+          field.matchAlert = 'info';
+          newLayer.matchAlert = 'info';
+          break;
         }
       }
     }

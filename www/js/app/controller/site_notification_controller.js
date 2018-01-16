@@ -1,23 +1,12 @@
 SiteNotificationController = {
   allSites: [],
   sites: [],
-  currentConditions: null,
   collectionIds : [],
   fieldNames: {}, //{'field_id': 'field_name'}
-
-  setCurrentConditions: function(sId){
-    SiteNotificationController.allSites.map(function(site){
-      if(site.site_id == sId){
-        SiteNotificationController.currentConditions = site.threshold.conditions;
-      }
-    });
-  },
 
   reset: function(){
     SiteNotificationController.sites = [];
     SiteNotificationController.collectionIds = [];
-    SiteNotificationController.currentConditions = null;
-    SiteNotificationController.allSites = [];
     SiteNotificationController.fieldNames = [];
   },
 
@@ -48,7 +37,7 @@ SiteNotificationController = {
       SiteNotificationController.prepareSitesByCollectionId(cId, function(data){
         collectionsData['collections'].push(data);
         i++;
-        if (i === array.length) {
+        if ( i === array.length ) {
           SiteNotificationController.displayLists(collectionsData);
           SiteController.currentPage = '#page-notification';
         }
@@ -65,20 +54,16 @@ SiteNotificationController = {
         totalSites: 0,
         collection_id: collection.idcollection
       };
-      ThresholdOffline.getByCollectionId(collection.idcollection, function(thresholds){
-        SiteNotificationController.prepareSites(data, collection, thresholds, callback);
-      });
+      SiteNotificationController.prepareSites(data, collection, callback);
     });
   },
 
-  prepareSites: function(data, collection, thresholds, callback){
+  prepareSites: function(data, collection, callback){
     var offset = SiteNotificationOffline.page[collection.idcollection] * SiteNotificationOffline.limit;
-    SiteNotificationOffline.getByUserIdOffline(function(allSites){
-      SiteNotificationOffline.updateViewed(allSites);
-    })
+    SiteNotificationOffline.updateViewed();
 
     SiteNotificationOffline.getByCollectionIdPerLimitInCurrentUser(collection.idcollection, offset, function(sites){
-      SiteNotificationController.buildSites(sites, thresholds);
+      SiteNotificationController.buildSites(sites);
       data[collection.name]["sites"] = SiteNotificationController.sites;
 
       SiteNotificationOffline.countByCollectionIdInCurrentUser(collection.idcollection, function (count) {
@@ -96,7 +81,7 @@ SiteNotificationController = {
     });
   },
 
-  buildSites: function (sites, thresholds) {
+  buildSites: function (sites) {
     SiteNotificationController.sites = [];
     sites.forEach(function(site){
       var data = {
@@ -104,31 +89,25 @@ SiteNotificationController = {
         site_id: site.site_id,
         site_name: site.site_name,
         properties: site.properties,
+        conditions: site.conditions,
         alert_id: site.alert_id,
         viewed: site.viewed,
         seen: site.seen
       }
       if(App.isOnline()){
-        for(var i = 0 ; i <thresholds.length ; i++){
-          var threshold = thresholds[i];
-          if(threshold.alert_id == site.alert_id){
-            data.threshold = threshold;
-            for(var j=0; j < threshold.conditions.length; j++){
-              var condition = threshold.conditions[j];
-              if(SiteNotificationController.fieldNames[condition.field]){
-                condition.field_name = SiteNotificationController.fieldNames[condition.field];
-              }else{
-                FieldModel.fetchById(site.collection_id, parseInt(condition.field), function (f) {
-                  SiteNotificationController.fieldNames[condition.field] = f.name;
-                  condition.field_name = f.name;
-                });
-              }
-            }
+        for(var i=0; i < site.conditions.length; i++){
+          var condition = site.conditions[i];
+          if(SiteNotificationController.fieldNames[condition.field]){
+            condition.field_name = SiteNotificationController.fieldNames[condition.field];
+          }else{
+            FieldModel.fetchById(site.collection_id, parseInt(condition.field), function (f) {
+              SiteNotificationController.fieldNames[condition.field] = f.name;
+              condition.field_name = f.name;
+            });
           }
         }
       }
       SiteNotificationController.sites.push(data);
-      SiteNotificationController.allSites.push(data);
     });
   },
 
@@ -153,50 +132,49 @@ SiteNotificationController = {
   },
 
   renderNotificationMessage: function () {
-    if(App.isOnline()) {
-      SiteNotificationController.storeSitesNotificationAndThresholds(function(){
-        SiteNotificationController.displayNotification();
-      });
-    }else{
-      SiteNotificationOffline.getByUserIdOffline(function(sites){
+    SiteNotificationOffline.getByUserIdOffline(function(sites){
+      if(App.isOnline()) {
+        SiteNotificationController.storeSitesNotificationAndThresholds(sites, function(){
+          SiteNotificationController.displayNotification();
+        });
+      }else{
         SiteNotificationController.setCollectionIds(sites);
         SiteNotificationController.displayNotification();
-      })
-    }
+      }
+    });
   },
 
-  storeSitesNotificationAndThresholds: function(callback){
+  storeSitesNotificationAndThresholds: function(oldSites, callback){
     var newSitesIds = [];
-    SiteNotificationOffline.getByUserIdOffline(function(oldSites){
-      ThresholdModel.fetchSiteThreshold(function(newSites){
-        SiteNotificationController.setCollectionIds(newSites);
-        ThresholdController.fetchAndSyn();
-        if ( oldSites.length == 0 ) {
-          SiteNotificationOffline.add(newSites);
-        } else {
-          newSites.forEach(function( newSite ){
-            newSitesIds.push(newSite.id);
-            var isExist = false,  i = 0;
-            oldSites.forEach(function(oldSite, index, array){
-              if(newSite.id == oldSite.site_id){
-                SiteNotificationOffline.updateBySiteId(newSite);
-                isExist = true;
-              }
-              i++;
-              if (i == array.length && !isExist) {
-                SiteNotificationOffline.addOne(newSite);
-                persistence.flush();
-              }
-            });
-          });
-          for (var l = 0 ; l < oldSites.length ; l++){
-            if (!(newSitesIds.indexOf(oldSites[l].site_id) > -1)){
-              SiteNotificationOffline.remove(oldSites[l]);
+    ThresholdModel.fetchSiteThreshold(function(newSites){
+      console.log('newSites : ', newSites);
+      SiteNotificationController.setCollectionIds(newSites);
+      if ( oldSites.length == 0 ) {
+        SiteNotificationOffline.add(newSites);
+      } else {
+        newSites.forEach ( function ( newSite ) {
+          newSitesIds.push(newSite.id);
+          var isExist = false,  i = 0;
+          oldSites.forEach(function(oldSite, index, array){
+            if(newSite.id == oldSite.site_id){
+              SiteNotificationOffline.updateBySiteId(newSite);
+              isExist = true;
             }
+            i++;
+            if (i == array.length && !isExist) {
+              SiteNotificationOffline.addOne(newSite);
+              persistence.flush();
+            }
+          });
+        });
+        for (var l = 0 ; l < oldSites.length ; l++){
+          if (!(newSitesIds.indexOf(oldSites[l].site_id) > -1)){
+            SiteNotificationOffline.remove(oldSites[l]);
           }
         }
-        callback();
-      });
+      }
+    }, function(){
+      callback();
     });
   }
 }

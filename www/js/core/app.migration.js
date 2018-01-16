@@ -51,42 +51,19 @@ persistence.defineMigration(4, {
     this.createTable('site_notifications', function(t){
       t.integer('collection_id');
       t.integer('site_id');
+      t.text('user_id_offline');
       t.text('site_name');
-      t.json('properties')
+      t.json('properties');
+      t.json('conditions');
       t.integer('alert_id');
-      t.text('created_at')
+      t.text('created_at');
+      t.text('updated_at');
       t.boolean('viewed');
-      t.boolean('seen');
+      t.boolean('seen'); // view detail of the site alert
     });
   },
   down: function() {
     this.dropTable('site_memberships');
-  }
-});
-
-persistence.defineMigration(5, {
-  up: function() {
-    this.addColumn('site_notifications', 'user_id_offline', 'TEXT');
-  }
-});
-
-persistence.defineMigration(6, {
-  up: function() {
-    this.createTable('thresholds', function(t){
-      t.integer('collection_id');
-      t.integer('alert_id');
-      t.json('conditions');
-      t.text('user_id_offline')
-    });
-  },
-  down: function() {
-    this.dropTable('thresholds');
-  }
-});
-
-persistence.defineMigration(7, {
-  up: function() {
-    this.addColumn('site_notifications', 'updated_at', 'TEXT');
   }
 });
 

@@ -15,10 +15,10 @@
               <h3 class="ui-li-heading"
                 style="white-space:normal; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
                 {{site_name}} {{t 'notification.seems_to_have_unusual'}}
-                {{#ifBigger threshold.conditions.length 0}}
-                  {{#each threshold.conditions}}
+                {{#ifBigger conditions.length 0}}
+                  {{#each conditions}}
                    {{field_name}},
-                  {{/each}} {{t 'notification.please_review'}} 
+                  {{/each}} {{t 'notification.please_review'}}
                 {{else}}
                   ...
                 {{/ifBigger}}

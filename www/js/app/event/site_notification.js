@@ -22,7 +22,6 @@ $(document).on("mobileinit", function() {
       $("#ui-site-menu").hide();
       if(App.isOnline()){
         SiteController.renderUpdateSiteFormOnline();
-        SiteNotificationController.setCurrentConditions(sId) ;
       }else{
         alert(i18n.t("global.no_internet_connection"));
         location.href = '/#page-notification';

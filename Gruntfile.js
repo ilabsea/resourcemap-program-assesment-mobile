@@ -50,7 +50,6 @@ module.exports = function(grunt) {
        "www/js/app/controller/session_controller.js",
        "www/js/app/controller/my_membership_controller.js",
        "www/js/app/controller/site_notification_controller.js",
-       "www/js/app/controller/threshold_controller.js",
 
        "www/js/app/model/user_session.js",
        "www/js/app/model/collection_model.js",
@@ -77,7 +76,6 @@ module.exports = function(grunt) {
        "www/js/app/model/site_membership_offline.js",
        "www/js/app/model/site_notification_offline.js",
        "www/js/app/model/threshold_model.js",
-       "www/js/app/model/threshold_offline.js",
 
        "www/js/app/helper/field_helper.js",
        "www/js/app/helper/spinner.js",

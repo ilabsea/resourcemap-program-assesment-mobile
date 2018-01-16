@@ -36,12 +36,13 @@ CollectionController = {
   },
 
   renderCollectionListByUser: function(collections) {
-    var collectionIds = $.map(collections, function(collection){
-      return CollectionController.collectionId(collection)
-    })
+    var collectionIds = [];
+    for(var j = 0 ; j<collections.length;j++){
+      collectionIds.push(CollectionController.collectionId(collections[j]))
+    }
+
     var userId = UserSession.getUser().id;
     var options = {userId: userId, collectionIds: collectionIds};
-
 
     SiteOffline.countSiteOfflineByUserCollections(options, function(result){
       var collectionDatas = [];
@@ -72,17 +73,15 @@ CollectionController = {
     CollectionOffline.destroyAllByUser(function(){
       CollectionOffline.add(newCollections);
     })
-
   },
 
   prepareCollection: function (collection, userId, count) {
     var item = {
       name: collection.name,
       description: collection.description,
-      user_id: userId,
-      linkpagesite: "#page-site-list"
+      user_id: userId
     };
-    item.idcollection = collection.idcollection || collection.id;
+    item.idcollection = CollectionController.collectionId(collection);
     item.displayCount = (count == 0) ?  "" : count;
     return item;
   }

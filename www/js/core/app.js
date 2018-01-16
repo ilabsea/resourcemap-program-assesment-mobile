@@ -3,7 +3,7 @@ App = {
   DB_NAME: 'resourcemap_db',
   VERSION: "1.3",
   DEBUG: RmSetting.DEBUG,
-  interval: 60000,
+  interval: 900000,
   userId: "",
   dbConnected: false,
   defaultPage: "#page-collection-list",
@@ -182,18 +182,12 @@ App = {
       user_id_offline: "TEXT",
       site_name: "TEXT",
       properties: "JSON",
+      conditions: "JSON",
       alert_id: "INT",
       created_at: "TEXT",
       updated_at: "TEXT",
       viewed: "BOOL",
       seen: "BOOL" // view detail of the site alert
-    });
-
-    Threshold = persistence.define('thresholds', {
-      collection_id: "INT",
-      alert_id: "INT",
-      conditions: "JSON",
-      user_id_offline: 'TEXT'
     });
 
     CacheData = persistence.define('cache_datas', {

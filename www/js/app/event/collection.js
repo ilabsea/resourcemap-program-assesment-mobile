@@ -11,7 +11,7 @@ $(document).on("mobileinit", function() {
     }, 500);
 
     setInterval(function(){
-      if ( $.mobile.activePage.attr('id') == 'page-collection-list' && App.isOnline()){
+      if ( $.mobile.activePage.attr('id') == 'page-collection-list' && App.isOnline() ){
         location.reload();
       }
     }, App.interval)
