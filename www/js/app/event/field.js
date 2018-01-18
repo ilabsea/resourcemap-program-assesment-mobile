@@ -16,6 +16,10 @@ $(document).on("mobileinit", function() {
     Calculation.calculate($(this));
   });
 
+  $(document).delegate('.tree.calculation', 'click', function () {
+    Calculation.calculate($(this));
+  });
+
   $(document).delegate('.email', 'blur', function () {
     FieldController.validateFormatEmail(this);
   });
