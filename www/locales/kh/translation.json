@@ -82,7 +82,9 @@
         "invalidUrl": "សូមបញ្ចូលខ្សែបណ្តាញអោយបានត្រឹមត្រូវ"
     },
     "notification": {
-      "no_sites_found": "គ្មានតំបន់បង្ហាញ។"
+      "no_sites_found": "គ្មានតំបន់បង្ហាញ។",
+      "seems_to_have_unusual": "ហាក់ដូចជាមិនធម្មតា",
+      "please_review": "សូម​ពិនិត្យ"
     },
     "dialog": {
         "option": "ជម្រើសរូបថត",

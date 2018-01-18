@@ -81,7 +81,7 @@ FieldController = {
 
   validateField: function(field){
     if(field.editable == 'readonly'){ //skip validation if the field is readonly
-      return true
+      return true;
     }
     if(field.kind == 'email' && field.__value) {
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -101,17 +101,18 @@ FieldController = {
     if(field.kind == 'numeric' && field.config && field.__value){
       if(field.config.range) {
         if(field.__value >= field.config.range.minimum && field.__value <= field.config.range.maximum ){
-          field.invalid = ''
-          return true;
+          field.invalid = "";
+          field.invalidRange = "";
         }
         else {
           field.invalid = 'error';
+          field.invalidRange = "error";
           field.invalidMessage = customRangeMessage(field.config.range.minimum, field.config.range.maximum);
           return false;
         }
       }
 
-      if(field.config['field_validations']){
+      if ( field.config['field_validations'] ) {
         customValidationResult = true;
         $.each(field.config['field_validations'], function(_, v){
           compareField = FieldController.findFieldById(v["field_id"][0]);
@@ -122,9 +123,24 @@ FieldController = {
             return false
           }
         });
-        if(customValidationResult == true)
+        if(customValidationResult == true){
           field.invalid = '';
-        return customValidationResult;
+        }
+      }
+
+      if ( field.config['compare_custom_validations'] ) {
+        customValidation= true;
+        $.each(field.config['compare_custom_validations'], function(_, f){
+          oriField = FieldController.findFieldById(f["origin_field_id"]);
+          customValidation = Operators[f["condition_type"]](parseFloat(oriField.__value), parseFloat(field.__value));
+          if(customValidation == false){
+            oriField.invalid = 'error';
+            oriField.invalidMessage = customValidationMessage(f["condition_type"], oriField.name, field.name);
+            return false
+          }
+          if(customValidation == true)
+            oriField.invalid = oriField.invalidRange;
+        });
       }
     }
 
@@ -133,12 +149,13 @@ FieldController = {
       return true
     }
 
-    if(!field.__value){
+    if(!field.__value && field.kind != 'yes_no'){
       field.invalid = 'error';
       return false;
     }
 
     field.invalid = ''
+
     return true;
   },
 
@@ -172,12 +189,13 @@ FieldController = {
         if(field.config['field_validations']){
           customValidationResult = true;
           $.each(field.config['field_validations'], function(_, v){
-            FieldController.validateCustomValidate($("#" + v["field_id"][0]), v, $(element));
+            FieldController.validateCustomValidate(v["field_id"][0], v, element.id);
           });
         }
+
         if(field.config['compare_custom_validations']){
           $.each(field.config['compare_custom_validations'], function(_, f){
-            FieldController.validateCustomValidate($("#" + f["field_id"]), f, $("#" + f["origin_field_id"]))
+            FieldController.validateCustomValidate(f["field_id"], f, f["origin_field_id"]);
           });
         }
       }
@@ -188,15 +206,21 @@ FieldController = {
     }
   },
 
-  validateCustomValidate: function($compareElement, config, $oriElement ){
-    fieldValue = parseFloat($compareElement.val());
+  validateCustomValidate: function(compareFieldId, config, oriFieldId){
+    $compareElement = $("#" + compareFieldId);
+    $oriElement = $("#" + oriFieldId);
+    compareField = FieldController.findFieldById(compareFieldId);
+    oriField = FieldController.findFieldById(oriFieldId);
+    fieldValue = $compareElement.val() || compareField.__value;
+    fieldValue = parseFloat(fieldValue);
     if(isNaN(fieldValue)){
       fieldValue = 0;
     }
-    res = Operators[config["condition_type"]]($oriElement.val(), fieldValue);
+    value = $oriElement.val() || oriField.__value;
+    res = Operators[config["condition_type"]](value, fieldValue);
     if(res == false){
       showValidateMessage('#validation-save-site', i18n.t('validation.value_must_be')
-            + TextOperator[config["condition_type"]]() + $compareElement.attr('name'));
+            + TextOperator[config["condition_type"]]() + compareField.name) ;
       $oriElement.addClass("error");
       return;
     }else{
@@ -266,10 +290,28 @@ FieldController = {
         var layer = this.findLayerById($layerNode.attr('data-id'))
         $.each(layer.fields, function(_, field){
           var $fieldUI = $("#" + field.idfield)
-          if(field.kind == "photo" || field.kind == 'select_one' || field.kind == 'select_many' || field.isDependancyHierarchy || field.kind == 'location')
+          if(field.kind == "numeric" && field.config && field.number){
+            if(field.config['field_validations']){
+              customValidationResult = true;
+              $.each(field.config['field_validations'], function(_, v){
+                compareField = FieldController.findFieldById(v["field_id"][0]);
+                customValidationResult = Operators[v["condition_type"]](parseFloat(field.__value), parseFloat(compareField.__value));
+                if(customValidationResult == false){
+                  $fieldUI.addClass("error");
+                  return;
+                }
+              });
+              if(customValidationResult == true)
+                $fieldUI.removeClass("error");
+            }
+          }
+          if(field.kind == "photo" || field.kind == 'select_one'
+            || field.kind == 'select_many' || field.isDependancyHierarchy
+            || field.kind == 'location')
             field.invalid ?  $fieldUI.parent().addClass("error") : $fieldUI.parent().removeClass("error")
-          else
+          else{
             field.invalid ?  $fieldUI.addClass("error") : $fieldUI.removeClass("error")
+          }
         })
       }
     }
@@ -373,19 +415,16 @@ FieldController = {
         var $fieldUI = $("#" + field.idfield);
         $fieldUI.addClass('customValidation');
         if(field.config['field_validations']){
+          console.log('field.config["field_validations"] : ', field.config['field_validations']);
           $.each(field.config['field_validations'], function(_, v){
             compareField = FieldController.findFieldById(v["field_id"][0]);
-            $("#" + v["field_id"][0]).addClass('customValidation');
-            FieldHelper.buildCompareFieldConfigOfCustomValidation(field, v['condition_type'], compareField);
+            if ( compareField ) {
+              $("#" + v["field_id"][0]).addClass('customValidation');
+              FieldHelper.buildCompareFieldConfigOfCustomValidation(field, v['condition_type'], compareField);
+            }
           });
         }
       }
-
-      if(field.kind == "photo" || field.kind == 'select_one' || field.kind == 'select_many' || field.kind == 'location'){
-        var $fieldUI = $("#" + field.idfield);
-        field.invalid ?  $fieldUI.parent().addClass("error") : $fieldUI.parent().removeClass("error")
-      }
-
 
       DigitAllowance.prepareEventListenerOnKeyPress();
       // Readonly field
@@ -397,7 +436,9 @@ FieldController = {
       });
       $layerNodeContent.enhanceWithin();
 
-      if(field.kind == "photo" || field.kind == 'select_one' || field.kind == 'select_many' || field.isDependancyHierarchy){
+      if(field.kind == "photo" || field.kind == 'select_one'
+        || field.kind == 'select_many' || field.kind == 'location'
+        || field.isDependancyHierarchy){
         var $fieldUI = $("#" + field.idfield);
         field.invalid ?  $fieldUI.parent().addClass("error") : $fieldUI.parent().removeClass("error");
         field.matchAlert ?  $fieldUI.parent().addClass("info") : $fieldUI.parent().removeClass("info");
@@ -406,6 +447,7 @@ FieldController = {
       if(field.slider){
         field.matchAlert ?  $('#wrapper_' + field.idfield).find('.ui-slider').addClass("info") : $('#wrapper_' + field.idfield).find('.ui-slider').removeClass("info");
       }
+
       if(field.custom_widgeted && field.kind == 'numeric'){
         var $fieldUI = $("#" + field.idfield);
         $fieldUI.addClass('customValidation');

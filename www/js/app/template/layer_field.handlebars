@@ -43,7 +43,7 @@
   {{else}}
   {{#if isHierarchy}}
     <div id="wrapper_{{idfield}}" tabindex="0">
-      <label>{{name}}</label>
+      <label>{{name}}{{#if is_mandatory}} <span class="requiredAsteric">*</span> {{/if}}</label>
       {{#if isEnableDependancyHierarchy}}
         <select id="{{idfield}}"
                 name="{{idfield}}"
@@ -62,7 +62,6 @@
           {{/config.dependentHierarchyList}}
         </select>
       {{else}}
-        <label>{{name}}{{#if is_mandatory}} <span class="requiredAsteric">*</span> {{/if}}</label>
         <div  id="{{idfield}}"
             class="tree {{invalid}} {{matchAlert}}"
               require='{{required}}'

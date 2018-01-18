@@ -76,6 +76,7 @@ $(document).on("mobileinit", function() {
       $("#btn_back_site_notification_list").hide();
       $("#btn_back_site_list").show();
     }
+    CollectionController.adjustTitle($('#title-save-list')[0]);
   });
 
   $(document).delegate('#page-site-list #site-list-offline li .btn_view_site', 'click', function (event) {
@@ -213,6 +214,12 @@ $(document).on("mobileinit", function() {
       $(this).removeClass('ui-icon-check').addClass('ui-icon-none');
       $selectedSites.removeClass('ui-icon-check').addClass('ui-icon-none');
     }
+  });
+
+  $(document).on("pagebeforecreate", "#confirm_delete_site", function () {
+    i18n.init({ lng: localStorage['currentLang'] }, function () {
+      this.i18n();
+    });
   });
 
 })

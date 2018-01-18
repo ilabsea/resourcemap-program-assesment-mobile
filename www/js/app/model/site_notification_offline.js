@@ -16,6 +16,7 @@ SiteNotificationOffline = {
       user_id_offline: SessionController.currentUser().id,
       site_name: site.name,
       properties: site.properties,
+      conditions: site.conditions,
       alert_id: site.alert_id,
       created_at: site.created_at,
       updated_at: site.updated_at,
@@ -36,16 +37,22 @@ SiteNotificationOffline = {
       site.name = newSite.name;
       site.alert_id = newSite.alert_id;
       site.properties = newSite.properties;
+      site.conditions = newSite.conditions;
       site.updated_at = newSite.updated_at;
       persistence.flush();
     });
   },
 
   updateViewed: function(sites){
-    $.each(sites, function(index, site) {
-      site.viewed = true;
-    });
-    persistence.flush();
+    SiteNotification
+      .all()
+      .filter('user_id_offline', '=' , SessionController.currentUser().id)
+      .list(null, function ( sites ) {
+        $.each(sites, function(index, site) {
+          site.viewed = true;
+        });
+        persistence.flush();
+      });
   },
 
   updateSeenBySID: function(sId){
@@ -72,16 +79,11 @@ SiteNotificationOffline = {
         .list(null, callback);
   },
 
-  getViewedByUserIdOffline: function(callback){
-    SiteNotification.all().filter('user_id_offline', '=', SessionController.currentUser().id).filter('viewed', '=' , true).list(null, callback);
-  },
-
-  getByCollectionIdInCurrentUser: function (cId) {
+  getBySiteId: function(sId, callback){
     SiteNotification
       .all()
-      .filter('user_id_offline', '=', SessionController.currentUser().id)
-      .filter('collection_id', '=' , cId)
-      .list(null, callback);
+      .filter('site_id', '=', sId)
+      .one(null, callback);
   },
 
   destroyAllByUserIdOffline: function( callback) {

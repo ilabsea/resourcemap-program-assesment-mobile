@@ -37,7 +37,8 @@ var SiteHelper = {
     return selectedOfflineSites;
   },
   toggleBtnViewAllOfflineSite: function(numSiteOfflines){
-    numSiteOfflines > 0 ? $('#btn_viewOfflineSite').show() : $('#btn_viewOfflineSite').hide();
+    var $btn = $('#btn_viewOfflineSite');
+    numSiteOfflines > 0 ? $btn.show() : $btn.hide();
   },
   toggleBtnViewCollectionOfflineSite: function(numSiteOfflines){
     var $menu = $("#site-list-menu");
