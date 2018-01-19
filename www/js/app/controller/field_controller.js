@@ -318,8 +318,8 @@ FieldController = {
     else
       this.renderLayerNode($layerNode);
     this.calculateSkipLogic();
-    this.calculateCalculationField();
     this.calculateDependentHierarchyField();
+    this.calculateCalculationField();
   },
 
   calculateDependentHierarchyField: function(){

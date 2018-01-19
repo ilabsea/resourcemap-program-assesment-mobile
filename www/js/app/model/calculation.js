@@ -72,6 +72,18 @@ Calculation = {
           case "select_one":
             fieldValue = "'"+$fieldUI.find('option:selected').attr('data-code')+"'";
             break;
+          case 'hierarchy':
+            if($fieldUI.hasClass('dependentHierarchy')){
+              fieldValue = "'"+$fieldUI.val()+"'";
+            }else{
+              $selectedNode = $fieldUI.tree('getSelectedNode');
+              if($selectedNode){
+                fieldValue = "'"+$selectedNode.id+"'";
+              }else{
+                fieldValue = '';
+              }
+            }
+            break;
           case "yes_no":
             fieldValue = $fieldUI.val() == 0 ? false : true
         }
