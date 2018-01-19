@@ -525,7 +525,7 @@ FieldController = {
     FieldModel.fetch(cId, function (layers) {
       self.layers = [];
 
-      FieldController._showDefaultSiteProperty(cId, this.site);
+      FieldController._showDefaultSiteProperty(cId, self.site);
       var layerIndex = 0;
       $.each(layers, function (_, layer) {
         FieldHelper.buildLayerFields(layer, function(newLayer){
