@@ -17,12 +17,22 @@ $(document).on("mobileinit", function() {
   });
 
   $(document).delegate('.email', 'blur', function () {
-    FieldController.validateFormatEmail(this);
+    FieldValidator.emailFormat(this);
   });
 
   $(document).delegate('.required, .customValidation , .validateRange', 'blur', function () {
     if( this.id != 'email' && this.id != 'password' ){
-      FieldController.validateThisField(this);
+      var field = FieldController.findFieldById(this.id);
+      if(field){
+        field.__value = this.value;
+        var valid = FieldController.validateField(field);
+        if ( valid ){
+          $(this).removeClass("error");
+        }else{
+          $(this).addClass("error");
+          showValidateMessage('#validation-save-site', field.invalidMessage);
+        }
+      }
     }
   });
 

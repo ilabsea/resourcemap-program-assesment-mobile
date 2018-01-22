@@ -84,15 +84,9 @@ FieldController = {
       return true;
     }
     if(field.kind == 'email' && field.__value) {
-      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      if(!re.test(field.__value)){
-        field.invalid = 'error'
-        return false;
-      }
-      else {
-        field.invalid = ''
-        return true;
-      }
+      var valid = FieldValidator.emailFormat(field, field.__value);
+      field.invalidMessage = valid ? '' : i18n.t('validation.please_enter_valid_email');
+      return valid;
     }
 
     if(!this.activeLayer)
@@ -100,14 +94,13 @@ FieldController = {
 
     if(field.kind == 'numeric' && field.config && field.__value){
       if(field.config.range) {
-        if(field.__value >= field.config.range.minimum && field.__value <= field.config.range.maximum ){
-          field.invalid = "";
+        var valid = FieldValidator.numericRange(field, field.__value);
+        if(valid){
           field.invalidRange = "";
-        }
-        else {
-          field.invalid = 'error';
+        }else{
           field.invalidRange = "error";
-          field.invalidMessage = customRangeMessage(field.config.range.minimum, field.config.range.maximum);
+          field.invalidMessage = i18n.t('validation.value_must_be_in_the_range_of')
+                    + field.config.range.minimum + '-' + field.config.range.maximum + ')';
           return false;
         }
       }
@@ -119,12 +112,16 @@ FieldController = {
           customValidationResult = Operators[v["condition_type"]](parseFloat(field.__value), parseFloat(compareField.__value));
           if(customValidationResult == false){
             field.invalid = 'error';
-            field.invalidMessage = customValidationMessage(v["condition_type"], field.name, compareField.name);
+            field.invalidMessage = i18n.t('validation.value_must_be')
+                  + TextOperator[v["condition_type"]]() + compareField.name;
             return false
           }
         });
         if(customValidationResult == true){
           field.invalid = '';
+        }
+        if(field.invalid == 'error'){
+          return false;
         }
       }
 
@@ -135,7 +132,8 @@ FieldController = {
           customValidation = Operators[f["condition_type"]](parseFloat(oriField.__value), parseFloat(field.__value));
           if(customValidation == false){
             oriField.invalid = 'error';
-            oriField.invalidMessage = customValidationMessage(f["condition_type"], oriField.name, field.name);
+            oriField.invalidMessage = i18n.t('validation.value_must_be')
+                  + TextOperator[f["condition_type"]]() + field.name;
             return false
           }
           if(customValidation == true)
@@ -151,103 +149,15 @@ FieldController = {
 
     if(!field.__value && field.kind != 'yes_no'){
       field.invalid = 'error';
+      field.invalidMessage = i18n.t('validation.please_enter_required_field');
       return false;
     }
 
     field.invalid = ''
 
+    console.log('field.invalid : ', field.invalid);
+
     return true;
-  },
-
-  validateThisField: function(element){
-    var field = FieldController.findFieldById(element.id);
-    if(field){
-      if(field.is_mandatory){
-        if(!element.value){
-          $(element).addClass("error");
-          showValidateMessage('#validation-save-site', i18n.t('validation.please_enter_required_field'));
-          return;
-        }
-        else{
-          $(element).removeClass("error");
-        }
-      }
-
-      if(field.kind == 'numeric' && field.config && element.value){
-        if(field.config.range) {
-          if(element.value >= field.config.range.minimum && element.value <= field.config.range.maximum ){
-            $(element).removeClass("error");
-          }
-          else {
-            showValidateMessage('#validation-save-site', i18n.t('validation.value_must_be_in_the_range_of')
-                      + field.config.range.minimum + '-' + field.config.range.maximum + ')');
-            $(element).addClass("error");
-            return;
-          }
-        }
-
-        if(field.config['field_validations']){
-          customValidationResult = true;
-          $.each(field.config['field_validations'], function(_, v){
-            FieldController.validateCustomValidate(v["field_id"][0], v, element.id);
-          });
-        }
-
-        if(field.config['compare_custom_validations']){
-          $.each(field.config['compare_custom_validations'], function(_, f){
-            FieldController.validateCustomValidate(f["field_id"], f, f["origin_field_id"]);
-          });
-        }
-      }
-
-      if(field.kind == 'email' && element.value) {
-        FieldController.validateFormatEmail(element);
-      }
-    }
-  },
-
-  validateCustomValidate: function(compareFieldId, config, oriFieldId){
-    $compareElement = $("#" + compareFieldId);
-    $oriElement = $("#" + oriFieldId);
-    compareField = FieldController.findFieldById(compareFieldId);
-    oriField = FieldController.findFieldById(oriFieldId);
-    fieldValue = $compareElement.val() || compareField.__value;
-    fieldValue = parseFloat(fieldValue);
-    if(isNaN(fieldValue)){
-      fieldValue = 0;
-    }
-    value = $oriElement.val() || oriField.__value;
-    res = Operators[config["condition_type"]](value, fieldValue);
-    if(res == false){
-      showValidateMessage('#validation-save-site', i18n.t('validation.value_must_be')
-            + TextOperator[config["condition_type"]]() + compareField.name) ;
-      $oriElement.addClass("error");
-      return;
-    }else{
-      $oriElement.removeClass("error");
-    }
-  },
-
-  validateFormatEmail: function(element){
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if(!re.test(element.value) && element.value){
-      $(element).addClass("error");
-      showValidateMessage('#validation-save-site', i18n.t('validation.please_enter_valid_email'));
-    }
-    else {
-      $(element).removeClass("error");
-    }
-  },
-
-  validatePhotoField: function (fieldId) {
-    var field = FieldController.findFieldById(fieldId);
-    if(field.is_mandatory)
-      if(!($("#" + fieldId).attr('src'))){
-        showValidateMessage('#validation-save-site', i18n.t('validation.please_enter_required_field'));
-        $("#" + fieldId).parents().addClass("error");
-      }
-      else
-        $("#" + fieldId).parents().removeClass("error");
   },
 
   validateLayers: function(){

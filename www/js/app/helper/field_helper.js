@@ -26,8 +26,10 @@ FieldHelper = {
           }
           if(site)
             FieldHelper.setMatchAlert(fieldForUI, newLayer, site.conditions);
+          console.log('fieldForUI : ', fieldForUI);
           newLayer.fields.push(fieldForUI);
         });
+        console.log('newLayer 1: ', newLayer);
         callback(newLayer);
       });
     });
@@ -69,8 +71,14 @@ FieldHelper = {
   },
 
   fieldForUI: function(field, layer_field_permission, newLayer){
-    var widgetMapper = { "numeric": "number", "yes_no": "select_one", "phone": "tel",
-                         "location": "select_one", "calculation": "text" };
+    var widgetMapper = {
+      "numeric": "number",
+      "yes_no": "select_one",
+      "phone": "tel",
+      "location": "select_one",
+      "calculation": "text",
+      "custom_widget": "custom_widget_tokenizer"
+    };
 
     var fieldUI = {
       idfield: field.id,
@@ -86,15 +94,16 @@ FieldHelper = {
       isDependancyHierarchy: (field.kind === 'hierarchy' && field.is_enable_dependancy_hierarchy) ? true : false,
       isCustomWidget: (field.kind === "custom_widget" ? true : false),
       validateRange: field.config.range ? "validateRange": '',
-      is_enable_field_logic: field.is_enable_field_logic,
+      is_enable_field_logic: field.is_enable_field_logic && field.config.field_logics,
       is_enable_custom_validation: field.is_enable_custom_validation,
       custom_widgeted: field.custom_widgeted,
       readonly_custom_widgeted: field.readonly_custom_widgeted,
       is_mandatory: field.is_mandatory,
+      required: field.is_mandatory ? "required": '',
       is_display_field: field.is_display_field,
       invisible: '',
-      slider: '',
-      ctrue: '',
+      slider: field.kind == 'yes_no' ? "slider" : "",
+      ctrue: field.kind == 'yes_no' ? "true" : "",
       readonly: '',
       disableState: false,
       __value: '',
@@ -113,46 +122,26 @@ FieldHelper = {
       }
     }
 
-    if(field.custom_widgeted )
-      fieldUI.widgetType = 'custom_widget_tokenizer';
-    else if (widgetMapper[field.kind])
+    var can_edit = layer_field_permission;
+    fieldUI.editable = can_edit ? "" : "readonly";
+
+    if (widgetMapper[field.kind])
       fieldUI.widgetType = widgetMapper[field.kind];
     else
       fieldUI.widgetType = fieldUI.kind;
 
-    fieldUI.required =  fieldUI.is_mandatory ? "required" : ""
-
-    if (fieldUI.kind === "select_one" && fieldUI.is_enable_field_logic) {
-      if (!fieldUI.config.field_logics)
-        fieldUI.is_enable_field_logic = false;
-    }
-
     if (fieldUI.kind === "yes_no") {
-      options = FieldHelper.buildFieldYesNo(fieldUI.config);
-      fieldUI.config["options"] = options["options"]
-      fieldUI.slider = "slider";
-      fieldUI.ctrue = "true";
-    }
-
-    if (fieldUI.kind === "calculation") {
+      fieldUI.config["options"] = FieldHelper.buildFieldYesNo(fieldUI.config);
+      fieldUI.editable = can_edit ? "" : "disabled";
+    } else if( fieldUI.kind === "calculation" ){
       fieldUI.readonly = 'readonly';
 
       if (!fieldUI.is_display_field)
         fieldUI.invisible = "invisble-div";
-    }
-
-    if (fieldUI.kind === "custom_widget")
+    }else if (fieldUI.kind === "custom_widget"){
       fieldUI.config = FieldHelper.buildFieldCustomWidget(fieldUI.config, fieldUI.readonly_custom_widgeted);
-
-    if (fieldUI.kind == 'location')
+    }else if (fieldUI.kind == 'location')
       fieldUI.config.locationOptions = Location.getLocations(FieldController.site.lat, FieldController.site.lng, fieldUI.config);
-
-    var can_edit = layer_field_permission;
-
-    if (fieldUI.kind == 'yes_no')
-      fieldUI.editable = can_edit ? "" : "disabled";
-    else
-      fieldUI.editable = can_edit ? "" : "readonly";
 
     return fieldUI;
   },
@@ -177,22 +166,7 @@ FieldHelper = {
     return config;
   },
 
-  buildFieldSelectOne: function (config) {
-
-    $.each(config.options, function ( _ , option) {
-      if (config.field_logics) {
-        $.each(config.field_logics, function ( _ , fieldLogic) {
-          if (option.id === fieldLogic.value && !option["field_id"])
-            option["field_id"] = fieldLogic.field_id;
-        });
-      }
-    });
-
-    return config;
-
-  },
-
-  buildFieldYesNo: function (config, isOnline) {
+  buildFieldYesNo: function (config) {
     var field_id0, field_id1;
     config = {
       options: [{
@@ -205,7 +179,7 @@ FieldHelper = {
           code: "2"
         }]
     };
-    return config;
+    return config["options"];
   },
 
   setFieldValue: function (field, value, isOnline) {
@@ -294,18 +268,6 @@ FieldHelper = {
       default:
         field.__value = value;
     }
-  },
-
-  generateCodeToIdSelectManyOption: function (field, values) {
-    var codeIds = [];
-    $.each(field.config.options, function (_, option) {
-      if(values.indexOf(option.code) != -1)
-        codeIds.push(option.id);
-    });
-
-    if (codeIds.length === 0)
-      codeIds = values;
-    return codeIds;
   },
 
   imageWithPath: function(imgFileName) {
