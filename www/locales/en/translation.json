@@ -37,7 +37,9 @@
         "selectAllSites": "Select all sites",
         "unselectAllSites": "Unselect all sites",
         "url": "Server URL",
-        "version": "Version"
+        "version": "Version",
+        "yes": "Yes",
+        "no": "No"
     },
     "login_page": {
         "login": "Login",

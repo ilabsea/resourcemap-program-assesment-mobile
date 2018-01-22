@@ -37,7 +37,9 @@
         "selectAllSites": "ជ្រើសតំបន់ទាំងអស់",
         "unselectAllSites": "មិនជ្រើសតំបន់ទាំងអស់",
         "url": "ខ្សែបណ្តាញមេ",
-        "version": "ជំនាន់"
+        "version": "ជំនាន់",
+        "yes": "បាទ/ចាស",
+        "no": "ទេ"
     },
     "login_page": {
         "login": "ការចូល",
