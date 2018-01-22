@@ -491,6 +491,7 @@ FieldController = {
     var self = this;
     var cId = CollectionController.id;
 
+    FieldController._enableDefaultSiteProperty();
     FieldOffline.fetchByCollectionId(cId, function (layerOfflines) {
       if(layerOfflines.length == 0)
         FieldHelperView.displayNoFields("field_no_field_pop_up", $('#page-pop-up-no-fields'));
@@ -522,6 +523,9 @@ FieldController = {
     MyMembershipController.fetchMembershipByCollectionId(cId);
 
     FieldModel.fetch(cId, function (layers) {
+      self.layers = [];
+
+      FieldController._showDefaultSiteProperty(cId, self.site);
       var layerIndex = 0;
       $.each(layers, function (_, layer) {
         FieldHelper.buildLayerFields(layer, function(newLayer){
@@ -696,5 +700,34 @@ FieldController = {
       }
     }
     return list_codes;
-  }
+  },
+
+  _showDefaultSiteProperty: function(cId, site){
+    if(typeof site.id === 'undefined' || site.user_id == UserSession.getUser().iduser){
+      FieldController._enableDefaultSiteProperty();
+    }else{
+      MyMembershipController.otherMembership(cId, function(can_entry){
+        if(can_entry){
+          FieldController._enableDefaultSiteProperty();
+        }else{
+          FieldController._disableDefaultSiteProperty();
+        }
+      });
+    }
+  },
+
+  _enableDefaultSiteProperty: function(){
+    $('#site_name').removeAttr('readonly');
+    $('#site_lat').removeAttr('readonly');
+    $('#site_lng').removeAttr('readonly');
+    $('#btn_save_site').show();
+  },
+
+  _disableDefaultSiteProperty: function(){
+    $('#site_name').attr('readonly', 'readonly');
+    $('#site_lat').attr('readonly', 'readonly');
+    $('#site_lng').attr('readonly', 'readonly');
+    $('#btn_save_site').hide();
+  },
+
 };

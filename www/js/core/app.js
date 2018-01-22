@@ -6,7 +6,7 @@ App = {
   interval: 900000,
   userId: "",
   dbConnected: false,
-  defaultPage: "#page-collection-list",
+  defaultPage: "#page-login",
   endPoint: function(){ return RmSetting.endPoint() },
   imgPath: function(){ return RmSetting.url() + "/photo_field/" },
   authUrl: function(){ return RmSetting.endPoint() + "/users/sign_in.json" },
@@ -120,6 +120,7 @@ App = {
     });
 
     User = persistence.define('users', {
+      iduser: "INT",
       email: "TEXT",
       password: "TEXT",
       auth_token: "TEXT"

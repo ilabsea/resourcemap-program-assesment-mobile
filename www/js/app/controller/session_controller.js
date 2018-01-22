@@ -12,13 +12,15 @@ SessionController = {
 
     UserModel.create(App.authUrl(), data, function (response) {
       userParams.auth_token = response.auth_token;
+      userParams.iduser = response.userid;
       UserOffline.fetchByEmail(userParams.email, function (user) {
         if (user === null){
           user = UserOffline.add(userParams);
         }
         else {
-          user.password = userParams.password
-          user.auth_token = userParams['auth_token']
+          user.password = userParams.password;
+          user.auth_token = userParams.auth_token;
+          user.iduser = userParams.iduser;
           persistence.flush();
         }
         SessionController.signIn(user);
