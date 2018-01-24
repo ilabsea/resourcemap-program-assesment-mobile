@@ -1,20 +1,25 @@
 $(document).on("mobileinit", function() {
 
   $(document).delegate('#page-collection-list', 'pagebeforeshow', function() {
-    App.emptyHTML();
-    setTimeout(function(){
-      App.validateDbConnection(function() {
-        SiteNotificationController.renderNotificationMessage();
-        CollectionController.renderList();
-        SiteNotificationController.reset();
-      });
-    }, 500);
+    if(App.DataStore.get("isMigratedUserId") == 'true'){
+      App.emptyHTML();
+      setTimeout(function(){
+        App.validateDbConnection(function() {
+          SiteNotificationController.renderNotificationMessage();
+          CollectionController.renderList();
+          SiteNotificationController.reset();
+        });
+      }, 500);
 
-    setInterval(function(){
-      if ( $.mobile.activePage.attr('id') == 'page-collection-list' && App.isOnline() ){
-        location.reload();
-      }
-    }, App.interval)
+      setInterval(function(){
+        if ( $.mobile.activePage.attr('id') == 'page-collection-list' && App.isOnline() ){
+          location.reload();
+        }
+      }, App.interval)
+    }else{
+      App.redirectTo("#page-login");
+    }
+
 
   });
 

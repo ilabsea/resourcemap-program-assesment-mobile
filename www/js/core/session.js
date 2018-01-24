@@ -2,6 +2,7 @@ App = App || {};
 App.Session = {
   setUser: function(user){
     App.DataStore.set("currentUser", JSON.stringify(user));
+    App.DataStore.set("isMigratedUserId", true); //re-enforce user to re-login to migrate user id for hot-fix site permission
   },
 
   getUser: function(){
