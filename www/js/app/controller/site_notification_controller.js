@@ -147,10 +147,10 @@ SiteNotificationController = {
   storeSitesNotificationAndThresholds: function(oldSites, callback){
     var newSitesIds = [];
     ThresholdModel.fetchSiteThreshold(function(newSites){
-      console.log('newSites : ', newSites);
       SiteNotificationController.setCollectionIds(newSites);
       if ( oldSites.length == 0 ) {
         SiteNotificationOffline.add(newSites);
+        callback()
       } else {
         newSites.forEach ( function ( newSite ) {
           newSitesIds.push(newSite.id);
@@ -165,6 +165,7 @@ SiteNotificationController = {
               SiteNotificationOffline.addOne(newSite);
               persistence.flush();
             }
+            callback()
           });
         });
         for (var l = 0 ; l < oldSites.length ; l++){
@@ -173,8 +174,6 @@ SiteNotificationController = {
           }
         }
       }
-    }, function(){
-      callback();
     });
   }
 }
