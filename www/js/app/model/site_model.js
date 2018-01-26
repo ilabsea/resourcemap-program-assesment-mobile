@@ -44,7 +44,7 @@ SiteModel = {
       success: successCallback,
       error: function (error, t) {
         if (t === "timeout" || t === "error" || t === "notmodified") {
-          alert('Internet connection problem.');
+          alert(i18n.t("global.no_internet_connection"));
           App.redirectTo('#page-site-list');
         }
       }

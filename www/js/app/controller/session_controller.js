@@ -108,7 +108,7 @@ SessionController = {
         App.redirectTo("#page-login");
       }
       if (t === "timeout" || t === "notmodified") {
-        alert("Internet connection problem");
+        alert(i18n.t("global.no_internet_connection"));
       }
     });
   },

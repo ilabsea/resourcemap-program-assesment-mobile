@@ -417,7 +417,7 @@ SiteController = {
         }
       };
 
-      var messsage = "Progressing " + SiteController.counterOffline + " / " + SiteController.totalSelectedOfflineSites;
+      var messsage = i18n.t('global.progressing') + SiteController.counterOffline + " / " + SiteController.totalSelectedOfflineSites;
       ViewBinding.setMessage(messsage)
 
       SiteModel.create(data["site"],
@@ -444,7 +444,7 @@ SiteController = {
         });
     }
     else{
-      ViewBinding.setMessage("Done.")
+      ViewBinding.setMessage(i18n.t('global.done'))
       setTimeout(function(){
         ViewBinding.setBusy(false)
       }, 300)

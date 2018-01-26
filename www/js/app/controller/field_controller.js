@@ -11,9 +11,9 @@ FieldController = {
 
     else if(selected == "pdf") {
       SiteReport.pdf(FieldController.site, function(){
-        alert("System is generating PDF for your request, once it finishes we will send you a download link to your email");
+        alert(i18n.t('print.system_is_generating_pdf_for_your_request_once_it_finishes_we_will_send_you_a_download_link_to_your_email'));
       }, function(){
-        alert("Failed to request PDF");
+        alert(i18n.t('print.failed_to_request_pdf'));
       })
     }
   },
@@ -539,7 +539,7 @@ FieldController = {
         }, true);
       });
     }, function(){
-      alert('problem downloading fields');
+      alert(i18n.t('fields.problem_downloading_fields'));
     });
 
     LayerMembershipModel.fetchMembership(cId, function (memberships){

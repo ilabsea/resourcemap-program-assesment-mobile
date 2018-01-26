@@ -1,88 +1,93 @@
 {
     "global": {
-        "email": "Email",
-        "password": "Password",
-        "save": "Save",
-        "lat": "Location'Lat",
-        "lng": "Location'Lng",
-        "logout": "Sign out",
-        "back": "Back",
-        "send_to_server": "Send data",
-        "toggle_all_sites": "Toggle all sites",
-        "name": "Name",
-        "update": "Update",
-        "delete": "Delete",
-        "cancel": "Cancel",
-        "site": "Sites",
-        "sites_offline": "Sites Offline",
-        "add": "Add new site",
-        "viewAll": "View all",
-        "viewOffline": "View offline",
-        "viewOnline": "View online",
-        "downloadForm": "Download form",
-        "menu": "Menu",
-        "save_site": "Save Site",
-        "offline": "Opp! Network went offline",
-        "online":  "Opp! Network went online",
-        "saving": "Saving...",
-        "validating": "Validating...",
-        "ajax-loader": "Please wait ...",
-        "no_internet_connection": "No internet connection.",
-        "please_resend_data": "Please resend the data.",
-        "please_reupdate_your_site": "Please reupdate your site.",
-        "warning": "Warning",
-        "changeServerInfo": "Once you change the server URL, the local data will be lost.",
-        "changeServerConfirmMessage": "Are you sure you want to change the server URL ?",
-        "serverSetting": "Server setting",
-        "selectAllSites": "Select all sites",
-        "unselectAllSites": "Unselect all sites",
-        "url": "Server URL",
-        "version": "Version",
-        "yes": "Yes",
-        "no": "No"
+      "email": "Email",
+      "password": "Password",
+      "save": "Save",
+      "lat": "Location'Lat",
+      "lng": "Location'Lng",
+      "logout": "Sign out",
+      "back": "Back",
+      "send_to_server": "Send data",
+      "toggle_all_sites": "Toggle all sites",
+      "name": "Name",
+      "update": "Update",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "site": "Sites",
+      "sites_offline": "Sites Offline",
+      "add": "Add new site",
+      "viewAll": "View all",
+      "viewOffline": "View offline",
+      "viewOnline": "View online",
+      "downloadForm": "Download form",
+      "menu": "Menu",
+      "save_site": "Save Site",
+      "offline": "Opp! Network went offline",
+      "online":  "Opp! Network went online",
+      "saving": "Saving...",
+      "validating": "Validating...",
+      "ajax-loader": "Please wait ...",
+      "no_internet_connection": "No internet connection.",
+      "please_resend_data": "Please resend the data.",
+      "please_reupdate_your_site": "Please reupdate your site.",
+      "warning": "Warning",
+      "changeServerInfo": "Once you change the server URL, the local data will be lost.",
+      "changeServerConfirmMessage": "Are you sure you want to change the server URL ?",
+      "serverSetting": "Server setting",
+      "selectAllSites": "Select all sites",
+      "unselectAllSites": "Unselect all sites",
+      "url": "Server URL",
+      "version": "Version",
+      "yes": "Yes",
+      "no": "No",
+      "load_more": "Load more",
+      "load_more_sites": "Load more sites",
+      "done": "Done",
+      "progressing": "Progressing ",
+      "location_cannot_be_found": "Location cannot be found."
     },
     "login_page": {
-        "login": "Login",
-        "creat_new_accotun": "Create new account",
-        "invalide_email": "Please enter a valid email address.",
-        "about": "About"
+      "login": "Login",
+      "creat_new_accotun": "Create new account",
+      "invalide_email": "Please enter a valid email address.",
+      "about": "About"
     },
     "signup_page": {
-        "sign_up": "SignUp",
-        "passwrod_confirm": "Password confirmation",
-        "phone_number": "Phone number",
-        "already_have_accont": "Already have an account",
-        "pwd_not_match": "Password doesn't match confirmation",
-        "exit_email": "Email have been already",
-        "internet": "Unable to connect to the Internet",
-        "alert": "Sign up successful"
+      "sign_up": "SignUp",
+      "passwrod_confirm": "Password confirmation",
+      "phone_number": "Phone number",
+      "already_have_accont": "Already have an account",
+      "pwd_not_match": "Password doesn't match confirmation",
+      "exit_email": "Email have been already",
+      "internet": "Unable to connect to the Internet",
+      "alert": "Sign up successful"
     },
     "collection_page": {
-        "view_offline_site": "View offline site",
-        "collection": "My Collections",
-        "notifications_message": "Notifications message"
+      "view_offline_site": "View offline site",
+      "collection": "My Collections",
+      "notifications_message": "Notifications message"
     },
     "map_page": {
-        "map": "Map"
+      "map": "Map"
     },
     "update_site_page": {
-        "update": "Update",
-        "delete": "Delete",
-        "delete_site": "Delete the site",
-        "alert_delete": "Are you sure you want to delete the site?"
+      "update": "Update",
+      "delete": "Delete",
+      "delete_site": "Delete the site",
+      "alert_delete": "Are you sure you want to delete the site?"
     },
     "validation": {
-        "please_enter_required_field": "Please enter the required field.",
-        "please_enter_valid_email": "Please enter valid email.",
-        "value_must_be_in_the_range_of": "Invalid value, value must be in the range of (",
-        "value_must_be": "Invalid value, value must be",
-        "invalide": "Invalid email or password.",
-        "not_found": "Not found in database.",
-        "plsSignIn": "Please sign in.",
-        "required": "This field is required.",
-        "emailPsd": "Please enter your email and password.",
-        "emailPsdConfirm": "Please enter all required fields.",
-        "invalidUrl": "Please enter a valid URL"
+      "please_enter_required_field": "Please enter the required field.",
+      "please_enter_valid_email": "Please enter valid email.",
+      "value_must_be_in_the_range_of": "Invalid value, value must be in the range of (",
+      "value_must_be": "Invalid value, value must be",
+      "invalide": "Invalid email or password.",
+      "not_found": "Not found in database.",
+      "plsSignIn": "Please sign in.",
+      "required": "This field is required.",
+      "emailPsd": "Please enter your email and password.",
+      "emailPsdConfirm": "Please enter all required fields.",
+      "invalidUrl": "Please enter a valid URL"
     },
     "notification": {
       "no_sites_found": "No sites found.",
@@ -90,18 +95,19 @@
       "please_review": "please review"
     },
     "dialog": {
-        "option": "Photo Options",
-        "take": "Take Photo",
-        "choose": "Choose Existing",
-        "signupsuccess": "Sign up successfully.",
-        "notification": "Notification"
+      "option": "Photo Options",
+      "take": "Take Photo",
+      "choose": "Choose Existing",
+      "signupsuccess": "Sign up successfully.",
+      "notification": "Notification"
     },
     "nav": {
-        "online": "Online",
-        "offline": "Offline"
+      "online": "Online",
+      "offline": "Offline"
     },
     "fields": {
-        "no_fields": "There is no field for this collection, or fields have not been yet downloaded from server."
+      "no_fields": "There is no field for this collection, or fields have not been yet downloaded from server.",
+      "problem_downloading_fields" : "Problem downloading fields."
     },
     "operator":{
       "equal_to": " equal to ",
@@ -110,5 +116,10 @@
       "greater_than_or_equal": " greater than or equal ",
       "less_than_or_equal": " less than or equal ",
       "not_equal": " not equal "
+    },
+    "print": {
+      "system_is_generating_pdf_for_your_request_once_it_finishes_we_will_send_you_a_download_link_to_your_email":
+          "System is generating PDF for your request, once it finishes we will send you a download link to your email.",
+      "failed_to_request_pdf": "Failed to request PDF"
     }
 }
