@@ -2,8 +2,10 @@ $(document).on("mobileinit", function() {
   $(document).delegate('#page-login', 'pagebeforeshow', function() {
     ViewBinding.setBusy(false);
     $("#app_version").text(RmSetting.VERSION);
-    if(UserSession.isLoggedIn())
+    if(UserSession.isLoggedIn() && App.DataStore.get('isMigratedUserId') == 'true'){
       App.redirectTo(App.defaultPage)
+    }
+
   });
 })
 

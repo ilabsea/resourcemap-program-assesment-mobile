@@ -6,7 +6,7 @@ App = {
   interval: 900000,
   userId: "",
   dbConnected: false,
-  defaultPage: "#page-login",
+  defaultPage: "#page-collection-list",
   endPoint: function(){ return RmSetting.endPoint() },
   imgPath: function(){ return RmSetting.url() + "/photo_field/" },
   authUrl: function(){ return RmSetting.endPoint() + "/users/sign_in.json" },
