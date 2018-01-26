@@ -5,8 +5,7 @@ ThresholdModel = {
       type: "get",
       url: url,
       dataType: "json",
-      success: success,
-      complete: complete
+      success: success
     });
   }
 };
