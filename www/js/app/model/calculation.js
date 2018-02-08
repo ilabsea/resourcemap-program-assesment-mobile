@@ -2,8 +2,10 @@ Calculation = {
   calculate: function ($element) {
     var parendIds  = $element.attr("data-parent-ids").split(",");
     $.each(parendIds, function(_, fieldId){
-      if(fieldId)
+      if(fieldId){
         Calculation.updateField(fieldId);
+      }
+
     })
   },
 
@@ -37,6 +39,9 @@ Calculation = {
     if($("#" + field.idfield).length){
       var $fieldUI = $("#" + field.idfield);
       $fieldUI.val(value);
+      if($fieldUI.hasClass('calculation')){
+        Calculation.calculate($fieldUI);
+      }
     }
     else{
       field = FieldHelper.getSavedField(field.idfield);
@@ -60,9 +65,9 @@ Calculation = {
             fieldValue = $fieldUI.val();
             break;
           case "calculation":
-            fieldValue = $fieldUI.val();
-            if (!isNaN(parseFloat(fieldValue)));
-              parseFloat(fieldValue);
+            fieldValue = parseFloat(FieldHelper.getFieldValue(dependField.id));
+            if (!isNaN(fieldValue));
+              fieldValue;
             break;
           case "numeric":
             fieldValue = parseFloat(FieldHelper.getFieldValue(dependField.id));
