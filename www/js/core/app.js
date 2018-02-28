@@ -7,6 +7,7 @@ App = {
   userId: "",
   dbConnected: false,
   defaultPage: "#page-collection-list",
+  dialogPageId: '',
   endPoint: function(){ return RmSetting.endPoint() },
   imgPath: function(){ return RmSetting.url() + "/photo_field/" },
   authUrl: function(){ return RmSetting.endPoint() + "/users/sign_in.json" },
@@ -75,7 +76,52 @@ App = {
     document.addEventListener("online",  function(){
       SiteController.onlineStatus(true)
     }, false);
+
+    document.addEventListener("backbutton", function(){
+      App.listenBackButton();
+    }, false);
+
   },
+
+  listenBackButton: function(){
+    var activePageId = $.mobile.activePage.attr('id');
+    var isPopup = location.href.indexOf('ui-state=dialog');
+    if(App.dialogPageId){
+      Dialog.closeDialog(App.dialogPageId);
+    } else if (isPopup != -1){
+      navigator.app.backHistory();
+    } else {
+      switch (activePageId) {
+        case 'page-login':
+        case 'page-collection-list': {
+          navigator.app.exitApp();
+          break;
+        }
+        case 'page-site-list-all':
+        case 'page-site-list':
+        case 'page-notification': {
+          $.mobile.changePage('#page-collection-list');
+          break;
+        }
+        case 'page-map': {
+          $.mobile.changePage('#page-save-site');
+          break;
+        }
+        case 'page-save-site': {
+          $.mobile.changePage(SiteController.currentPage)
+          break;
+        }
+        case 'page-change-server': {
+          $.mobile.changePage('#page-login');
+          break;
+        }
+        default: {
+          navigator.app.backHistory();
+        }
+      }
+    }
+  },
+
   emptyHTML: function () {
     $(".clearPreviousDisplay").html("");
   },

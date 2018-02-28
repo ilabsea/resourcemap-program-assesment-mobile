@@ -9,7 +9,7 @@ $(function(){
     errorPlacement: function () {
     },
     submitHandler: function () {
-      $("#dialog-confirm-change-server").show();
+      Dialog.showDialog("dialog-confirm-change-server");
       $('#url-error').text('');
     },
     invalidHandler: function () {
@@ -19,12 +19,12 @@ $(function(){
 
   $('#btn-confirm-change-server').on('click', function(){
     url = $('#txt-url').val();
-    $("#dialog-confirm-change-server").hide();
+    Dialog.closeDialog('dialog-confirm-change-server');
     App.changeServerUrl(normalizeUrl(url));
   });
 
   $('#btn-cancel-change-server').on('click', function(){
-    $("#dialog-confirm-change-server").hide();
+    Dialog.closeDialog('dialog-confirm-change-server');
   });
 
   function normalizeUrl(url){

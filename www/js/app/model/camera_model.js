@@ -11,13 +11,11 @@ CameraModel = {
   },
 
   closeDialog: function() {
-    $("#cameraDialog").hide();
-    $.mobile.activePage.removeClass('ui-disabled');
+    Dialog.closeDialog("cameraDialog");
     FieldController.validatePhotoField(CameraModel.fieldId);
   },
 
   handleOpenCamera: function () {
-    $.mobile.activePage.addClass("ui-disabled");
-    $("#cameraDialog").show();
+    Dialog.showDialog("cameraDialog")
   }
 };
