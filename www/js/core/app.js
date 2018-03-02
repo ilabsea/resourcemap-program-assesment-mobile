@@ -129,12 +129,12 @@ App = {
     $.mobile.pageContainer.pagecontainer('change', nextPage, options);
   },
   isOnline: function () {
-    var online = false;
-    if (navigator.connection) {
-      online = (navigator.connection.type !== Connection.NONE);
-      return online;
-    }
-    online = navigator.onLine;
+    var online = true;
+    // if (navigator.connection) {
+    //   online = (navigator.connection.type !== Connection.NONE);
+    //   return online;
+    // }
+    // online = navigator.onLine;
     return online;
   },
 
@@ -230,6 +230,7 @@ App = {
       site_name: "TEXT",
       properties: "JSON",
       conditions: "JSON",
+      message_notification: "TEXT",
       alert_id: "INT",
       created_at: "TEXT",
       updated_at: "TEXT",

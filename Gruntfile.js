@@ -93,7 +93,8 @@ module.exports = function(grunt) {
        "www/js/app/helper/digit_allowance.js",
        "www/js/app/helper/validation.js",
        "www/js/app/helper/custom_validation.js",
-       "www/js/app/helper/dependent_hierarchy.js"
+       "www/js/app/helper/dependent_hierarchy.js",
+       "www/js/app/helper/jqstyle.js"
   ]
 
   var sourceCssFiles = [

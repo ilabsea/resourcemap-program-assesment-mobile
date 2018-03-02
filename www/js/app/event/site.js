@@ -50,30 +50,13 @@ $(document).on("mobileinit", function() {
       }
   });
 
-  $(document).delegate('#page-save-site', 'pagebeforehide', function(){
-    if(App.isOnline()){
-      if(SiteController.currentPage == '#page-notification'){
-        SiteNotificationOffline.updateSeenBySID(SiteController.id);
-        SiteNotificationController.allSites = [];
-      }
-    }
-  });
 
   $(document).delegate('#page-save-site', 'pageshow', function () {
     if(SiteController.currentPage == '#page-site-list-all'){
       $("#btn_back_site_list").hide();
-      $("#btn_back_site_notification_list").hide();
       $("#btn_back_site_list_all").show();
-    }
-    else if(SiteController.currentPage == '#page-notification'){
+    }else{
       $("#btn_back_site_list_all").hide();
-      $("#btn_back_site_list").hide();
-      $("#ui-btn-page-save-site-menu").hide();
-      $("#btn_back_site_notification_list").show();
-    }
-    else{
-      $("#btn_back_site_list_all").hide();
-      $("#btn_back_site_notification_list").hide();
       $("#btn_back_site_list").show();
     }
     CollectionController.adjustTitle($('#title-save-list')[0]);

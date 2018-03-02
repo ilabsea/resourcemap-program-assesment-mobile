@@ -1,13 +1,13 @@
 $(document).on("mobileinit", function() {
   //handle collapsible in site page
-  $(document).on("collapsibleexpand", "[data-role=collapsible]", function () {
+  $(document).on("collapsibleexpand", "#page-save-site [data-role=collapsible]", function () {
     var $this = $(this);
     var position = $this.offset().top;
     FieldController.layerExpandFields($this)
     $.mobile.silentScroll(position);
   });
 
-  $(document).on("collapsiblecollapse", "[data-role=collapsible]", function () {
+  $(document).on("collapsiblecollapse", "#page-save-site [data-role=collapsible]", function () {
     var $this = $(this);
     FieldController.layerCollapseFields($this);
   });

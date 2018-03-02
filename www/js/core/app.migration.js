@@ -49,9 +49,11 @@ persistence.defineMigration(3, {
 persistence.defineMigration(4, {
   up: function() {
     this.addColumn('users', 'iduser', 'INT');
-  },
-  down: function() {
-    this.dropTable('site_memberships');
+  }
+});
+
+persistence.defineMigration(5, {
+  up: function() {
     this.createTable('site_notifications', function(t){
       t.integer('collection_id');
       t.integer('site_id');
@@ -65,8 +67,18 @@ persistence.defineMigration(4, {
       t.boolean('viewed');
       t.boolean('seen'); // view detail of the site alert
     });
+  },
+  down: function() {
+    this.dropTable('site_notifications');
   }
 });
+
+persistence.defineMigration(6, {
+  up: function() {
+    this.addColumn('site_notifications', 'message_notification', 'TEXT');
+  }
+});
+
 
 function migrate(){
     persistence.migrations.init( function(){
