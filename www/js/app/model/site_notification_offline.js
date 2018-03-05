@@ -20,6 +20,7 @@ SiteNotificationOffline = {
       alert_id: site.alert_id,
       created_at: site.created_at,
       updated_at: site.updated_at,
+      message_notification: site.message_notification,
       viewed: false,
       seen: false
     };
@@ -38,6 +39,7 @@ SiteNotificationOffline = {
       site.alert_id = newSite.alert_id;
       site.properties = newSite.properties;
       site.conditions = newSite.conditions;
+      site.message_notification = newSite.message_notification;
       site.updated_at = newSite.updated_at;
       persistence.flush();
     });

@@ -1,15 +1,13 @@
 FieldHelper = {
   buildLayerFields: function (layer, callback, isOnline) {
-    var isNotify = SiteController.currentPage == '#page-notification' ? true : false;
-    var layerData = isNotify ? layer : layer._data;
+    var layerData = layer._data;
 
     var newLayer = {
       cId: CollectionController.id,
       userId: UserSession.getUser().id,
-      name_wrapper: isNotify ? layerData.name : layerData.name_wrapper,
-      id_wrapper: isNotify ? layerData.id : layerData.id_wrapper,
+      name_wrapper: layerData.name_wrapper,
+      id_wrapper: layerData.id_wrapper,
       valid: true,
-      matchAlert: '',
       fields: []
     }
 
@@ -24,49 +22,12 @@ FieldHelper = {
               break;
             }
           }
-          if(site)
-            FieldHelper.setMatchAlert(fieldForUI, newLayer, site.conditions);
           newLayer.fields.push(fieldForUI);
         });
         callback(newLayer);
       });
     });
 
-  },
-
-  setMatchAlert: function(field, newLayer, conditions){
-    var matchAlert='';
-    for(var i = 0 ; i < conditions.length; i++){
-      condition = conditions[i];
-      isExist = false;
-
-      if(condition.field == field.idfield){
-        op = condition['op'];
-        var matchCond = false;
-        fieldValue = field.__value;
-        conditionValue = condition.value;
-        if(field.kind == 'text' || field.kind == 'phone' || field.kind == 'email'){
-          fieldValue = fieldValue.toLowerCase();
-          conditionValue = conditionValue.toLowerCase()
-        }
-        if(field.kind == 'numeric' && condition.type == 'percentage'){
-          compareFieldValue = 0;
-          for (fieldId in FieldController.site.properties) {
-            if ( fieldId == condition.compare_field ) {
-              compareFieldValue = FieldController.site.properties[fieldId];
-              break;
-            }
-          }
-          conditionValue = (conditionValue * compareFieldValue) / 100;
-        }
-        matchCond = Operators[op](fieldValue, conditionValue);
-        if ( matchCond ) {
-          field.matchAlert = 'info';
-          newLayer.matchAlert = 'info';
-          break;
-        }
-      }
-    }
   },
 
   fieldForUI: function(field, layer_field_permission, newLayer){
@@ -101,8 +62,7 @@ FieldHelper = {
       __value: '',
       __filename: '',
       invalid: '',
-      invalidMessage: '',
-      matchAlert: ''
+      invalidMessage: ''
     };
 
     if(fieldUI.isEnableDependancyHierarchy){
