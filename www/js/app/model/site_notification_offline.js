@@ -15,8 +15,8 @@ SiteNotificationOffline = {
       site_id: site.id,
       user_id_offline: SessionController.currentUser().id,
       site_name: site.name,
-      properties: site.properties,
-      conditions: site.conditions,
+      properties: JSON.stringify(site.properties),
+      conditions: JSON.stringify(site.conditions),
       alert_id: site.alert_id,
       created_at: site.created_at,
       updated_at: site.updated_at,
@@ -37,8 +37,8 @@ SiteNotificationOffline = {
       }
       site.name = newSite.name;
       site.alert_id = newSite.alert_id;
-      site.properties = newSite.properties;
-      site.conditions = newSite.conditions;
+      site.properties = JSON.stringify(newSite.properties);
+      site.conditions = JSON.stringify(newSite.conditions);
       site.message_notification = newSite.message_notification;
       site.updated_at = newSite.updated_at;
       persistence.flush();
