@@ -8,11 +8,9 @@ SiteNotificationController = {
     SiteNotificationController.collectionIds = [];
     SiteNotificationController.fieldNames = [];
   },
-
-  changeColorOfSeen: function(){
-    var sites = SiteNotificationController.sites;
-    for(var i = 0 ; i < sites.length ; i++){
-      var site = sites[i];
+  changeColorOfSeen: function(sites){
+    for(var j = 0 ; j < sites.length ; j++){
+      var site = sites[j];
       $('h3#' + site.site_id + ' a').css({'background-color' : site.seen ? '#f3f3f3' : 'rgba(187, 187, 187, 0.75)'});
     }
     Jqstyle.truncateTextStyle('h3 a');
@@ -23,7 +21,11 @@ SiteNotificationController = {
     var $updateNode = $("#notification-list");
     $updateNode.html(content);
     $updateNode.trigger("create");
-    SiteNotificationController.changeColorOfSeen();
+    for(var i = 0 ; i < sites.collections.length ; i++){
+      var collection = sites.collections[i];
+      var sitesObj = collection[Object.keys(collection)[0]].sites;
+      SiteNotificationController.changeColorOfSeen(sitesObj);
+    }
   },
 
   appendList: function(sites){
@@ -31,7 +33,7 @@ SiteNotificationController = {
     $element = $("#notification-list-" + sites.collection_id);
     $element.append(content);
     $element.trigger("create");
-    SiteNotificationController.changeColorOfSeen();
+    SiteNotificationController.changeColorOfSeen(sites.sites);
   },
 
   renderListAndUpdateViewed: function () {
