@@ -79,6 +79,11 @@ persistence.defineMigration(6, {
   }
 });
 
+persistence.defineMigration(7, {
+  up: function() {
+    this.addColumn('site_notifications', 'alert_updated_at', 'TEXT');
+  }
+});
 
 function migrate(){
     persistence.migrations.init( function(){

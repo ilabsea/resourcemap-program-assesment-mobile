@@ -10,28 +10,31 @@ SiteNotificationOffline = {
   },
 
   addOne: function(site){
-    var siteParams = {
-      collection_id: site.collection_id,
-      site_id: site.id,
-      user_id_offline: SessionController.currentUser().id,
-      site_name: site.name,
-      properties: JSON.stringify(site.properties),
-      conditions: JSON.stringify(site.conditions),
-      alert_id: site.alert_id,
-      created_at: site.created_at,
-      updated_at: site.updated_at,
-      message_notification: site.message_notification,
-      viewed: false,
-      seen: false
-    };
+    if ( site.updated_at > site.alert_updated_at ) {
+      var siteParams = {
+        collection_id: site.collection_id,
+        site_id: site.id,
+        user_id_offline: SessionController.currentUser().id,
+        site_name: site.name,
+        properties: JSON.stringify(site.properties),
+        conditions: JSON.stringify(site.conditions),
+        alert_id: site.alert_id,
+        created_at: site.created_at,
+        updated_at: site.updated_at,
+        message_notification: site.message_notification,
+        alert_updated_at: site.alert_updated_at,
+        viewed: false,
+        seen: false
+      };
 
-    var siteObj = new SiteNotification(siteParams);
-    persistence.add(siteObj);
+      var siteObj = new SiteNotification(siteParams);
+      persistence.add(siteObj);
+    }
   },
 
   updateBySiteId: function(newSite){
     SiteNotification.all().filter('site_id', '=' , newSite.id).one(null, function(site){
-      if ( (newSite.updated_at != site.updated_at) || (site.alert_id != newSite.alert_id) ) {
+      if ( (newSite.updated_at != site.updated_at) && (newSite.updated_at > newSite.alert_updated_at) ) {
         site.viewed = false;
         site.seen = false;
       }
@@ -41,6 +44,7 @@ SiteNotificationOffline = {
       site.conditions = JSON.stringify(newSite.conditions);
       site.message_notification = newSite.message_notification;
       site.updated_at = newSite.updated_at;
+      site.alert_updated_at = newSite.alert_updated_at;
       persistence.flush();
     });
   },

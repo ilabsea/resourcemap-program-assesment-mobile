@@ -129,12 +129,12 @@ App = {
     $.mobile.pageContainer.pagecontainer('change', nextPage, options);
   },
   isOnline: function () {
-    var online = true;
-    // if (navigator.connection) {
-    //   online = (navigator.connection.type !== Connection.NONE);
-    //   return online;
-    // }
-    // online = navigator.onLine;
+    var online = false;
+    if (navigator.connection) {
+      online = (navigator.connection.type !== Connection.NONE);
+      return online;
+    }
+    online = navigator.onLine;
     return online;
   },
 
@@ -234,6 +234,7 @@ App = {
       alert_id: "INT",
       created_at: "TEXT",
       updated_at: "TEXT",
+      alert_updated_at: "TEXT",
       viewed: "BOOL",
       seen: "BOOL" // view detail of the site alert
     });
