@@ -69,6 +69,7 @@ App = {
 
   onDeviceReady: function () {
     App.connectDB(App.DB_NAME, App.DB_SIZE);
+    App.setInstalledDateTime();
 
     document.addEventListener("offline", function() {
       SiteController.onlineStatus(false);
@@ -81,6 +82,16 @@ App = {
       App.listenBackButton();
     }, false);
 
+  },
+
+  setInstalledDateTime: function(){
+    if(!localStorage["installedDateTime"]){
+      localStorage["installedDateTime"] = new Date().toISOString();
+    }
+  },
+
+  getInstalledDateTime: function(){
+    return localStorage["installedDateTime"];
   },
 
   listenBackButton: function(){
@@ -234,7 +245,6 @@ App = {
       alert_id: "INT",
       created_at: "TEXT",
       updated_at: "TEXT",
-      alert_updated_at: "TEXT",
       viewed: "BOOL",
       seen: "BOOL" // view detail of the site alert
     });

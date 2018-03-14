@@ -415,7 +415,6 @@ FieldController = {
         var $fieldUI = $("#" + field.idfield);
         $fieldUI.addClass('customValidation');
         if(field.config['field_validations']){
-          console.log('field.config["field_validations"] : ', field.config['field_validations']);
           $.each(field.config['field_validations'], function(_, v){
             compareField = FieldController.findFieldById(v["field_id"][0]);
             if ( compareField ) {

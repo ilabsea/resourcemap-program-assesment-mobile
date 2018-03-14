@@ -19,8 +19,6 @@ $(document).on("mobileinit", function() {
     }else{
       App.redirectTo("#page-login");
     }
-
-
   });
 
 
