@@ -44,7 +44,7 @@ SiteNotificationController = {
     if(cIds.length == 0){
       SiteNotificationController.displayLists(collectionsData);
     }
-    cIds.forEach(function(cId, index, array){
+    cIds.forEach(function(cId, index, array) {
       SiteNotificationOffline.page[cId] = 0;
       SiteNotificationController.prepareSitesByCollectionId(cId, function(data){
         collectionsData['collections'].push(data);
@@ -132,11 +132,11 @@ SiteNotificationController = {
     });
   },
 
-  setCollectionIds: function(sites){
-    var collectionIds = [];
+  setCollectionIds: function (sites) {
+    var collectionIds = SiteNotificationController.collectionIds;
 
     for (var i = 0 ; i < sites.length ; i++){
-      site = sites[i];
+      var site = sites[i];
       if (!(collectionIds.indexOf(site.collection_id) > -1))
         collectionIds.push(site.collection_id);
     }
@@ -145,45 +145,54 @@ SiteNotificationController = {
 
   renderNotificationMessage: function () {
     SiteNotificationOffline.getByUserIdOffline(function(sites){
-      if(App.isOnline()) {
+      SiteNotificationController.collectionIds = [];
+      SiteNotificationController.setCollectionIds(sites);
+      if ( App.isOnline() ) {
         SiteNotificationController.storeSitesNotificationAndThresholds(sites, function(){
+          SiteNotificationController.deleteSitesFromDB(sites);
           SiteNotificationController.displayNotification();
         });
-      }else{
-        SiteNotificationController.setCollectionIds(sites);
+      } else {
+        SiteNotificationController.deleteSitesFromDB(sites);
         SiteNotificationController.displayNotification();
       }
     });
   },
 
+  deleteSitesFromDB: function(sites){
+    if(sites.length > 50){
+      for (var i = 50 ; i < sites.length; i++){
+        SiteNotificationOffline.remove(sites[i]);
+      }
+    }
+  },
+
   storeSitesNotificationAndThresholds: function(oldSites, callback){
-    var newSitesIds = [];
     ThresholdModel.fetchSiteThreshold(function(newSites){
       SiteNotificationController.setCollectionIds(newSites);
-      if ( oldSites.length == 0 ) {
-        SiteNotificationOffline.add(newSites);
-        callback()
-      } else {
-        newSites.forEach ( function ( newSite ) {
-          newSitesIds.push(newSite.id);
-          var isExist = false,  i = 0;
-          oldSites.forEach(function(oldSite, index, array){
-            if(newSite.id == oldSite.site_id){
-              SiteNotificationOffline.updateBySiteId(newSite);
-              isExist = true;
-            }
-            i++;
-            if (i == array.length && !isExist) {
-              SiteNotificationOffline.addOne(newSite);
-              persistence.flush();
-            }
-            callback()
+      if (newSites.length == 0)
+        callback();
+      else {
+        if ( oldSites.length == 0 ) {
+          SiteNotificationOffline.add(newSites);
+          callback();
+        } else {
+          localStorage['latestSiteNotification'] = oldSites[0].updated_at;
+          newSites.forEach ( function ( newSite ) {
+            var isExist = false,  i = 0;
+            oldSites.forEach(function(oldSite, index, array){
+              if ( newSite.id == oldSite.site_id ) {
+                SiteNotificationOffline.updateBySiteId(newSite);
+                isExist = true;
+              }
+              i++;
+              if (i == array.length && !isExist) {
+                SiteNotificationOffline.addOne(newSite);
+                persistence.flush();
+              }
+              callback();
+            });
           });
-        });
-        for (var l = 0 ; l < oldSites.length ; l++){
-          if (!(newSitesIds.indexOf(oldSites[l].site_id) > -1)){
-            SiteNotificationOffline.remove(oldSites[l]);
-          }
         }
       }
     });

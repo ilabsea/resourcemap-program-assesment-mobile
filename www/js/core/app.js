@@ -69,6 +69,7 @@ App = {
 
   onDeviceReady: function () {
     App.connectDB(App.DB_NAME, App.DB_SIZE);
+    App.setInstalledDateTime();
 
     document.addEventListener("offline", function() {
       SiteController.onlineStatus(false);
@@ -81,6 +82,16 @@ App = {
       App.listenBackButton();
     }, false);
 
+  },
+
+  setInstalledDateTime: function(){
+    if(!localStorage["installedDateTime"]){
+      localStorage["installedDateTime"] = new Date().toISOString();
+    }
+  },
+
+  getInstalledDateTime: function(){
+    return localStorage["installedDateTime"];
   },
 
   listenBackButton: function(){
@@ -129,12 +140,12 @@ App = {
     $.mobile.pageContainer.pagecontainer('change', nextPage, options);
   },
   isOnline: function () {
-    var online = true;
-    // if (navigator.connection) {
-    //   online = (navigator.connection.type !== Connection.NONE);
-    //   return online;
-    // }
-    // online = navigator.onLine;
+    var online = false;
+    if (navigator.connection) {
+      online = (navigator.connection.type !== Connection.NONE);
+      return online;
+    }
+    online = navigator.onLine;
     return online;
   },
 

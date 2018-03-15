@@ -79,7 +79,6 @@ persistence.defineMigration(6, {
   }
 });
 
-
 function migrate(){
     persistence.migrations.init( function(){
         persistence.migrate( function(){
