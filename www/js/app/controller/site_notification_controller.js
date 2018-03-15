@@ -177,7 +177,7 @@ SiteNotificationController = {
           SiteNotificationOffline.add(newSites);
           callback();
         } else {
-          localStorage['latestSiteNotification'] = oldSites[0].updated_at;
+          localStorage['latestSiteNotification'] = newSites[0].updated_at;
           newSites.forEach ( function ( newSite ) {
             var isExist = false,  i = 0;
             oldSites.forEach(function(oldSite, index, array){
