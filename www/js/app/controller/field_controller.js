@@ -111,18 +111,20 @@ FieldController = {
           return false;
         }
       }
+      var fieldValidations = field.config['field_validations'];
 
-      if ( field.config['field_validations'] ) {
+      if ( fieldValidations ) {
         customValidationResult = true;
-        $.each(field.config['field_validations'], function(_, v){
+        for(var i in fieldValidations){
+          var v = fieldValidations[i];
           compareField = FieldController.findFieldById(v["field_id"][0]);
           customValidationResult = Operators[v["condition_type"]](parseFloat(field.__value), parseFloat(compareField.__value));
           if(customValidationResult == false){
-            field.invalid = 'error';
+            field.invalid = "error";
             field.invalidMessage = customValidationMessage(v["condition_type"], field.name, compareField.name);
-            return false
+            return false;
           }
-        });
+        }
         if(customValidationResult == true){
           field.invalid = '';
         }
