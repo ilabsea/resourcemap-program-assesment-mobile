@@ -127,7 +127,8 @@ module.exports = function(grunt) {
       "www/js/app/template/site_notification_list.handlebars",
       "www/js/app/template/site_notifications.handlebars",
       "www/js/app/template/site_notification_list_partial.handlebars",
-      "www/js/app/template/app_version.handlebars"
+      "www/js/app/template/app_version.handlebars",
+      "www/js/app/template/pop-up-alert-notification.handlebars"
   ]
 
   var watchFiles = sourceCssFiles.concat(sourceJsFiles).concat(templateFiles)

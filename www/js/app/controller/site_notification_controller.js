@@ -123,12 +123,27 @@ SiteNotificationController = {
     });
   },
 
-  displayNotification: function () {
+  displayNotification: function (isSubmitSites) {
     SiteNotificationOffline.countUnViewedByUserIdOffline(function(count){
-      var content = App.Template.process("site_notifications", {'notifications': {'total': count}});
-      var $updateNode = $("#notifications");
-      $updateNode.html(content);
-      $updateNode.listview("refresh");
+      var content, $updateNode;
+      if(isSubmitSites){
+        if(count == 0){
+            ViewBinding.setBusy(false);
+        }else{
+          $.mobile.loading('hide');
+          content = App.Template.process('pop-up-alert-notification', {'notifications': {'total': count}});
+          $updateNode = $("#page-pop-up-alert-notification");
+          $updateNode.html(content);
+          $updateNode.show();
+          App.dialogPageId = "pop-up-alert-notification";
+          $.mobile.activePage.addClass('ui-disabled');
+        }
+      }else{
+        content = App.Template.process('site_notifications', {'notifications': {'total': count}});
+        $updateNode = $("#notifications");
+        $updateNode.html(content);
+        $updateNode.listview("refresh");
+      }
     });
   },
 
@@ -143,18 +158,18 @@ SiteNotificationController = {
     SiteNotificationController.collectionIds = collectionIds;
   },
 
-  renderNotificationMessage: function () {
+  renderNotificationMessage: function (isSubmitSites) {
     SiteNotificationOffline.getByUserIdOffline(function(sites){
       SiteNotificationController.collectionIds = [];
       SiteNotificationController.setCollectionIds(sites);
       if ( App.isOnline() ) {
         SiteNotificationController.storeSitesNotificationAndThresholds(sites, function(){
           SiteNotificationController.deleteSitesFromDB(sites);
-          SiteNotificationController.displayNotification();
+          SiteNotificationController.displayNotification(isSubmitSites);
         });
       } else {
         SiteNotificationController.deleteSitesFromDB(sites);
-        SiteNotificationController.displayNotification();
+        SiteNotificationController.displayNotification(isSubmitSites);
       }
     });
   },

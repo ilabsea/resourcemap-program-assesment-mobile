@@ -1,5 +1,5 @@
 ThresholdModel = {
-  fetchSiteThreshold: function (success, complete) {
+  fetchSiteThreshold: function (success) {
     var siteDateTime = localStorage['latestSiteNotification'];
     var dateTime = siteDateTime ? siteDateTime : App.getInstalledDateTime()
     var url = App.urlSiteThreshold();

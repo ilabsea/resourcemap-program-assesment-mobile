@@ -1,0 +1,21 @@
+<div role="dialog" class="ui-dialog-contain ui-overlay-shadow ui-corner-all">
+ <div data-role="header" role="banner" class="ui-header ui-bar-inherit">
+  <h1 class="ui-title" role="heading" aria-level="1">
+    {{t "dialog.alert_notifications"}}
+  </h1>
+ </div>
+ <div data-role="content" class="ui-content ui-body-b" role="main">
+   {{t "dialog.there_are"}} <span style='color: red; '>  {{notifications.total}} </span>
+   {{t "dialog.sites_reach_alert"}}
+   <a href='#page-notification' onclick="Dialog.closeDialog('page-pop-up-alert-notification');">
+     {{t "dialog.click_here_to_view"}}
+   </a>
+  <center>
+   <a onclick="Dialog.closeDialog('page-pop-up-alert-notification');" data-theme="a" data-role="button"
+      data-inline="true" data-inset="true" class="ui-link ui-btn ui-btn-a ui-btn-inline ui-shadow ui-corner-all"
+      role="button">
+    {{t "global.ok"}}
+   </a>
+  </center>
+ </div>
+</div>

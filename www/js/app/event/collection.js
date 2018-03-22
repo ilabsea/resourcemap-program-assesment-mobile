@@ -5,7 +5,7 @@ $(document).on("mobileinit", function() {
       App.emptyHTML();
       setTimeout(function(){
         App.validateDbConnection(function() {
-          SiteNotificationController.renderNotificationMessage();
+          SiteNotificationController.renderNotificationMessage(false);
           CollectionController.renderList();
           SiteNotificationController.reset();
         });

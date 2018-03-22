@@ -39,6 +39,7 @@
       "url": "ខ្សែបណ្តាញមេ",
       "version": "ជំនាន់",
       "yes": "បាទ/ចាស",
+      "ok": "បាទ/ចាស",
       "no": "ទេ",
       "load_more": "បង្ហាញបន្ថែម",
       "load_more_sites": "បង្ហាញបន្ថែមតំបន់",
@@ -99,7 +100,11 @@
         "choose": "ជ្រើសរើសរូបថតដែលមានស្រាប់",
         "plsSignIn": "សូមចូល",
         "signupsuccess": "ចុះឈ្មោះដោយជោគជ័យ",
-        "notification": "ការជូនដំណឹង"
+        "notification": "ការជូនដំណឹង",
+        "alert_notifications": "ការជូនដំណឹង",
+        "there_are": "មាន",
+        "sites_reach_alert": "តំបន់ដែលត្រូវបានជូនដំណឹង។",
+        "click_here_to_view": "ចុចទីនេះដើម្បីមើល"
     },
     "nav": {
         "online": "អនឡាញ",
