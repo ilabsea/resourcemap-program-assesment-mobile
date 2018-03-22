@@ -444,10 +444,7 @@ SiteController = {
         });
     }
     else{
-      ViewBinding.setMessage(i18n.t('global.done'))
-      setTimeout(function(){
-        ViewBinding.setBusy(false)
-      }, 300)
+      SiteNotificationController.renderNotificationMessage(true);
     }
   },
 
