@@ -1,7 +1,7 @@
 App = {
   DB_SIZE: 5 * 1024 * 1024,
   DB_NAME: 'resourcemap_db',
-  VERSION: "1.3",
+  VERSION: "1.4.2",
   DEBUG: RmSetting.DEBUG,
   interval: 900000,
   userId: "",
@@ -81,6 +81,8 @@ App = {
     document.addEventListener("backbutton", function(){
       App.listenBackButton();
     }, false);
+
+    document.getElementById('app_version').innerHTML = App.VERSION;
 
   },
 
