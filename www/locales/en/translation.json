@@ -13,15 +13,15 @@
       "update": "Update",
       "delete": "Delete",
       "cancel": "Cancel",
-      "site": "Sites",
-      "sites_offline": "Sites Offline",
-      "add": "Add new site",
+      "site": "Data",
+      "sites_offline": "Data Offline",
+      "add": "Add new data",
       "viewAll": "View all",
       "viewOffline": "View offline",
       "viewOnline": "View online",
-      "downloadForm": "Download form",
+      "downloadForm": "Download data",
       "menu": "Menu",
-      "save_site": "Save Site",
+      "save_site": "Save Data",
       "offline": "Opp! Network went offline",
       "online":  "Opp! Network went online",
       "saving": "Saving...",
@@ -29,20 +29,20 @@
       "ajax-loader": "Please wait ...",
       "no_internet_connection": "No internet connection.",
       "please_resend_data": "Please resend the data.",
-      "please_reupdate_your_site": "Please reupdate your site.",
+      "please_reupdate_your_site": "Please reupdate your data.",
       "warning": "Warning",
       "changeServerInfo": "Once you change the server URL, the local data will be lost.",
       "changeServerConfirmMessage": "Are you sure you want to change the server URL ?",
       "serverSetting": "Server setting",
-      "selectAllSites": "Select all sites",
-      "unselectAllSites": "Unselect all sites",
+      "selectAllSites": "Select all data",
+      "unselectAllSites": "Unselect all data",
       "url": "Server URL",
       "version": "Version",
       "yes": "Yes",
       "ok": "Ok",
       "no": "No",
       "load_more": "Load more",
-      "load_more_sites": "Load more sites",
+      "load_more_sites": "Load more data",
       "done": "Done",
       "progressing": "Progressing ",
       "location_cannot_be_found": "Location cannot be found."
@@ -64,7 +64,7 @@
       "alert": "Sign up successful"
     },
     "collection_page": {
-      "view_offline_site": "View offline site",
+      "view_offline_site": "View offline data",
       "collection": "My Collections",
       "notifications_message": "Notifications message"
     },
@@ -74,8 +74,8 @@
     "update_site_page": {
       "update": "Update",
       "delete": "Delete",
-      "delete_site": "Delete the site",
-      "alert_delete": "Are you sure you want to delete the site?"
+      "delete_site": "Delete the data",
+      "alert_delete": "Are you sure you want to delete the data?"
     },
     "validation": {
       "please_enter_required_field": "Please enter the required field.",
@@ -91,7 +91,7 @@
       "invalidUrl": "Please enter a valid URL"
     },
     "notification": {
-      "no_sites_found": "No sites found.",
+      "no_sites_found": "No data found.",
       "seems_to_have_unusual": "seems to have unusual",
       "please_review": "please review"
     },
@@ -103,7 +103,7 @@
       "notification": "Notification",
       "alert_notifications": "Alert notifications",
       "there_are": "There are",
-      "sites_reach_alert": "sites reach alert.",
+      "sites_reach_alert": "data reach alert.",
       "click_here_to_view": "Click here to view"
     },
     "nav": {

@@ -13,36 +13,36 @@
       "update": "កែប្រែ",
       "delete": "លុប",
       "cancel": "បោះបង់",
-      "site": "តំបន់",
-      "sites_offline": "តំបន់ ក្រៅបណ្ដាញ",
-      "add": "បន្ថែមតំបន់ថ្មី",
+      "site": "ទិន្នន័យ",
+      "sites_offline": "ទិន្នន័យ ក្រៅបណ្ដាញ",
+      "add": "បន្ថែមទិន្នន័យថ្មី",
       "viewAll": "មើលទាំងអស់",
       "viewOffline": "មើលក្រៅបណ្ដាញ",
       "viewOnline": "មើលលើបណ្តាញ",
       "downloadForm": "ទាញយកទំរង់",
       "menu": "ម៉ឺនុយ",
-      "save_site": "រក្សាទុកតំបន់",
-      "offline": "រក្សាទុកតំបន់ ក្រៅបណ្ដាញ",
-      "online": "រក្សាទុកតំបន់ លើបណ្តាញ",
+      "save_site": "រក្សាទុកទិន្នន័យ",
+      "offline": "រក្សាទុកទិន្នន័យ ក្រៅបណ្ដាញ",
+      "online": "រក្សាទុកទិន្នន័យ លើបណ្តាញ",
       "saving": "រក្សាទុក",
       "validating": "ចុះការបញ្ជាក់",
       "ajax-loader": "សូមរង់ចាំ...",
       "no_internet_connection": "មិនមានការតភ្ជាប់អ៊ីធឺណិត។",
       "please_resend_data": "សូមផ្ញើទិន្នន័យម្ដងទៀត។",
-      "please_reupdate_your_site": "សូមផ្ញើតំបន់បណ្ដាញរបស់អ្នកឡើងវិញ។",
+      "please_reupdate_your_site": "សូមផ្ញើទិន្នន័យបណ្ដាញរបស់អ្នកឡើងវិញ។",
       "warning": "ប្រយត្ន័",
       "changeServerInfo": "ការផ្លាស់ប្តូរខ្សែបណ្តាញមេនឹង ធ្វើអោយបាត់បង់ទិន្នន័យនៅក្រៅបណ្តាញ",
       "changeServerConfirmMessage": "តើអ្នក ចង់ផ្លាស់ប្តូររឺទេ ?",
       "serverSetting": "បណ្តាញ",
-      "selectAllSites": "ជ្រើសតំបន់ទាំងអស់",
-      "unselectAllSites": "មិនជ្រើសតំបន់ទាំងអស់",
+      "selectAllSites": "ជ្រើសទិន្នន័យទាំងអស់",
+      "unselectAllSites": "មិនជ្រើសទិន្នន័យទាំងអស់",
       "url": "ខ្សែបណ្តាញមេ",
       "version": "ជំនាន់",
       "yes": "បាទ/ចាស",
       "ok": "បាទ/ចាស",
       "no": "ទេ",
       "load_more": "បង្ហាញបន្ថែម",
-      "load_more_sites": "បង្ហាញបន្ថែមតំបន់",
+      "load_more_sites": "បង្ហាញបន្ថែមទិន្នន័យ",
       "done": "រួចរាល់",
       "progressing": "កំពុងដំណេីរការ ",
       "location_cannot_be_found": "មិនអាចរកឃើញទីតាំង។"
@@ -64,16 +64,16 @@
       "alert": "ចុះឈ្មោះទទួលបានជោគជ័យ"
     },
     "collection_page": {
-        "view_offline_site": "បង្ហាញតំបន់មិនមានក្នុងម៉ាស៊ីនមេ",
-        "collection": "ទិន្នន័យ",
+        "view_offline_site": "បង្ហាញទិន្នន័យមិនមានក្នុងម៉ាស៊ីនមេ",
+        "collection": "ទម្រង់ប្រមូលទិន្នន័យ",
         "notifications_message": "សារជូនដំណឹង"
     },
     "map_page": {
         "map": "ផែនទី"
     },
     "update_site_page": {
-        "delete_site": "លុបតំបន់",
-        "alert_delete": "តើអ្នកប្រាកដថាអ្នកចង់លុបតំបន់?"
+        "delete_site": "លុបទិន្នន័យ",
+        "alert_delete": "តើអ្នកប្រាកដថាអ្នកចង់លុបទិន្នន័យ?"
     },
     "validation": {
         "please_enter_required_field": "សូមបញ្ចូលទិន្នន័យដែលចាំបាច់។",
@@ -90,7 +90,7 @@
         "invalidUrl": "សូមបញ្ចូលខ្សែបណ្តាញអោយបានត្រឹមត្រូវ"
     },
     "notification": {
-      "no_sites_found": "គ្មានតំបន់បង្ហាញ។",
+      "no_sites_found": "មិនមានទិន្នន័យបង្ហាញ",
       "seems_to_have_unusual": "ហាក់ដូចជាមិនធម្មតា",
       "please_review": "សូម​ពិនិត្យ"
     },
@@ -103,7 +103,7 @@
         "notification": "ការជូនដំណឹង",
         "alert_notifications": "ការជូនដំណឹង",
         "there_are": "មាន",
-        "sites_reach_alert": "តំបន់ដែលត្រូវបានជូនដំណឹង។",
+        "sites_reach_alert": "ទិន្នន័យដែលត្រូវបានជូនដំណឹង។",
         "click_here_to_view": "ចុចទីនេះដើម្បីមើល"
     },
     "nav": {
@@ -111,7 +111,7 @@
         "offline": "ក្រៅបណ្តាញ"
     },
     "fields": {
-      "no_fields": "ទិន្នន័យតបន់នេះមិនមានសំណួរ ឬ សំណួរមិនបានទទួលពីមា៉សីុនមេ។",
+      "no_fields": "ទម្រង់ប្រមូលទិន្នន័យនេះមិនមានសំណួរ ឬ សំណួរមិនបានទទួលពីម៉ាស៊ីនមេ។",
       "problem_downloading_fields" : "មិនអាចទាញយកសំណួរបាន។"
     },
     "operator":{
